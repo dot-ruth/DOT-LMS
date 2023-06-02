@@ -1,15 +1,29 @@
 import SideDrawer from "./SideDrawer";
 import Courses from "./Courses";
-import Profile from "./profile";
-import { Box } from "@mui/material";
+import DashboardProfile from "./Dashboard_profile";
+import theme from "./theme";
+import { Box, ThemeProvider } from "@mui/material";
 export default function Dashboard(){
     return (
-        <Box sx={{display:'flex'}}>
+        
+        <Box>
+            <ThemeProvider theme={theme}>
         <SideDrawer/> 
-        <Box component="main" sx={{flexGrow:1,p:3}}>
-        <Profile/>
+        <Box 
+        sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
+        display:'flex', 
+        justifyContent:'space-between',
+        height:'100vh',
+        overflowY:'hidden',
+        }}>
+            <Box sx={{mt:1}}>
+        <Courses />
         </Box>
-        {/* <Courses/> */}
+        <Box sx={{backgroundColor:'#3aa680',width:'350px'}}>
+        <DashboardProfile/>
+        </Box>
+        </Box>
+        </ThemeProvider>
         </Box>
     ) 
          

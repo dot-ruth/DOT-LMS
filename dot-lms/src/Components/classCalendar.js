@@ -1,8 +1,9 @@
 import { Box,ThemeProvider } from "@mui/material"
 import theme from "./theme";
 import SideDrawer from "./SideDrawer";
+import Calendar from "react-calendar";
 
-export default function Profile(){
+export default function ClassCalendar(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
@@ -14,8 +15,12 @@ export default function Profile(){
         height:'100vh',
         overflowY:'hidden',
         }}>
-            <Box sx={{mt:1}}>
-            <h1>Profile</h1>
+            <Box sx={{
+                mt:1,
+                display:'flex',
+               
+                }}>
+            <Calendar />
         </Box>
         </Box>
         </ThemeProvider>

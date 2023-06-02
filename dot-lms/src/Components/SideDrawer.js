@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import theme from './theme';
+import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -23,8 +25,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BookIcon from '@mui/icons-material/Book';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import Courses from './Courses';
-import Profile from './profile'
+import PersonIcon from '@mui/icons-material/Person';
+import ForumIcon from '@mui/icons-material/Forum';
 
 
 
@@ -121,7 +123,7 @@ export default function SideDrawer() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 5,
+              marginRight: 1,
               ...(open && { display: 'none' }),
             }}
           >
@@ -140,7 +142,7 @@ export default function SideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Mock Exams', 'Tutorial Videos', 'Class calendar','Grade Book','Practice Here'].map((text, index) => (
+          {['Dashboard', 'Mock Exams', 'Tutorial Videos', 'Class calendar','Grade Book','Practice Here','Message','Profile'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -159,12 +161,14 @@ export default function SideDrawer() {
                 >
                   { 
                  {
-                    0:<HomeIcon/>,
-                    1:<QuizIcon/>,
-                    2:<YouTubeIcon/>,
-                    3:<CalendarMonthIcon/>,
-                    4:<BookIcon/>,
-                    5:<TerminalIcon/>,
+                    0:<Link to='/Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
+                    1:<Link to='/Quiz'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
+                    2:<Link to='/Tutorial_videos'><Avatar sx={{bgcolor:'#68cca9'}} ><YouTubeIcon/></Avatar></Link>,
+                    3:<Link to='/Class_calendar'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
+                    4:<Link to='/Grade_book'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
+                    5:<Link to='/Practice_here'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
+                    6:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
+                    7:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]
           }
                   

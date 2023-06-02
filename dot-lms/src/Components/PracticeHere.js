@@ -2,7 +2,7 @@ import { Box,ThemeProvider } from "@mui/material"
 import theme from "./theme";
 import SideDrawer from "./SideDrawer";
 
-export default function Profile(){
+export default function PracticeHere(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
@@ -15,7 +15,7 @@ export default function Profile(){
         overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
-            <h1>Profile</h1>
+            <h1>Practice Here</h1>
         </Box>
         </Box>
         </ThemeProvider>

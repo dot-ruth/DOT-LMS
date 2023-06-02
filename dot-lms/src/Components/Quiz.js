@@ -1,27 +1,31 @@
-import { Typography,Box } from "@mui/material";
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Box,ThemeProvider,Typography } from "@mui/material"
+import theme from "./theme";
+import SideDrawer from "./SideDrawer";
+import {Card,CardActionArea,CardMedia,CardContent,CardActions,Button} from "@mui/material";
 
-export default function Courses(){
+export default function Quiz(){
     return (
         <Box>
-        <Typography variant="h5" 
-        sx={{
-            fontWeight:'bold',
-            m:1
-        }}
-        >Hello Username</Typography>
-        <Typography variant="h5" noWrap component="div"
-        sx={{
-            fontWeight:'bold',
-            m:1
-        }}
-        >My Courses</Typography>
+            <ThemeProvider theme={theme}>
+        <SideDrawer/> 
+        <Box 
+        sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
+        display:'flex', 
+        justifyContent:'space-between',
+        height:'100vh',
+        overflowY:'hidden',
+        }}>
+            <Box sx={{mt:1}}>
 
-    <Card 
+            <Typography variant="h5" noWrap component="div"
+        sx={{
+            fontWeight:'bold',
+            m:1
+        }}
+        >Mock Exams</Typography>
+
+
+            <Card 
     sx={{ 
         maxWidth: 345,
         m:1,
@@ -34,11 +38,11 @@ export default function Courses(){
           component="img"
           height="140"
           image=" "
-          alt="Course Title's Img"
+          alt="Exam Title's Img"
         />
         <CardContent >
           <Typography  variant="h6" component="div" sx={{ color: '#68cca9'}}>
-           Course Title
+           Exam Title
           </Typography>
           <Typography sx={{m:1}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -49,10 +53,15 @@ export default function Courses(){
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" variant="contained" sx={{ml:'auto'}}>
-          Course Topic
+          Exam Topic
         </Button>
       </CardActions>
     </Card>
+        
         </Box>
+        </Box>
+        </ThemeProvider>
+        </Box>
+        
     )
 }
