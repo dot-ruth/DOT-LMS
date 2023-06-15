@@ -8,23 +8,32 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-
-
-    public function loginForm()
+    public function index()
     {
-        return view('users.login');
+        return User::all();
     }
-    public function authenticate(Request $request)
-    {
-        $FormFeilds = $request->validate([
-            'Student_id' => 'required',
-            'password' => 'required',
-        ]);
 
-        if (auth()->attempt($FormFeilds)) {
-            $request->session()->regenerate();
-            return redirect('/')->with('message', 'You are Logged in ');
-        }
-        return back()->withErrors(['Student_id' => 'Invalid Credentials'])->onlyInput('Student_id');
+    public function store(Request $request)
+    {
+        $request->validate([]);
+        return User::create($request->all());
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $user = User::find($id);
+        $user->update($request->all());
+        return $user;
+    }
+
+    public function destroy(string $id)
+    {
+        User::destroy($id);
+    }
+
+    // show function(CRUD)
+    public function show(string $Student_id)
+    {
+        return User::where('Student_id', $Student_id)->firstOrFail();
     }
 }

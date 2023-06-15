@@ -14,11 +14,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return response('<h1>hello</h1>');
-});
+// Route::get('/', function () {
+//     return response('<h1>hello</h1>');
+// });
 
-//show login form 
-Route::get('/login', [UserController::class, 'loginForm'])->name('login')->middleware('guest');
+// //show login form 
+// Route::get('/login', [UserController::class, 'loginForm'])->name('login')->middleware('guest');
 
-Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+// Route::post('/users/authenticate', [UserController::class, 'authenticate']);

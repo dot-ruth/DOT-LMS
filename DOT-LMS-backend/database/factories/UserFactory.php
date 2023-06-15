@@ -18,15 +18,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'First_Name' => fake()->name(),
-            'Last_Name' => fake()->name(),
-            'Student_id' => fake()->randomDigit(),
-            'Department' => fake()->word(),
-            'Year' => fake()->randomDigit(),
-            'Semester' => fake()->randomDigit(),
-            'email_verified_at' => now(),
-            'password' => fake()->word(), // password
-            'remember_token' => Str::random(10),
+            // 'First_Name' => fake()->name(),
+            // 'Last_Name' => fake()->name(),
+            // 'Student_id' => fake()->randomDigit(),
+            // 'Department' => fake()->word(),
+            // 'Year' => fake()->randomDigit(),
+            // 'Semester' => fake()->randomDigit(),
+            // 'email_verified_at' => now(),
+            // 'password' => fake()->word(), // password
+            // 'remember_token' => Str::random(10),
 
         ];
     }
