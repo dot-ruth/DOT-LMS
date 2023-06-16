@@ -13,7 +13,7 @@ class MockExamController extends Controller
      */
     public function index()
     {
-        //
+        return MockExam::all();
     }
 
     /**
@@ -21,30 +21,33 @@ class MockExamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([]);
+        return MockExam::create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(MockExam $mockExam)
+    public function show(string $id)
     {
-        //
+        return MockExam::where('exam_id', $id)->firstOrFail();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MockExam $mockExam)
+    public function update(Request $request, string $id)
     {
-        //
+        $exam = MockExam::where('exam_id', $id)->firstOrFail();
+        $exam->update($request->all());
+        return $exam;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MockExam $mockExam)
+    public function destroy(string $id)
     {
-        //
+        return MockExam::destroy($id);
     }
 }
