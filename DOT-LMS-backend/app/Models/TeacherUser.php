@@ -34,4 +34,9 @@ class TeacherUser extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function courses()
+    {
+        return $this->hasMany(courses::class, 'course_id');
+    }
 }

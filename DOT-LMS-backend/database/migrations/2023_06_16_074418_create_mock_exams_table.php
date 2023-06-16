@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teacher_users', function (Blueprint $table) {
+        Schema::create('mock_exams', function (Blueprint $table) {
             $table->id();
-            $table->string('First_Name');
-            $table->string('Last_Name');
-            $table->string('Teacher_id')->unique();
-            $table->foreignId('course_id')->nullable();
-            $table->string('Department');
-            $table->string('password');
+            $table->string('exam_id')->unique();
+            $table->string('exam_title');
+            $table->string('exam_topic');
+            $table->string('exam_content');
+            $table->foreignId('course_id');
+            $table->foreignId('teacher_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teacher_users');
+        Schema::dropIfExists('mock_exams');
     }
 };

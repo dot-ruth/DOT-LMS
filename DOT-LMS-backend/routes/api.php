@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\MockExamController;
 use App\Http\Controllers\StudentUserController;
 use App\Http\Controllers\TeacherUserController;
 use App\Http\Controllers\UserController;
@@ -24,6 +27,12 @@ Route::resource('/user/student', StudentUserController::class);
 Route::resource('/user/teacher', TeacherUserController::class);
 
 Route::resource('/user/admin', AdminUser::class);
+
+Route::resource('/courses', CoursesController::class);
+
+Route::resource('/course/chapter', ChapterController::class);
+
+Route::resource('/mockexam', MockExamController::class);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

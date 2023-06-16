@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teacher_users', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->string('First_Name');
-            $table->string('Last_Name');
-            $table->string('Teacher_id')->unique();
-            $table->foreignId('course_id')->nullable();
-            $table->string('Department');
-            $table->string('password');
+            $table->string('chapter_id')->unique();
+            $table->string('chapter_title');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->longText('chapter_description');
+            $table->string('chapter_contents'); //file path
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teacher_users');
+        Schema::dropIfExists('chapters');
     }
 };
