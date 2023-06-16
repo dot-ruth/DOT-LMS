@@ -39,4 +39,9 @@ class TeacherUser extends Model
     {
         return $this->hasMany(courses::class, 'course_id');
     }
+
+    public function mockexam()
+    {
+        return $this->hasMany(MockExam::class, 'teacher_id');
+    }
 }
