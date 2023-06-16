@@ -26,4 +26,9 @@ class courses extends Model
     {
         return $this->belongsTo(TeacherUser::class, 'course_id');
     }
+
+    public function mockexam()
+    {
+        return $this->hasMany(MockExam::class, 'course_id');
+    }
 }
