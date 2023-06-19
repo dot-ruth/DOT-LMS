@@ -36,4 +36,9 @@ class StudentUser extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function assignment()
+    {
+        return $this->hasMany(assignment::class, 'student_id');
+    }
 }

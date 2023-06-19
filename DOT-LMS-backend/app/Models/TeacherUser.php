@@ -44,4 +44,9 @@ class TeacherUser extends Model
     {
         return $this->hasMany(MockExam::class, 'teacher_id');
     }
+
+    public function assignment()
+    {
+        return $this->hasMany(assignment::class, 'teacher_id');
+    }
 }

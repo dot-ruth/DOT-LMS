@@ -31,4 +31,9 @@ class courses extends Model
     {
         return $this->hasMany(MockExam::class, 'course_id');
     }
+
+    public function assignment()
+    {
+        return $this->hasMany(assignment::class, 'course_id');
+    }
 }

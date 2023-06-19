@@ -13,7 +13,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        //
+        return assignment::all();
     }
 
     /**
@@ -21,23 +21,24 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([]);
+        return assignment::create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(assignment $assignment)
+    public function show(string $id)
     {
-        //
+        return assignment::where('assignment_id', $id)->firstOrFail();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, assignment $assignment)
+    public function update(Request $request, string $id)
     {
-        //
+        $assignment = assignment::where('assignment_id', $id)->firstOrFail();
     }
 
     /**
