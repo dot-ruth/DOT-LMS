@@ -3,11 +3,14 @@
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\GradebookController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\MockExamController;
 use App\Http\Controllers\StudentUserController;
 use App\Http\Controllers\TeacherUserController;
 use App\Http\Controllers\UserController;
 use App\Models\AdminUser;
+use App\Models\gradebook;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +39,10 @@ Route::resource('/course/chapter', ChapterController::class);
 Route::resource('/mockexam', MockExamController::class);
 
 Route::resource('/course/assignment', AssignmentController::class);
+
+Route::resource('/messages', MessagesController::class);
+
+Route::resource('/gradebook', GradebookController::class);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

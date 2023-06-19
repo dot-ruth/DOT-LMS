@@ -36,4 +36,9 @@ class courses extends Model
     {
         return $this->hasMany(assignment::class, 'course_id');
     }
+
+    public function grade()
+    {
+        return $this->hasOne(gradebook::class, 'course_id');
+    }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\assignment;
+use App\Models\messages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AssignmentController extends Controller
+class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return assignment::all();
+        return messages::all();
     }
 
     /**
@@ -22,7 +22,7 @@ class AssignmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([]);
-        return assignment::create($request->all());
+        return messages::create($request->all());
     }
 
     /**
@@ -30,7 +30,7 @@ class AssignmentController extends Controller
      */
     public function show(string $id)
     {
-        return assignment::where('assignment_id', $id)->firstOrFail();
+        return messages::where('message_id', $id)->findOrFail();
     }
 
     /**
@@ -38,9 +38,9 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $assignment = assignment::where('assignment_id', $id)->firstOrFail();
-        $assignment->update($request->all());
-        return $assignment;
+        $message = messages::where('message_id', $id)->findOrFail();
+        $message->update($request->all());
+        return $message;
     }
 
     /**
@@ -48,7 +48,7 @@ class AssignmentController extends Controller
      */
     public function destroy(string $id)
     {
-        $assignment = assignment::where('assignment_id', $id)->firstOrFail();
-        return $assignment->destroy();
+        $message = messages::where('message_id', $id)->findOrFail();
+        return $message->destroy();
     }
 }

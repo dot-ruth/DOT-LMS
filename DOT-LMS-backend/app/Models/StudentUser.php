@@ -41,4 +41,9 @@ class StudentUser extends Model
     {
         return $this->hasMany(assignment::class, 'student_id');
     }
+
+    public function grade()
+    {
+        return $this->hasMany(gradebook::class, 'student_id');
+    }
 }

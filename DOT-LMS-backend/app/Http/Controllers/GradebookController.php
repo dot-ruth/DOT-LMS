@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\assignment;
+use App\Models\gradebook;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AssignmentController extends Controller
+class GradebookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return assignment::all();
+        return gradebook::all();
     }
 
     /**
@@ -22,7 +22,7 @@ class AssignmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([]);
-        return assignment::create($request->all());
+        return gradebook::create($request->all());
     }
 
     /**
@@ -30,7 +30,7 @@ class AssignmentController extends Controller
      */
     public function show(string $id)
     {
-        return assignment::where('assignment_id', $id)->firstOrFail();
+        return gradebook::where('grade_id', $id)->firstOrFail();
     }
 
     /**
@@ -38,9 +38,9 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $assignment = assignment::where('assignment_id', $id)->firstOrFail();
-        $assignment->update($request->all());
-        return $assignment;
+        $grade = gradebook::where('grade_id', $id)->firstOrFail();
+        $grade->update($request->all());
+        return $grade;
     }
 
     /**
@@ -48,7 +48,7 @@ class AssignmentController extends Controller
      */
     public function destroy(string $id)
     {
-        $assignment = assignment::where('assignment_id', $id)->firstOrFail();
-        return $assignment->destroy();
+        $grade = gradebook::where('grade_id', $id)->firstOrFail();
+        $grade->destroy();
     }
 }

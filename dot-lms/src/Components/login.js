@@ -28,7 +28,7 @@ return(
 <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Welcome to DOT Learning Management System</Typography>
 <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Login</Typography>
 
-<FormControl sx={{ m:2, width:'50ch'}}>
+<FormControl sx={{ m:2, width:'50ch'}} >
     <InputLabel color="primary">User ID</InputLabel>
     <OutlinedInput type="text" color="primary" label="User ID" variant="outlined"/>
 </FormControl>
