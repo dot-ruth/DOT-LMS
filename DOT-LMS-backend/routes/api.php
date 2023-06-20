@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/login', [UserController::class, 'userLogin']);
+
 Route::resource('/user/student', StudentUserController::class);
 
 Route::resource('/user/teacher', TeacherUserController::class);

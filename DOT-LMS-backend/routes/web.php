@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,3 @@ use App\Http\Controllers\UserController;
 
 // //show login form 
 // Route::get('/login', [UserController::class, 'loginForm'])->name('login')->middleware('guest');
-
-// Route::post('/users/authenticate', [UserController::class, 'authenticate']);
