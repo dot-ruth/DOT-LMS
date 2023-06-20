@@ -39,11 +39,11 @@ class StudentUser extends Model
 
     public function assignment()
     {
-        return $this->hasMany(assignment::class, 'student_id');
+        return $this->hasMany(assignment::class, 'Student_id');
     }
 
     public function grade()
     {
-        return $this->hasMany(gradebook::class, 'student_id');
+        return $this->hasMany(gradebook::class, 'Student_id');
     }
 }

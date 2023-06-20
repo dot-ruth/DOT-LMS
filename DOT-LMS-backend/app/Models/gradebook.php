@@ -22,6 +22,6 @@ class gradebook extends Model
 
     public function student()
     {
-        return $this->belongsTo(StudentUser::class, 'student_id');
+        return $this->belongsTo(StudentUser::class, 'Student_id');
     }
 }

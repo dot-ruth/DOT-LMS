@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gradebooks', function (Blueprint $table) {
+        Schema::create('gradebook', function (Blueprint $table) {
             $table->id();
             $table->string('grade_id')->unique();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('mid_exam');
             $table->string('final_exam');
             $table->string('total_value');
-            $table->foreign('student_id')->references('student_id')->on('student_users');
+            $table->foreignId('student_id')->constrained('student_users')->onDelete('cascade');
             $table->timestamps();
         });
     }
