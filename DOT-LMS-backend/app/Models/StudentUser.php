@@ -10,12 +10,12 @@ class StudentUser extends Model
     use HasFactory;
 
     protected $fillable = [
-        'First_Name',
-        'Last_Name',
-        'Student_id',
-        'Department',
-        'Year',
-        'Semester',
+        'first_Name',
+        'last_Name',
+        'student_id',
+        'department',
+        'year',
+        'semester',
         'password',
     ];
 
@@ -33,17 +33,17 @@ class StudentUser extends Model
      *
      * @var array<string, string>
      */
-    // protected $casts = [
-    //     'password' => 'hashed',
-    // ];
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 
     public function assignment()
     {
-        return $this->hasMany(assignment::class, 'Student_id');
+        return $this->hasMany(assignment::class, 'student_id');
     }
 
     public function grade()
     {
-        return $this->hasMany(gradebook::class, 'Student_id');
+        return $this->hasMany(gradebook::class, 'student_id');
     }
 }

@@ -10,10 +10,10 @@ class TeacherUser extends Model
     use HasFactory;
 
     protected $fillable = [
-        'First_Name',
-        'Last_Name',
-        'Teacher_id',
-        'Department',
+        'first_Name',
+        'last_Name',
+        'teacher_id',
+        'department',
         'password',
     ];
 

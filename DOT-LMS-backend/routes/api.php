@@ -9,6 +9,7 @@ use App\Http\Controllers\MockExamController;
 use App\Http\Controllers\StudentUserController;
 use App\Http\Controllers\TeacherUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 use App\Models\AdminUser;
 use App\Models\gradebook;
 use App\Models\StudentUser;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [UserController::class, 'userLogin']);
+Route::post('/login', [UserRoleController::class, 'userLogin']);
 
 Route::resource('/user/student', StudentUserController::class);
 

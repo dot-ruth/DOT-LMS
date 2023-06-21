@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('gradebook', function (Blueprint $table) {
             $table->id();
             $table->string('grade_id')->unique();
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            // $table->foreign('course_id')->references('course_id')->on('courses')->onDelete('cascade');
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->string('attendance');
             $table->string('individual_assignment');
             $table->string('group_assignment');
