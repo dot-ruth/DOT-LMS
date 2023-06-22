@@ -1,10 +1,18 @@
 import { Box,Typography } from "@mui/material"
 import { Avatar } from '@mui/material';
+import { useState } from "react";
 import PersonIcon from '@mui/icons-material/Person';
 import Calendar from "react-calendar";
 
 
 export default function DashboardProfile(){
+
+    const first_name = localStorage.getItem('First_Name').replaceAll('"','')
+    
+  const last_name = localStorage.getItem('Last_Name').replaceAll('"','')
+  
+  const department = localStorage.getItem('Department').replaceAll('"','')
+  
     return (
         <Box>
        <Typography variant="h6" 
@@ -27,8 +35,8 @@ export default function DashboardProfile(){
             fontWeight:'bold',
             color:'#ffffff'
         }}
-        >FirstName LastName</Typography>
-        <Typography variant="subtitle2" color='#ffffff'>Department</Typography>
+        >{first_name} {last_name}</Typography>
+        <Typography variant="subtitle2" color='#ffffff'>{department}</Typography>
         <Box sx={{
             backgroudColor:'#ffffff', 
             width:'300px',

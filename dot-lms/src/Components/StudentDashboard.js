@@ -1,10 +1,11 @@
-import { Box,ThemeProvider } from "@mui/material"
-import theme from "./theme";
 import SideDrawer from "./SideDrawer";
-
-export default function Profile(){
-    
+import Courses from "./Courses";
+import DashboardProfile from "./Dashboard_profile";
+import theme from "./theme";
+import { Box, ThemeProvider } from "@mui/material";
+export default function StudentDashboard(){
     return (
+        
         <Box>
             <ThemeProvider theme={theme}>
         <SideDrawer/> 
@@ -16,11 +17,14 @@ export default function Profile(){
         overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
-            <h1>Profile</h1>
+        <Courses />
+        </Box>
+        <Box sx={{backgroundColor:'#3aa680',width:'350px'}}>
+        <DashboardProfile/>
         </Box>
         </Box>
         </ThemeProvider>
         </Box>
-        
-    )
+    ) 
+         
 }

@@ -1,11 +1,16 @@
 import { Typography,Box } from "@mui/material";
-import * as React from 'react';
+//import * as React from 'react';
+import React from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import WavingHandIcon from '@mui/icons-material/WavingHand';
+
 
 export default function Courses(){
+  const first_name = localStorage.getItem('First_Name').replaceAll('"','')
+   
     return (
         <Box>
         <Typography variant="h5" 
@@ -13,13 +18,14 @@ export default function Courses(){
             fontWeight:'bold',
             m:1
         }}
-        >Hello Username</Typography>
+        >Hello {first_name} <WavingHandIcon color="primary"/>
+        </Typography>
         <Typography variant="h5" noWrap component="div"
         sx={{
             fontWeight:'bold',
             m:1
         }}
-        >My Courses</Typography>
+        >Courses</Typography>
 
     <Card 
     sx={{ 

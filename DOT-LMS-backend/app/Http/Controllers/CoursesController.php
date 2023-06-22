@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\courses;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CoursesController extends Controller
 {
@@ -21,8 +22,18 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([]);
-        return courses::create($request->all());
+        $request->validate([
+            'course_title' => 'required',
+            'course_id' => 'required',
+            'course_img' => 'required',
+            'course_topic' => 'required',
+            'course_description' => 'required'
+        ]);
+        $path = Storage::putFile('course_image', $request->course_img);
+        $image = Storage::get($path);
+        return response($image, 200)->header('Content-Type', Storage::getMimeType($path));
+
+        // return courses::create($request->all());
     }
 
     /**

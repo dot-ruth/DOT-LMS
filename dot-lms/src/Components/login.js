@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react/no-direct-mutation-state */
 import React, { useState } from "react";
 import theme from "./theme";
@@ -11,7 +12,10 @@ import {IconButton} from "@mui/material";
 import {AppBar} from "@mui/material";
 import {Visibility} from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
-import {Form, Link, redirect} from "react-router-dom";
+//import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+//import { redirect } from 'react-router';
+//import {Form, Link, redirect} from "react-router-dom";
 import axios from "axios";
 
 function Login(){
@@ -23,6 +27,8 @@ function Login(){
     user_id:"",
     password:""
   })
+
+  const navigate = useNavigate();
 
 
   let onChangehandler = (e) => {
@@ -43,10 +49,13 @@ function Login(){
     .then((response)=>{
       if(response.data.success){
         localStorage.setItem("isLoggedIn",true);
+        localStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['First_Name']))
+        localStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
+        localStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
         localStorage.setItem("role",JSON.stringify(response.data.role));
         
       }
-      console.log(response.data)
+      
       // if(response.data.status === "failed" && response.data.success === undefined){
       //   this.setState({
       //     errMsgUser:response.data.validation_error.user_id,
@@ -65,19 +74,18 @@ function Login(){
       //     this.setState({ errMsg: "" });
       //   }, 2000);
       // }
-      const role = localStorage.getItem("role");
+      
+    const role = JSON.stringify(response.data.role);
+    const teacher = '"teacher"'
+    const student = '"student"'
+    const admin = '"admin"'
   
-    if(role === "student"){
-      //redirect("/Student_dashboard")
-      console.log("stud")
-    }else if(role === "teacher"){
-      //redirect("/teacher_dashboard")
-      console.log("tech")
-    }else if(role === "admin"){
-      //redirect("/admin_dashboard")
-      console.log("admi")
-    }else{
-      console.log(role.toString() === 'teacher')
+    if(role === student){
+      navigate("/Dashboard")
+    }else if(role === teacher){
+      navigate("/Dashboard")
+    }else if(role === admin){
+      navigate("/Dashboard")
     }
     })
     
@@ -86,7 +94,7 @@ function Login(){
 return(
     <div >
 <ThemeProvider theme={theme}>
-<form method="POST" action="">
+<form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
             <AppBar position="static" sx={{height:'5ch',mb: 10}}>
                 <Typography sx={{ml:5,fontSize:25,fontWeight:'bold'}}>DOT</Typography>
@@ -132,7 +140,7 @@ return(
           
         </FormControl>
 
-        <Button color="primary" variant="contained" type="Submit" sx={{m:1, width:'20ch'}} onSubmit={onLoginhandler} >Login</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>
         
         </div>
         </form>

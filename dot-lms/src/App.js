@@ -17,6 +17,9 @@ import 'react-calendar/dist/Calendar.css';
 function App() {
   return (
     <div>
+      {/* router.post('/', function(req, res) {
+    // do something w/ req.body or req.files 
+}); */}
       
       <BrowserRouter>
       <Routes>
