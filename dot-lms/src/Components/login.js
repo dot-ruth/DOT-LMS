@@ -53,7 +53,6 @@ function Login(){
         localStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
         localStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
         localStorage.setItem("role",JSON.stringify(response.data.role));
-        
       }
       
       // if(response.data.status === "failed" && response.data.success === undefined){

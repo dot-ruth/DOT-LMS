@@ -1,21 +1,21 @@
 import React from "react";
 import { Box,ThemeProvider } from "@mui/material"
-import SideDrawer from "./SideDrawer";
 import theme from "./theme";
 import  { useState,useEffect } from "react";
 import useKeyPress from "./hooks/useKeyPress";
 import { languageOptions } from "./constants/languageOptions";
-import { ToastContainer,toast } from "react-toastify";
-import CodeEditorWindow from "./CodeEditorWindow";
-import LanguagesDropdown from "./languageDropdown";
-import OutputWindow from "./OutputWindow";
+import {toast } from "react-toastify";
 import axios from "axios";
-import OutputDetails from "./OutputDetails";
-import CustomInput from "./CustomInput";
 import { classnames } from "./utils/general";
+import StudentSideDrawer from "./StudentSideDrawer";
+import IDElanguageDropdown from "./IDElanguageDropdown";
+import IDEcodeEditor from "./IDEcodeEditor";
+import IDEoutput from "./IDEoutput";
+import IDEinput from "./IDEinput";
+import IDEoutputDetails from "./IDEoutputDetails";
 
 const javascriptDefault="// some Comment";
-export default function PracticeHere(){
+export default function StudentIDE(){
     const [code, setCode] = useState(javascriptDefault);
     const [customInput, setCustomInput] = useState("");
     const [outputDetails, setOutputDetails] = useState(null);
@@ -38,7 +38,7 @@ export default function PracticeHere(){
           console.log("ctrlPress", ctrlPress);
           handleCompile();
         }
-      }, [ctrlPress, enterPress]);
+      });
 
       const onChange = (action, data) => {
         switch (action) {
@@ -81,7 +81,7 @@ export default function PracticeHere(){
       checkStatus(token);
     })
     .catch((err) => {
-      let error = err.response ? err.response.data : err;
+      //let error = err.response ? err.response.data : err;
       // get error status
       let status = err.response.status;
       console.log("status", status);
@@ -153,7 +153,7 @@ export default function PracticeHere(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
-        <SideDrawer/> 
+        <StudentSideDrawer/> 
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 
@@ -163,26 +163,15 @@ export default function PracticeHere(){
         }}>
             <Box sx={{mt:1}}>
             <>
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      /> */}
-     
+      
       <div className="flex flex-row space-x-4 items-start px-4 py-4">
       
         <div className="flex flex-col w-full h-full justify-start items-start">
         <div className="px-4 py-3">
-          <LanguagesDropdown onSelectChange={onSelectChange} />
+          <IDElanguageDropdown onSelectChange={onSelectChange} />
         </div>
 
-          <CodeEditorWindow
+          <IDEcodeEditor
            onchange={onChange}
            language={language?.value}
            code={code}
@@ -191,9 +180,9 @@ export default function PracticeHere(){
         </div>
 
         <div className="right-container flex flex-shrink-0 w-[50%] flex-col">
-          <OutputWindow outputDetails={outputDetails} />
+          <IDEoutput outputDetails={outputDetails} />
           <div className="flex flex-col items-end">
-            <CustomInput
+            <IDEinput
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
@@ -208,7 +197,7 @@ export default function PracticeHere(){
               {processing ? "Processing..." : "Compile and Execute"}
             </button>
           </div>
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
+          {outputDetails && <IDEoutputDetails outputDetails={outputDetails} />}
         </div>
       </div>
       

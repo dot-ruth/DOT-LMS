@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { Box } from "@mui/material";
 import { Editor } from "@monaco-editor/react";
-export default function CodeEditorWindow ({onchange,language,code,theme}){
+export default function IDEcodeEditor ({onchange,language,code,theme}){
     const [value,setValue] = useState(code );
 
     const handleEditorChange = (value) => {
@@ -25,4 +25,5 @@ export default function CodeEditorWindow ({onchange,language,code,theme}){
   
     
 }
+
 

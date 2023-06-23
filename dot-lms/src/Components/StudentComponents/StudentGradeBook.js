@@ -1,9 +1,9 @@
 import { Box,TableContainer,ThemeProvider,Table,TableHead,TableBody,TableRow,TableCell,Paper } from "@mui/material"
 import theme from "./theme";
-import SideDrawer from "./SideDrawer";
+import StudentSideDrawer from "./StudentSideDrawer";
 import {Typography} from "@mui/material";
 
-export default function GradeBook(){
+export default function StudentGradeBook(){
     function createData(Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam,Total){
         return {Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam,Total};
     }
@@ -15,7 +15,7 @@ export default function GradeBook(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
-        <SideDrawer/> 
+        <StudentSideDrawer/> 
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 

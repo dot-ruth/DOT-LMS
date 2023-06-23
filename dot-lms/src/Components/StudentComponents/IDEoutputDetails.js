@@ -1,6 +1,6 @@
 import React from "react";
 
-const OutputDetails = ({ outputDetails }) => {
+const IDEoutputDetails = ({ outputDetails }) => {
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
       <p className="text-sm">
@@ -25,4 +25,4 @@ const OutputDetails = ({ outputDetails }) => {
   );
 };
 
-export default OutputDetails;
+export default IDEoutputDetails;

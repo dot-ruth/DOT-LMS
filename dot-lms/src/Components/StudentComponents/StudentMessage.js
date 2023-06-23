@@ -1,13 +1,12 @@
 import { Box,ThemeProvider } from "@mui/material"
 import theme from "./theme";
-import SideDrawer from "./SideDrawer";
+import StudentSideDrawer from "./StudentSideDrawer";
 
-export default function Profile(){
-    
+export default function StudentMessage(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
-        <SideDrawer/> 
+        <StudentSideDrawer/> 
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 
@@ -16,7 +15,7 @@ export default function Profile(){
         overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
-            <h1>Profile</h1>
+            <h1>Message</h1>
         </Box>
         </Box>
         </ThemeProvider>

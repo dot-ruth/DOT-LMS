@@ -1,7 +1,7 @@
 import React from "react";
 import { classnames } from "./utils/general";
 
-const CustomInput = ({ customInput, setCustomInput }) => {
+const IDEinput = ({ customInput, setCustomInput }) => {
   return (
     <>
       {" "}
@@ -18,4 +18,4 @@ const CustomInput = ({ customInput, setCustomInput }) => {
   );
 };
 
-export default CustomInput;
+export default IDEinput;

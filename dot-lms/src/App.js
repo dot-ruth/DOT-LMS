@@ -12,6 +12,9 @@ import Message from './Components/Message';
 import Profile from './Components/Profile';
 import ClassCalendar from './Components/classCalendar';
 import 'react-calendar/dist/Calendar.css';
+import StudentDashboard from './Components/StudentComponents/StudentDashboard';
+import TeacherDashboard from './Components/TeacherComponents/TeacherDashboard';
+import StudentMockExam from './Components/StudentComponents/StudentMockExam';
 
 
 function App() {
@@ -24,7 +27,9 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>}/>
-        <Route path="/Dashboard" element={<Dashboard/>}/>
+        <Route path="/Student_Dashboard" element={<StudentDashboard/>}/>
+        <Route path="/Teacher_Dashboard" element={<TeacherDashboard/>}/>
+        <Route path="/Student_Mockexam" element={<StudentMockExam/>}/>
         <Route path="/Quiz" element={<Quiz/>}/>
         <Route path="/Tutorial_videos" element={<TutorialVideo/>}/>
         <Route path="/Class_calendar" element={<ClassCalendar/>}/>

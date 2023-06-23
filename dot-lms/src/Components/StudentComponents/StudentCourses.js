@@ -1,14 +1,14 @@
+import React from 'react'
 import { Typography,Box } from "@mui/material";
-//import * as React from 'react';
-import React from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
+import { Link } from "react-router-dom";
 
 
-export default function Courses(){
+export default function StudentCourses(){
   const first_name = localStorage.getItem('First_Name').replaceAll('"','')
    
     return (
@@ -35,6 +35,7 @@ export default function Courses(){
         flexDirection:'column',
         p:0.3,
         }} variant="outlined" color="#68cca9">
+          
       <CardActionArea>
         <CardMedia
           component="img"
@@ -43,16 +44,14 @@ export default function Courses(){
           alt="Course Title's Img"
         />
         <CardContent >
+        <Link to="/">
           <Typography  variant="h6" component="div" sx={{ color: '#68cca9'}}>
            Course Title
           </Typography>
-          <Typography sx={{m:1}}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Vestibulum eget orci diam. Sed porttitor nibh sit amet risus tempor, eu aliquam felis efficitur. 
-          Etiam in auctor nisl. Suspendisse et felis quis est facilisis iaculis.
-          </Typography>
+          </Link>
         </CardContent>
       </CardActionArea>
+      
       <CardActions>
         <Button size="small" color="primary" variant="contained" sx={{ml:'auto'}}>
           Course Topic

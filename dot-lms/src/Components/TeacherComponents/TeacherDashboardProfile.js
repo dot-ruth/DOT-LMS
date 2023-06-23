@@ -1,11 +1,9 @@
 import { Box,Typography } from "@mui/material"
 import { Avatar } from '@mui/material';
-import { useState } from "react";
 import PersonIcon from '@mui/icons-material/Person';
 import Calendar from "react-calendar";
 
-
-export default function DashboardProfile(){
+export default function TeacherDashboardProfile(){
 
     const first_name = localStorage.getItem('First_Name').replaceAll('"','')
     

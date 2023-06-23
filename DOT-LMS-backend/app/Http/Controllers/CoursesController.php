@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class CoursesController extends Controller
 {
     /**
@@ -29,11 +30,21 @@ class CoursesController extends Controller
             'course_topic' => 'required',
             'course_description' => 'required'
         ]);
-        $path = Storage::putFile('course_image', $request->course_img);
-        $image = Storage::get($path);
-        return response($image, 200)->header('Content-Type', Storage::getMimeType($path));
+        $uploadFolder = 'course_image';
+        $image = $request->file('course_img');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
 
-        // return courses::create($request->all());
+        /** @var \Illuminate\Filesystem\FilesystemManager $image_url */
+        $image_url = Storage::disk('public');
+        $url = $image_url->url($image_uploaded_path);
+
+        $uploadedImageResponse = array(
+            "image_name" => basename($image_uploaded_path),
+            "image_url" => $url,
+            "mime" => $image->getClientMimeType()
+        );
+        courses::create($request->all());
+        return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse]);
     }
 
     /**

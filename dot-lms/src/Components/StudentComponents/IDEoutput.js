@@ -1,6 +1,6 @@
 import React from "react";
 
-const OutputWindow = ({ outputDetails }) => {
+const IDEoutput = ({ outputDetails }) => {
   const getOutput = () => {
     let statusId = outputDetails?.status?.id;
 
@@ -45,4 +45,4 @@ const OutputWindow = ({ outputDetails }) => {
   );
 };
 
-export default OutputWindow;
+export default IDEoutput;

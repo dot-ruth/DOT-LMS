@@ -1,14 +1,14 @@
-import SideDrawer from "./SideDrawer";
-import Courses from "./Courses";
-import DashboardProfile from "./Dashboard_profile";
+import TeacherSideDrawer from "./TeacherSideDrawer";
+import TeacherCourses from "./TeacherCourses";
+import TeacherDashboardProfile from "./TeacherDashboardProfile";
 import theme from "./theme";
 import { Box, ThemeProvider } from "@mui/material";
-export default function StudentDashboard(){
+export default function TeacherDashboard(){
     return (
         
         <Box>
             <ThemeProvider theme={theme}>
-        <SideDrawer/> 
+        <TeacherSideDrawer/> 
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 
@@ -17,10 +17,10 @@ export default function StudentDashboard(){
         overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
-        <Courses />
+        <TeacherCourses />
         </Box>
         <Box sx={{backgroundColor:'#3aa680',width:'350px'}}>
-        <DashboardProfile/>
+        <TeacherDashboardProfile/>
         </Box>
         </Box>
         </ThemeProvider>

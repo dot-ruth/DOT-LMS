@@ -1,13 +1,12 @@
-import { Box,ThemeProvider,Typography } from "@mui/material"
+import { Box,ThemeProvider,Typography,Card,CardActionArea,CardMedia,CardContent,CardActions,Button } from "@mui/material"
 import theme from "./theme";
-import SideDrawer from "./SideDrawer";
-import {Card,CardActionArea,CardMedia,CardContent,CardActions,Button} from "@mui/material";
+import StudentSideDrawer from "./StudentSideDrawer";
 
-export default function Quiz(){
+export default function StudentTutorialVideo(){
     return (
         <Box>
             <ThemeProvider theme={theme}>
-        <SideDrawer/> 
+        <StudentSideDrawer/> 
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 
@@ -16,18 +15,18 @@ export default function Quiz(){
         overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
-
             <Typography variant="h5" noWrap component="div"
         sx={{
             fontWeight:'bold',
             m:1
         }}
-        >Mock Exams</Typography>
+        >Tutorial Videos</Typography>
 
 
             <Card 
     sx={{ 
-        maxWidth: 345,
+        maxWidth: 500,
+        width:400,
         m:1,
         display:'flex', 
         flexDirection:'column',
@@ -38,26 +37,27 @@ export default function Quiz(){
           component="img"
           height="140"
           image=" "
-          alt="Exam Title's Img"
+          alt="Youtube Thumbnail"
         />
         <CardContent >
           <Typography  variant="h6" component="div" sx={{ color: '#68cca9'}}>
-           Exam Title
-          </Typography>
-          <Typography sx={{m:1}}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Vestibulum eget orci diam. Sed porttitor nibh sit amet risus tempor, eu aliquam felis efficitur. 
-          Etiam in auctor nisl. Suspendisse et felis quis est facilisis iaculis.
+           Video Title
           </Typography>
         </CardContent>
       </CardActionArea>
+      <Box sx={{display:'flex',justifyContent:'flex-end'}}>
       <CardActions>
         <Button size="small" color="primary" variant="contained" sx={{ml:'auto'}}>
-          Exam Topic
+          Video Tpoic
         </Button>
       </CardActions>
+      <CardActions>
+        <Button size="small" color="primary" variant="contained" sx={{ml:'auto'}}>
+          Duration
+        </Button>
+      </CardActions>
+      </Box>
     </Card>
-        
         </Box>
         </Box>
         </ThemeProvider>

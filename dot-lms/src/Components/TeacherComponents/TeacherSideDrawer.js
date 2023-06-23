@@ -21,14 +21,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import QuizIcon from '@mui/icons-material/Quiz';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import BookIcon from '@mui/icons-material/Book';
-import TerminalIcon from '@mui/icons-material/Terminal';
 import PersonIcon from '@mui/icons-material/Person';
 import ForumIcon from '@mui/icons-material/Forum';
-
-
 
 const drawerWidth = 240;
 
@@ -97,7 +92,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function SideDrawer() {
+export default function TeacherSideDrawer() {
   const Theme = theme;
   const [open, setOpen] = React.useState(false);
 
@@ -163,12 +158,9 @@ export default function SideDrawer() {
                  {
                     0:<Link to='/Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
                     1:<Link to='/Quiz'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
-                    2:<Link to='/Tutorial_videos'><Avatar sx={{bgcolor:'#68cca9'}} ><YouTubeIcon/></Avatar></Link>,
-                    3:<Link to='/Class_calendar'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
-                    4:<Link to='/Grade_book'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
-                    5:<Link to='/Practice_here'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
-                    6:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
-                    7:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
+                    2:<Link to='/Class_calendar'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
+                    3:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
+                    4:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]
           }
                   
