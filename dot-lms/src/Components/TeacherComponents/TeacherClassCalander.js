@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import ThemeProvider from '@mui/material'
+import { ThemeProvider } from '@mui/material'
+//import ThemeProvider from '@mui/material'
 import theme from '../theme'
 import TeacherSideDrawer from './TeacherSideDrawer'
 

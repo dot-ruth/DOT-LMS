@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider, styled } from '@mui/material/styles';
-import theme from './theme';
+import theme from "../theme";
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -161,12 +161,12 @@ export default function StudentSideDrawer() {
                 >
                   { 
                  {
-                    0:<Link to='/Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
-                    1:<Link to='/Quiz'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
-                    2:<Link to='/Tutorial_videos'><Avatar sx={{bgcolor:'#68cca9'}} ><YouTubeIcon/></Avatar></Link>,
-                    3:<Link to='/Class_calendar'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
-                    4:<Link to='/Grade_book'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
-                    5:<Link to='/Practice_here'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
+                    0:<Link to='/Student_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
+                    1:<Link to='/Student_Mockexam'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
+                    2:<Link to='/TutorialVideo'><Avatar sx={{bgcolor:'#68cca9'}} ><YouTubeIcon/></Avatar></Link>,
+                    3:<Link to='/Student_Classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
+                    4:<Link to='/Student_Gradebook'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
+                    5:<Link to='/IDE'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
                     6:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
                     7:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]

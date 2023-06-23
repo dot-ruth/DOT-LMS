@@ -47,14 +47,19 @@ function Login(){
       password:formData.password
     })
     .then((response)=>{
+      console.log(response)
       if(response.data.success){
-        localStorage.setItem("isLoggedIn",true);
-        localStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['First_Name']))
-        localStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
-        localStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
-        localStorage.setItem("role",JSON.stringify(response.data.role));
+        sessionStorage.setItem("isLoggedIn",true);
+        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['First_Name']))
+        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
+        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
+        sessionStorage.setItem("role",JSON.stringify(response.data.role));
+      }else{
+        console.log('excuted else for response')
       }
-      
+      const role = JSON.stringify(response.data.role);
+      console.log(role)
+
       // if(response.data.status === "failed" && response.data.success === undefined){
       //   this.setState({
       //     errMsgUser:response.data.validation_error.user_id,
@@ -74,17 +79,17 @@ function Login(){
       //   }, 2000);
       // }
       
-    const role = JSON.stringify(response.data.role);
+    
     const teacher = '"teacher"'
     const student = '"student"'
     const admin = '"admin"'
   
     if(role === student){
-      navigate("/Dashboard")
+      navigate("/Student_Dashboard")
     }else if(role === teacher){
-      navigate("/Dashboard")
+      navigate("/Teacher_Dashboard")
     }else if(role === admin){
-      navigate("/Dashboard")
+      navigate("/")
     }
     })
     

@@ -1,7 +1,7 @@
 import TeacherSideDrawer from "./TeacherSideDrawer";
 import TeacherCourses from "./TeacherCourses";
 import TeacherDashboardProfile from "./TeacherDashboardProfile";
-import theme from "./theme";
+import theme from "../theme";
 import { Box, ThemeProvider } from "@mui/material";
 export default function TeacherDashboard(){
     return (

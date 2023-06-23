@@ -1,12 +1,12 @@
 import React from "react";
 import { Box,ThemeProvider } from "@mui/material"
-import theme from "./theme";
+import theme from "../theme";
 import  { useState,useEffect } from "react";
-import useKeyPress from "./hooks/useKeyPress";
-import { languageOptions } from "./constants/languageOptions";
+import useKeyPress from "../hooks/useKeyPress"
+import { languageOptions } from "../constants/languageOptions";
 import {toast } from "react-toastify";
 import axios from "axios";
-import { classnames } from "./utils/general";
+import { classnames } from "../utils/general";
 import StudentSideDrawer from "./StudentSideDrawer";
 import IDElanguageDropdown from "./IDElanguageDropdown";
 import IDEcodeEditor from "./IDEcodeEditor";

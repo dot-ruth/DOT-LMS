@@ -1,5 +1,5 @@
 import { Box,TableContainer,ThemeProvider,Table,TableHead,TableBody,TableRow,TableCell,Paper } from "@mui/material"
-import theme from "./theme";
+import theme from "../theme";
 import StudentSideDrawer from "./StudentSideDrawer";
 import {Typography} from "@mui/material";
 

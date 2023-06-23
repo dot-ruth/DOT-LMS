@@ -1,5 +1,5 @@
 import { Box,ThemeProvider,Typography } from "@mui/material"
-import theme from "./theme";
+import theme from "../theme";
 import {Card,CardActionArea,CardMedia,CardContent,CardActions,Button} from "@mui/material";
 import { Link } from "react-router-dom";
 import TeacherSideDrawer from "./TeacherSideDrawer";

@@ -1,7 +1,7 @@
 import StudentSideDrawer from "./StudentSideDrawer";
 import StudentCourses from "./StudentCourses";
 import StudentDashboardProfile from "./StudentDashboardProfile";
-import theme from "./theme";
+import theme from "../theme";
 import { Box, ThemeProvider } from "@mui/material";
 export default function StudentDashboard(){
     return (

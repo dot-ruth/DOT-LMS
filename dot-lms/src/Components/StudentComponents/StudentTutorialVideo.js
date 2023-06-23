@@ -1,5 +1,5 @@
 import { Box,ThemeProvider,Typography,Card,CardActionArea,CardMedia,CardContent,CardActions,Button } from "@mui/material"
-import theme from "./theme";
+import theme from "../theme";
 import StudentSideDrawer from "./StudentSideDrawer";
 
 export default function StudentTutorialVideo(){
