@@ -5,11 +5,11 @@ import Calendar from "react-calendar";
 
 export default function StudentDashboardProfile(){
 
-    const first_name = localStorage.getItem('First_Name').replaceAll('"','')
+    const first_name = sessionStorage.getItem('First_Name').replaceAll('"','')
     
-  const last_name = localStorage.getItem('Last_Name').replaceAll('"','')
+  const last_name = sessionStorage.getItem('Last_Name').replaceAll('"','')
   
-  const department = localStorage.getItem('Department').replaceAll('"','')
+  const department = sessionStorage.getItem('Department').replaceAll('"','')
   
     return (
         <Box>

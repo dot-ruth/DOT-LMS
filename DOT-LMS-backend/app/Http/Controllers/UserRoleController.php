@@ -24,10 +24,10 @@ class UserRoleController extends Controller
         }
 
         //checking if the user_id exists
-        $user_status = User_Role::where("user_id", $request->user_id)->firstOrFail();
+        $user_status = User_Role::where("user_id", $request->user_id)->first();
 
         //check the password for that email
-        if (!is_null($user_status)) {
+        if ($user_status != null) {
             $hashed_password = $user_status->password;
             $password_status = Hash::check($request->password, $hashed_password);
 
