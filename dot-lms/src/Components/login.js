@@ -89,7 +89,7 @@ function Login(){
     }else if(role === teacher){
       navigate("/Teacher_Dashboard")
     }else if(role === admin){
-      navigate("/")
+      navigate("/Admin_Dashboard")
     }
     })
     
