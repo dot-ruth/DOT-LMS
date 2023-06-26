@@ -44,6 +44,7 @@ class CoursesController extends Controller
             "mime" => $image->getClientMimeType()
         );
         courses::create($request->all());
+
         return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse]);
     }
 
