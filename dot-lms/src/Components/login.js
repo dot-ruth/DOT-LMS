@@ -54,9 +54,9 @@ function Login(){
       console.log(response)
       if(response.data.success){
         sessionStorage.setItem("isLoggedIn",true);
-        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['First_Name']))
-        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
-        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
+        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
+        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
+        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
       }
 
