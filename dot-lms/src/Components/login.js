@@ -28,10 +28,6 @@ function Login(){
     password:""
   })
 
-  const [errMsgUser,seterrMsgUser] = useState("")
-  const [errMsgPwd,seterrMsgPwd] = useState("")
-  const [errMsg,seterrMsg] = useState("")
-
   const navigate = useNavigate();
 
 
@@ -54,31 +50,36 @@ function Login(){
       console.log(response)
       if(response.data.success){
         sessionStorage.setItem("isLoggedIn",true);
-        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
-        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
-        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
+        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['First_Name']))
+        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['Last_Name']))
+        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['Department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
+      }else{
+        console.log('excuted else for response')
       }
-
-      if(response.data.status === "failed" && response.data.success === undefined){
-       
-        seterrMsgUser(response.data.validation_error.user_id)
-        seterrMsgPwd(response.data.validation_error.password)
-        setTimeout(()=>{
-          seterrMsgUser("")
-          seterrMsgPwd("")
-        },3000);
-      }else if (response.data.status === "failed" &&
-      response.data.success === false)
-      {
-        seterrMsg(response.data.message)
-        
-        setTimeout(() => {
-          seterrMsg(" ")
-        }, 3000);
-      }
-
       const role = JSON.stringify(response.data.role);
+      console.log(role)
+
+      // if(response.data.status === "failed" && response.data.success === undefined){
+      //   this.setState({
+      //     errMsgUser:response.data.validation_error.user_id,
+      //     errMsgPwd:response.data.validation_error.password
+      //   })
+      //   setTimeout(()=>{
+      //     this.setState({errMsgUser:"",errMsgPwd:""});
+      //   },2000);
+      // }else if (response.data.status === "failed" &&
+      // response.data.success === false)
+      // {
+      //   this.setState({
+      //     errMsg: response.data.message,
+      //   });
+      //   setTimeout(() => {
+      //     this.setState({ errMsg: "" });
+      //   }, 2000);
+      // }
+      
+    
     const teacher = '"teacher"'
     const student = '"student"'
     const admin = '"admin"'
@@ -88,7 +89,7 @@ function Login(){
     }else if(role === teacher){
       navigate("/Teacher_Dashboard")
     }else if(role === admin){
-      navigate("/")
+      navigate("/Admin_Dashboard")
     }
     })
     
@@ -118,7 +119,6 @@ return(
     variant="outlined"
     value = {formData.user_id}
      onChange={onChangehandler}/>
-     {errMsgUser && <div color="red"> {errMsgUser} </div>}
     
 </FormControl>
 <FormControl sx={{ m:2, width: '50ch' }} variant="outlined">
@@ -141,11 +141,8 @@ return(
             value={formData.password}
             onChange={onChangehandler}
           />
-           {errMsgPwd && <div color="red"> {errMsgPwd} </div>}
           
         </FormControl>
-
-        {errMsg && <div color="red"> {errMsg} </div>}
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>
         
