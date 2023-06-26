@@ -18,9 +18,7 @@ export default function AdminDashboard(){
             <Box sx={{mt:1}}>
         <AdminHome/>
         </Box>
-        <Box sx={{backgroundColor:'#3aa680',width:'350px'}}>
         
-        </Box>
         </Box>
         </ThemeProvider>
         </Box>
