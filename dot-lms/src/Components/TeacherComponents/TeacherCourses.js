@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 
 export default function TeacherCourses(){
-  const first_name = localStorage.getItem('First_Name').replaceAll('"','')
+  const first_name = sessionStorage.getItem('First_Name').replaceAll('"','')
    
     return (
         <Box>
