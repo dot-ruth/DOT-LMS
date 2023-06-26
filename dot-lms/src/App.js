@@ -8,6 +8,7 @@ import Profile from './Components/Profile';
 import 'react-calendar/dist/Calendar.css';
 import StudentDashboard from './Components/StudentComponents/StudentDashboard';
 import TeacherDashboard from './Components/TeacherComponents/TeacherDashboard';
+import AdminDashboard from './Components/AdminComponents/AdminDashboard';
 import StudentMockExam from './Components/StudentComponents/StudentMockExam';
 import TeacherMockExam from './Components/TeacherComponents/TeacherMockExam';
 import StudentTutorialVideo from './Components/StudentComponents/StudentTutorialVideo';
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" element={<Login/>}/>
         <Route path="/Student_Dashboard" element={<StudentDashboard/>}/>
         <Route path="/Teacher_Dashboard" element={<TeacherDashboard/>}/>
+        <Route path="/Admin_Dashboard" element={<AdminDashboard/>}/>
         <Route path="/Student_Mockexam" element={<StudentMockExam/>}/>
         <Route path='/Teacher_Mockexam' element={<TeacherMockExam/>}/>
         <Route path='/TutorialVideo' element={<StudentTutorialVideo/>}/>
