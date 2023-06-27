@@ -24,6 +24,7 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import BookIcon from '@mui/icons-material/Book';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const drawerWidth = 240;
 
@@ -137,7 +138,7 @@ export default function AdminSideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Home', 'Users', 'Courses'].map((text, index) => (
+          {['Home', 'Users', 'Courses,Assign Course'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -159,6 +160,7 @@ export default function AdminSideDrawer() {
                     0:<Link to='/Admin_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
                     1:<Link to='/Manage_users'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>,
                     2:<Link to='/Manage_courses'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
+                    3:<Link to='/Assign_Course'><Avatar sx={{bgcolor:'#68cca9'}} ><AssignmentTurnedInIcon/></Avatar></Link>,
                     }[index]
           }
                   
@@ -173,10 +175,6 @@ export default function AdminSideDrawer() {
       </Drawer>
       
         <DrawerHeader />
-        {/* <Box component="main" sx={{flexGrow:1,p:3}}>
-        <Courses/>
-        <Profile/>
-        </Box> */}
       </ThemeProvider>
     </Box>
   );
