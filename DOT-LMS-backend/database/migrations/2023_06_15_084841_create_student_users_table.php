@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('student_id')->unique();
             $table->string('department');
-            $table->string('year');
-            $table->string('semester');
+            $table->string('year')->nullable();
+            $table->string('semester')->nullable();
             $table->string('password');
             $table->timestamps();
         });
