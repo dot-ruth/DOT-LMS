@@ -138,7 +138,7 @@ export default function AdminSideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Home', 'Users', 'Courses,Assign Course'].map((text, index) => (
+          {['Home', 'Users', 'Courses','Assign Course'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
