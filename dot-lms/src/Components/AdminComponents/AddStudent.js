@@ -9,8 +9,10 @@ import {Typography} from '@mui/material'
 import {FormControl,InputLabel,OutlinedInput,InputAdornment,IconButton,Button} from '@mui/material'
 import { Visibility,VisibilityOff } from '@mui/icons-material'
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css'
+import { ToastContainer, toast } from 'react-toastify'
 
 function AddStudent() {
 
@@ -19,8 +21,14 @@ function AddStudent() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const [formData,setFormData] = useState({
-    user_id:"",
-    password:""
+    first_name:"",
+    last_name:"",
+    email:"",
+    department:"",
+    year:"",
+    semester:"",
+    password:"",
+    confirm_password:"",
   })
 
   const [errMsgUser,seterrMsgUser] = useState("")
@@ -41,69 +49,91 @@ function AddStudent() {
     }
 
     let onCreatehandler = () =>{
-        axios.post("http://127.0.0.1:8000/api/login",{
-          user_id:formData.user_id,
-          password:formData.password
+      if(formData.password === formData.confirm_password){
+        axios.post("http://127.0.0.1:8000/api/user/student",{
+          first_name:formData.first_name,
+          last_name:formData.last_name,
+          email:formData.email,
+          department:formData.department,
+          year:formData.year,
+          semester:formData.semester,
+          password:formData.password,
+          mode:'cors'
         })
         .then((response)=>{
           console.log(response)
-          if(response.data.success){
-            sessionStorage.setItem("isLoggedIn",true);
-            sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
-            sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
-            sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
-            sessionStorage.setItem("role",JSON.stringify(response.data.role));
-          }else{
-            console.log('excuted else for response')
-          }
-          const role = JSON.stringify(response.data.role);
-          console.log(role)
+          toast.success('User Created Successfully',{
+            position:toast.POSITION.BOTTOM_CENTER
+          })
+          
+          // if(response.data.success){
+          //   sessionStorage.setItem("isLoggedIn",true);
+          //   sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
+          //   sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
+          //   sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
+          //   sessionStorage.setItem("role",JSON.stringify(response.data.role));
+          // }else{
+          //   console.log('excuted else for response')
+          // }
+          // const role = JSON.stringify(response.data.role);
+          // console.log(role)
     
           
-          if(response.data.status === "failed" && response.data.success === undefined){
+        //   if(response.data.status === "failed" && response.data.success === undefined){
     
-            seterrMsgUser(response.data.validation_error.user_id)
-            seterrMsgPwd(response.data.validation_error.password)
-            setTimeout(()=>{
-              seterrMsgUser("")
-              seterrMsgPwd("")
-            },3000);
-          }else if (response.data.status === "failed" &&
-          response.data.success === false)
-          {
-            seterrMsg(response.data.message)
+        //     seterrMsgUser(response.data.validation_error.user_id)
+        //     seterrMsgPwd(response.data.validation_error.password)
+        //     setTimeout(()=>{
+        //       seterrMsgUser("")
+        //       seterrMsgPwd("")
+        //     },3000);
+        //   }else if (response.data.status === "failed" &&
+        //   response.data.success === false)
+        //   {
+        //     seterrMsg(response.data.message)
     
-            setTimeout(() => {
-              seterrMsg(" ")
-            }, 3000);
-          }
+        //     setTimeout(() => {
+        //       seterrMsg(" ")
+        //     }, 3000);
+        //   }
     
-        const teacher = '"teacher"'
-        const student = '"student"'
-        const admin = '"admin"'
+        // const teacher = '"teacher"'
+        // const student = '"student"'
+        // const admin = '"admin"'
       
-        if(role === student){
-          navigate("/Student_Dashboard")
-        }else if(role === teacher){
-          navigate("/Teacher_Dashboard")
-        }else if(role === admin){
-          navigate("/Admin_Dashboard")
-        }
+        // if(role === student){
+        //   navigate("/Student_Dashboard")
+        // }else if(role === teacher){
+        //   navigate("/Teacher_Dashboard")
+        // }else if(role === admin){
+        //   navigate("/Admin_Dashboard")
+        // }
         })
+      }else{
+        console.log('excuted the else statement for confirm password if')
+        toast.error('Confirm Password does not match with password',{
+          position:toast.POSITION.BOTTOM_CENTER
+        })
+      }
         
       }
 
   return (
- <PerfectScrollbar>
-        <Box>
+    
+        <Box
+        sx={{
+            height:'100vh',
+            weidth:'100vw',
+          }}
+        >
+          <ToastContainer/>
             <ThemeProvider theme={theme}>
         <AdminSideDrawer/>
         <Box 
-        sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
+        sx={{
         display:'flex', 
-        justifyContent:'space-between',
-        height:'100vh',
-        overflowY:'hidden',
+        justifyContent:'center',
+        alignItems:'center',
         }}>
             <Box sx={{mt:1}}>
             <form>
@@ -195,7 +225,7 @@ function AddStudent() {
           <OutlinedInput
             type={showPassword ? 'text' : 'password'}
             endAdornment={
-              <InputAdornment>
+              <InputAdornment position='end'>
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
@@ -218,7 +248,7 @@ function AddStudent() {
           <OutlinedInput
             type={showPassword ? 'text' : 'password'}
             endAdornment={
-              <InputAdornment>
+              <InputAdornment position='end'>
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
@@ -229,7 +259,7 @@ function AddStudent() {
             }
             color="primary"
             name="confirm_password"
-            value={formData.password}
+            value={formData.confirm_password}
             onChange={onChangehandler}
           />
           {/* {errMsgPwd && <div color="red"> {errMsgPwd} </div>} */}
@@ -246,7 +276,6 @@ function AddStudent() {
         </Box>
         </ThemeProvider>
         </Box>
-        </PerfectScrollbar>
   )
 }
 

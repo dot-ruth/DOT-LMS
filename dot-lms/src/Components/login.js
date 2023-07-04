@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react/no-direct-mutation-state */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "./theme";
 import {Button, Typography} from "@mui/material";
 import  {ThemeProvider} from "@mui/material";
@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 //import { redirect } from 'react-router';
 //import {Form, Link, redirect} from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login(){
     const [showPassword, setShowPassword] = React.useState(false);
@@ -46,7 +47,8 @@ function Login(){
     //this.setState(data);
     }
 
-  let onLoginhandler = () =>{
+  const onLoginhandler = () =>{
+    toast.loading("Please wait, Loading...")
     axios.post("http://127.0.0.1:8000/api/login",{
       user_id:formData.user_id,
       password:formData.password
@@ -99,8 +101,13 @@ function Login(){
     
   }
 
+  
+
+
+
 return(
     <div >
+      
 <ThemeProvider theme={theme}>
 <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">

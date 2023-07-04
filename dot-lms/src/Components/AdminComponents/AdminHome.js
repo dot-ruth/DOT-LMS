@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#ccfceb',
     color: theme.palette.common.white
   },
 }));
@@ -92,7 +92,6 @@ console.log(student_rows)
   }
 
   return (
-    
     <PerfectScrollbar>
     <ThemeProvider theme={theme}>
 
@@ -355,6 +354,5 @@ getTeacherData()
     </Box>
     </ThemeProvider>
     </PerfectScrollbar>
-    
   );
 }

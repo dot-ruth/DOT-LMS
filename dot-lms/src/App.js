@@ -18,9 +18,6 @@ import StudentGradeBook from './Components/StudentComponents/StudentGradeBook';
 import StudentIDE from './Components/StudentComponents/StudentIDE';
 import AddStudent from './Components/AdminComponents/AddStudent';
 
-
-
-
 function App() {
   return (
     <div>
