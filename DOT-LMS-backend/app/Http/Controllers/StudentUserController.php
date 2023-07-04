@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\AssignOp\Concat;
+use Illuminate\Support\Facades\Validator;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
@@ -29,6 +30,18 @@ class StudentUserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validation = Validator::make($request->all(), [
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => ['required', 'email'],
+            'department' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(["success" => false, "validation_error" => $validation->errors()]);
+        }
+
         $request->validate([]);
         $student_id = UniqueIdGenerator::generate([
             'table' => 'student_users',
@@ -47,25 +60,15 @@ class StudentUserController extends Controller
         $Student_user->email = $request->email;
         $Student_user->year = $request->year;
         $Student_user->semester = $request->semester;
-        $Student_user->password = $request->password;
+        $Student_user->student_password = null;
         $Student_user->save();
 
 
+        Mail::to($Student_user->email)->send(new DOTLMSMail($Student_user->first_name, $Student_user->student_id));
 
-
-        // return StudentUser::create($request->all());
+        return response()->json(["success" => true]);
     }
 
-    public function SendStudentemail(Request $request)
-    {
-        $Student_user = new StudentUser();
-
-        $first_name = $Student_user->first_name;
-        $user_id = $Student_user->student_id;
-        $password = $request->password;
-
-        Mail::to($Student_user->email)->send(new DOTLMSMail($first_name, $user_id, $password));
-    }
 
     /**
      * Display the specified resource.

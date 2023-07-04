@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CoursesController;
@@ -33,7 +34,7 @@ Route::resource('/user/student', StudentUserController::class);
 
 Route::resource('/user/teacher', TeacherUserController::class);
 
-Route::resource('/user/admin', AdminUser::class);
+Route::resource('/user/admin', AdminUserController::class);
 
 Route::resource('/courses', CoursesController::class);
 

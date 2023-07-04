@@ -15,7 +15,6 @@ class StudentUser extends Model
         'department',
         'year',
         'semester',
-        'password',
     ];
 
     /**
@@ -23,18 +22,11 @@ class StudentUser extends Model
      *
      * @var array<int, string>
      */
-    // protected $hidden = [
-    //     'password',
-    // ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'password' => 'hashed',
+    protected $hidden = [
+        'password',
     ];
+
+
 
     public function assignment()
     {

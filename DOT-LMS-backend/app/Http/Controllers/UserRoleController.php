@@ -20,7 +20,7 @@ class UserRoleController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json(["status" => "failed", "validation_error" => $validation->errors()]);
+            return response()->json(["success" => "failed", "validation_error" => $validation->errors()]);
         }
 
         //checking if the user_id exists

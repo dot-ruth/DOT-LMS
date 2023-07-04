@@ -17,10 +17,9 @@ class DOTLMSMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        // private $first_name,
-        // private $user_id,
-    )
-    {
+        private $first_name,
+        private $user_id,
+    ) {
         //
     }
 
@@ -34,27 +33,35 @@ class DOTLMSMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
+    // /**
+    //  * Get the message content definition.
+    //  */
     public function content(): Content
     {
         return new Content(
-            view: 'mail.emailContent',
-            // with: [
-            //     'first_name' => $this->first_name,
-            //     'user_id' => $this->user_id,
-            // ]
+            markdown: 'mail.emailContent',
+            with: [
+                'first_name' => $this->first_name,
+                'user_id' => $this->user_id,
+            ]
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
+    // /**
+    //  * Get the attachments for the message.
+    //  *
+    //  * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+    //  */
     public function attachments(): array
     {
         return [];
     }
+    // public function build()
+    // {
+    //     return $this
+    //         ->from('dotlms99@gmail.com')
+    //         ->to('ruthgetaneh5@gmail.com')
+    //         ->subject('test subject')
+    //         ->view('mail.emailContent');
+    // }
 }
