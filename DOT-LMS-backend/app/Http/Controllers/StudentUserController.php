@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\StudentUser;
-use App\Http\Controllers\Controller;
+use App\Mail\DOTLMSMail;
 use App\Models\AdminUser;
+use App\Models\StudentUser;
 use Illuminate\Http\Request;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\AssignOp\Concat;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
 class StudentUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         return StudentUser::all();
@@ -25,21 +30,41 @@ class StudentUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([]);
-        $student_id = IdGenerator::generate([
+        $student_id = UniqueIdGenerator::generate([
             'table' => 'student_users',
             'field' => 'student_id',
-            'length' => 4, 'prefix' => 'DBUR-'
+            'length' => 5,
+            'prefix' => 'DBUR-',
+            'suffix' => date('-y'),
+            'reset_on_change' => 'both'
         ]);
+
         $Student_user = new StudentUser();
         $Student_user->student_id = $student_id;
-        $Student_user->first_Name = $request->first_Name;
-        $Student_user->last_Name = $request->last_Name;
+        $Student_user->first_name = $request->first_name;
+        $Student_user->last_name = $request->last_name;
         $Student_user->department = $request->department;
+        $Student_user->email = $request->email;
         $Student_user->year = $request->year;
         $Student_user->semester = $request->semester;
         $Student_user->password = $request->password;
         $Student_user->save();
+
+
+
+
         // return StudentUser::create($request->all());
+    }
+
+    public function SendStudentemail(Request $request)
+    {
+        $Student_user = new StudentUser();
+
+        $first_name = $Student_user->first_name;
+        $user_id = $Student_user->student_id;
+        $password = $request->password;
+
+        Mail::to($Student_user->email)->send(new DOTLMSMail($first_name, $user_id, $password));
     }
 
     /**

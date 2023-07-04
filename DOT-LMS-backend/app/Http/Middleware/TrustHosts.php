@@ -15,6 +15,8 @@ class TrustHosts extends Middleware
     {
         return [
             $this->allSubdomainsOfApplicationUrl(),
+            'http://smtp.gmail.com',
+            'http://localhost:3000'
         ];
     }
 }
