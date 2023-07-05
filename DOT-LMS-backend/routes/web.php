@@ -1,8 +1,12 @@
 <?php
 
+use App\Mail\DOTLMSMail;
+use App\Models\StudentUser;
+use App\Http\Controllers\UserLogin;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserLogin;
+use App\Jobs\SendEmail;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +22,3 @@ use App\Http\Controllers\UserLogin;
 // Route::get('/', function () {
 //     return response('<h1>hello</h1>');
 // });
-
-// //show login form 
-// Route::get('/login', [UserController::class, 'loginForm'])->name('login')->middleware('guest');

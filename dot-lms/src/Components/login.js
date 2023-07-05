@@ -1,6 +1,10 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react/no-direct-mutation-state */
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React, { useEffect, useState } from "react";
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 import theme from "./theme";
 import {Button, Typography} from "@mui/material";
 import  {ThemeProvider} from "@mui/material";
@@ -17,6 +21,10 @@ import { useNavigate } from "react-router-dom";
 //import { redirect } from 'react-router';
 //import {Form, Link, redirect} from "react-router-dom";
 import axios from "axios";
+<<<<<<< HEAD
+=======
+import { toast } from "react-toastify";
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 
 function Login(){
     const [showPassword, setShowPassword] = React.useState(false);
@@ -32,6 +40,10 @@ function Login(){
   const [errMsgPwd,seterrMsgPwd] = useState("")
   const [errMsg,seterrMsg] = useState("")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
   const navigate = useNavigate();
 
 
@@ -45,7 +57,12 @@ function Login(){
     //this.setState(data);
     }
 
+<<<<<<< HEAD
   let onLoginhandler = () =>{
+=======
+  const onLoginhandler = () =>{
+    toast.loading("Please wait, Loading...")
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
     axios.post("http://127.0.0.1:8000/api/login",{
       user_id:formData.user_id,
       password:formData.password
@@ -58,10 +75,22 @@ function Login(){
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
+<<<<<<< HEAD
       }
 
       if(response.data.status === "failed" && response.data.success === undefined){
        
+=======
+      }else{
+        console.log('excuted else for response')
+      }
+      const role = JSON.stringify(response.data.role);
+      console.log(role)
+
+      
+      if(response.data.status === "failed" && response.data.success === undefined){
+
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
         seterrMsgUser(response.data.validation_error.user_id)
         seterrMsgPwd(response.data.validation_error.password)
         setTimeout(()=>{
@@ -72,13 +101,20 @@ function Login(){
       response.data.success === false)
       {
         seterrMsg(response.data.message)
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
         setTimeout(() => {
           seterrMsg(" ")
         }, 3000);
       }
 
+<<<<<<< HEAD
       const role = JSON.stringify(response.data.role);
+=======
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
     const teacher = '"teacher"'
     const student = '"student"'
     const admin = '"admin"'
@@ -88,14 +124,28 @@ function Login(){
     }else if(role === teacher){
       navigate("/Teacher_Dashboard")
     }else if(role === admin){
+<<<<<<< HEAD
       navigate("/")
+=======
+      navigate("/Admin_Dashboard")
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
     }
     })
     
   }
 
+<<<<<<< HEAD
 return(
     <div >
+=======
+  
+
+
+
+return(
+    <div >
+      
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 <ThemeProvider theme={theme}>
 <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
@@ -141,10 +191,16 @@ return(
             value={formData.password}
             onChange={onChangehandler}
           />
+<<<<<<< HEAD
            {errMsgPwd && <div color="red"> {errMsgPwd} </div>}
           
         </FormControl>
 
+=======
+          {errMsgPwd && <div color="red"> {errMsgPwd} </div>}
+          
+        </FormControl>
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
         {errMsg && <div color="red"> {errMsg} </div>}
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>

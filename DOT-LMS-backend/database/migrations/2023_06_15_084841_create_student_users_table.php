@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('student_id')->unique();
+            $table->string('email')->unique();
             $table->string('department');
-            $table->string('year');
-            $table->string('semester');
-            $table->string('password');
+            $table->string('year')->nullable();
+            $table->string('semester')->nullable();
+            $table->string('student_password')->nullable();
             $table->timestamps();
         });
     }
