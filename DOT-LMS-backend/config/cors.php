@@ -21,7 +21,11 @@ return [
 
     'allowed_origins' => ['*'],
 
+<<<<<<< HEAD
+    'allowed_origins_patterns' => [],
+=======
     'allowed_origins_patterns' => ['*'],
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 
     'allowed_headers' => ['*'],
 
@@ -29,6 +33,10 @@ return [
 
     'max_age' => 0,
 
+<<<<<<< HEAD
+    'supports_credentials' => false,
+=======
     'supports_credentials' => true,
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 
 ];

@@ -98,7 +98,10 @@ return [
     |
     */
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
@@ -123,6 +126,9 @@ return [
         ],
     ],
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
 ];
