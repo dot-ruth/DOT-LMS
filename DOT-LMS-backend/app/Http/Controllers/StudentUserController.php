@@ -72,7 +72,6 @@ class StudentUserController extends Controller
         } else {
             return response()->json(['error' => 'User Already Exists']);
         }
-        return userExists($student_id, $request->email);
     }
 
 
