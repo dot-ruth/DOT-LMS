@@ -41,14 +41,7 @@ class StudentUserController extends Controller
         if ($validation->fails()) {
             return response()->json(["success" => false, "validation_error" => $validation->errors()]);
         }
-        // $student_id = UniqueIdGenerator::generate([
-        //     'table' => 'student_users',
-        //     'field' => 'student_id',
-        //     'length' => 5,
-        //     'prefix' => 'DBUR-',
-        //     'suffix' => date('-y'),
-        //     'reset_on_change' => 'both'
-        // ]);
+
         function userExists($id, $email)
         {
             return StudentUser::where('student_id', $id)->exists() || StudentUser::where('email', $email)->exists();
