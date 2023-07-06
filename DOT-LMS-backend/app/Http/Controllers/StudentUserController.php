@@ -6,6 +6,7 @@ use App\Mail\DOTLMSMail;
 use App\Models\AdminUser;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\AssignOp\Concat;
@@ -19,6 +20,11 @@ class StudentUserController extends Controller
      * Display a listing of the resource.
      */
 
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store']]);
+    }
+
 
     public function index()
     {
@@ -30,6 +36,10 @@ class StudentUserController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
+
 
         $validation = Validator::make($request->all(), [
             "first_name" => "required",
@@ -66,9 +76,11 @@ class StudentUserController extends Controller
             $Student_user->student_password = null;
             $Student_user->save();
 
+            $token = JWTAuth::fromUser($Student_user);
+
             Mail::to($Student_user->email)->send(new DOTLMSMail($Student_user->first_name, $Student_user->student_id));
 
-            return response()->json(["success" => true]);
+            return response()->json(["success" => true, 'token' => $token]);
         } else {
             return response()->json(['error' => 'User Already Exists']);
         }

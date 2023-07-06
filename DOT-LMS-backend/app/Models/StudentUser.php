@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class StudentUser extends Model
+class StudentUser extends Model implements JWTSubject
 {
     use HasFactory;
 
@@ -17,33 +18,31 @@ class StudentUser extends Model
         'semester',
     ];
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-<<<<<<< HEAD
-    // protected $hidden = [
-    //     'password',
-    // ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'password' => 'hashed',
-    ];
-
-=======
     protected $hidden = [
         'password',
     ];
 
 
 
->>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
     public function assignment()
     {
         return $this->hasMany(assignment::class, 'student_id');
