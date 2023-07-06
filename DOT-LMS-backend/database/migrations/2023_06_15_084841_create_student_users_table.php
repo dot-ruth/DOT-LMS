@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('department');
             $table->string('year')->nullable();
             $table->string('semester')->nullable();
-            $table->string('student_password')->nullable();
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

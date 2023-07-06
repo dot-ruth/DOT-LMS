@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 
 class AdminUserController extends Controller
+
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -21,8 +29,18 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([]);
-        return AdminUser::create($request->all());
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'admin_id' => 'required',
+            'email' => ['required', 'email'],
+            'password' => 'required',
+        ]);
+        $Admin_user = AdminUser::create($request->all());
+        $token = JWTAuth::fromUser($Admin_user);
+        AdminUser::create($request->all());
+        return response()->json(["success" => true, 'token' => $token]);
     }
 
     /**

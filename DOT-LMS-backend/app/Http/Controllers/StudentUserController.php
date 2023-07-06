@@ -22,7 +22,7 @@ class StudentUserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store']]);
+        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
     }
 
 
@@ -36,11 +36,6 @@ class StudentUserController extends Controller
      */
     public function store(Request $request)
     {
-
-
-
-
-
         $validation = Validator::make($request->all(), [
             "first_name" => "required",
             "last_name" => "required",
@@ -73,7 +68,7 @@ class StudentUserController extends Controller
             $Student_user->email = $request->email;
             $Student_user->year = $request->year;
             $Student_user->semester = $request->semester;
-            $Student_user->student_password = null;
+            $Student_user->password = null;
             $Student_user->save();
 
             $token = JWTAuth::fromUser($Student_user);
