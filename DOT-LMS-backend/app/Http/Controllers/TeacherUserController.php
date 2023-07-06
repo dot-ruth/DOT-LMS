@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\TeacherUser;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 
 class TeacherUserController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -23,6 +31,19 @@ class TeacherUserController extends Controller
     {
         $request->validate([]);
         return TeacherUser::create($request->all());
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'teacher_id' => 'required',
+            'email' => ['required', 'email'],
+            'department' => 'required',
+            'password' => 'required',
+        ]);
+        $Teacher_user = new TeacherUser();
+        $token = JWTAuth::fromUser($Teacher_user);
+        TeacherUser::create($request->all());
+        return response()->json(["success" => true, 'token' => $token]);
     }
 
     /**

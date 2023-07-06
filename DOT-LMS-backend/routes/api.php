@@ -28,7 +28,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//login functionality
 Route::post('/login', [UserRoleController::class, 'userLogin']);
+
+//Admin add student functionality
+Route::post('/admin/add_student', [StudentUserController::class, 'store'])->middleware('auth');
+
+//Admin get student data
+Route::get('/admin/student_users', [StudentUserController::class, 'index'])->middleware('auth');
+
+//admin edit student data
+Route::put('/admin/edit_student/{student}', [StudentUserController::class, 'update'])->middleware('auth');
+
+//admin delete student
+Route::delete('/admin/delete_student/{student}', [StudentUserController::class, 'destroy'])->middleware('auth');
+
+
+//Admin add teacher functionality
+Route::post('admin/add_teacher', [TeacherUserController::class, 'store'])->middleware('auth');
+
+//Admin get teacher data
+Route::get('admin/teachers', [TeacherUserController::class, 'index'])->middleware('auth');
+
+//admin edit teacher data
+Route::put('admin/edit_teacher/{teacher}', [TeacherUserController::class, 'update'])->middleware('auth');
+
+//admin delete teacher
+Route::delete('admin/delete_teacher/{teacher}', [TeacherUserController::class, 'destroy'])->middleware('auth');
 
 Route::resource('/user/student', StudentUserController::class);
 

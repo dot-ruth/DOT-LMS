@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('Last_Name');
             $table->string('Teacher_id')->unique();
             $table->foreignId('course_id')->nullable();
+            $table->string('email')->unique();
             $table->string('Department');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }
