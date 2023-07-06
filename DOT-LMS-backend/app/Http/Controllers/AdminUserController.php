@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DOTLMSMail;
 use App\Models\AdminUser;
+use App\Models\TeacherUser;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class AdminUserController extends Controller
 
@@ -33,14 +36,38 @@ class AdminUserController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'admin_id' => 'required',
             'email' => ['required', 'email'],
             'password' => 'required',
         ]);
-        $Admin_user = AdminUser::create($request->all());
-        $token = JWTAuth::fromUser($Admin_user);
-        AdminUser::create($request->all());
-        return response()->json(["success" => true, 'token' => $token]);
+
+        function userExists($id, $email)
+        {
+            return AdminUser::where('admin_id', $id)->exists() || AdminUser::where('email', $email)->exists();
+        }
+
+        $admin_id = 'ADM-' . mt_rand(1000, 9999);
+
+        if (userExists($admin_id, $request->email)) {
+            $admin_id = 'ADM-' . mt_rand(1000, 9999);
+        }
+
+        if (!userExists($admin_id, $request->email)) {
+            $Admin_user = new AdminUser();
+            $Admin_user->first_name = $request->first_name;
+            $Admin_user->last_name = $request->last_name;
+            $Admin_user->admin_id = $admin_id;
+            $Admin_user->email = $request->email;
+            $Admin_user->password = $request->password;
+            $Admin_user->save();
+
+            $token = JWTAuth::fromUser($Admin_user);
+
+            Mail::to($Admin_user->email)->send(new DOTLMSMail($Admin_user->first_name, $Admin_user->admin_id));
+
+            return response()->json(["success" => true, 'token' => $token]);
+        } else {
+            return response()->json(['error' => 'User Already Exists']);
+        }
     }
 
     /**
