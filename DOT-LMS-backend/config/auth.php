@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User_Role;
+
 return [
 
     /*
@@ -65,9 +67,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'user_role' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => User_Role::class,
         ],
 
         // 'users' => [

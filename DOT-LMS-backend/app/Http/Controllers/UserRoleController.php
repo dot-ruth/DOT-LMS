@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User_Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User_Role;
 
 class UserRoleController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['ConfigurePassword']]);
+    // }
     //
     public function userLogin(Request $request)
     {
@@ -19,6 +25,10 @@ class UserRoleController extends Controller
             "user_id" => "required",
             "password" => "required"
         ]);
+
+        // if (! $token = auth()->attempt($validation->validated())) {
+        //     return response()->json(['error' => 'Unauthorized'], 401);
+        // }
 
         if ($validation->fails()) {
             return response()->json(["success" => "failed", "validation_error" => $validation->errors()]);
@@ -33,7 +43,7 @@ class UserRoleController extends Controller
             $password_status = Hash::check($request->password, $hashed_password);
 
             //if passord is correct
-            if ($password_status && auth()->attempt($FormFeilds)) {
+            if ($password_status) {
                 $user = User_Role::where("user_id", $request->user_id)->firstOrFail();
                 $table_name_array = DB::select("SELECT table_name FROM user__roles where user_id = '$request->user_id'");
                 $column_name_array = DB::select("SELECT column_name FROM user__roles where user_id = '$request->user_id'");
@@ -43,12 +53,24 @@ class UserRoleController extends Controller
                 $column_name = str_replace('"', '', $column_name_raw);
                 $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
                 $request->session()->regenerate();
-                return response()->json(["success" => true, "message" => "You are Logged in", "data" => $user_data, "role" => $user->role]);
+                $token = JWTAuth::fromUser($user);
+                return response()->json(["success" => true, "token" => $token, "message" => "You are Logged in", "data" => $user_data, "role" => $user->role]);
             } else {
                 return response()->json(["status" => "failed", "success" => false, "message" => "unable to login, Incorrect password"]);
             }
         } else {
             return response()->json(["status" => "failed", "success" => false, "message" => "unable to login, User does not exist "]);
         }
+    }
+
+    public function ConfigurePassword(Request $request)
+    {
+        $hashed_password = Hash::make($request->password);
+        User_Role::where("user_id", $request->user_id)->firstOrFail()
+            ->update([
+                'password' => $hashed_password
+            ]);
+
+        return response()->json(['status' => "password has been updated"]);
     }
 }
