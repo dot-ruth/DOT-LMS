@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('teacher_users', function (Blueprint $table) {
             $table->id();
-            $table->string('First_Name');
-            $table->string('Last_Name');
-            $table->string('Teacher_id')->unique();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('teacher_id')->unique();
             $table->foreignId('course_id')->nullable();
             $table->string('email')->unique();
-            $table->string('Department');
+            $table->string('department');
             $table->string('password')->nullable();
             $table->timestamps();
         });

@@ -28,8 +28,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//login functionality
-Route::post('/login', [UserRoleController::class, 'userLogin']);
+Route::group(['middleware' => ['web']], function () {
+    //login functionality
+    Route::post('/login', [UserRoleController::class, 'userLogin']);
+});
+
+//Route::post('/login', [UserRoleController::class, 'userLogin']);
+
+//route for password configuration
+Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+
+//Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+
 
 //Admin add student functionality
 Route::post('/admin/add_student', [StudentUserController::class, 'store'])->middleware('auth');

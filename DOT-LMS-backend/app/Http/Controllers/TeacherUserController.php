@@ -31,15 +31,12 @@ class TeacherUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([]);
-        return TeacherUser::create($request->all());
 
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => ['required', 'email'],
             'department' => 'required',
-            'password' => 'required',
         ]);
 
         function userExists($id, $email)
@@ -58,13 +55,14 @@ class TeacherUserController extends Controller
             $teacher_user->first_name = $request->first_name;
             $teacher_user->last_name = $request->last_name;
             $teacher_user->email = $request->email;
+            $teacher_user->teacher_id = $teacher_id;
             $teacher_user->department = $request->department;
             $teacher_user->password = $request->password;
             $teacher_user->save();
 
             $token = JWTAuth::fromUser($teacher_user);
 
-            Mail::to($teacher_user->email)->send(new DOTLMSMail($teacher_user->first_name, $teacher_user->admin_id));
+            Mail::to($teacher_user->email)->send(new DOTLMSMail($teacher_user->first_name, $teacher_user->teacher_id));
 
             return response()->json(["success" => true, 'token' => $token]);
         } else {
