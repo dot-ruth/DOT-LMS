@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\StudentUserController;
+use App\Http\Controllers\UserRoleController;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -19,6 +22,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
     }
 }

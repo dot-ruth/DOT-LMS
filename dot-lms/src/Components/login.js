@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react/no-direct-mutation-state */
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import theme from "./theme";
 import {Button, Typography} from "@mui/material";
 import  {ThemeProvider} from "@mui/material";
@@ -12,11 +12,10 @@ import {IconButton} from "@mui/material";
 import {AppBar} from "@mui/material";
 import {Visibility} from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
-//import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import { redirect } from 'react-router';
-//import {Form, Link, redirect} from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Login(){
     const [showPassword, setShowPassword] = React.useState(false);
@@ -46,7 +45,8 @@ function Login(){
     //this.setState(data);
     }
 
-  let onLoginhandler = () =>{
+  const onLoginhandler = () =>{
+    
     axios.post("http://127.0.0.1:8000/api/login",{
       user_id:formData.user_id,
       password:formData.password
@@ -59,11 +59,13 @@ function Login(){
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
+
+        sessionStorage.setItem("token",JSON.stringify(response.data.token));
       }else{
         console.log('excuted else for response')
       }
-      const role = JSON.stringify(response.data.role);
-      console.log(role)
+      
+
 
       
       if(response.data.status === "failed" && response.data.success === undefined){
@@ -84,10 +86,13 @@ function Login(){
         }, 3000);
       }
 
+      const role = JSON.stringify(response.data.role);
+      const token = JSON.stringify(response.data.token);
+
     const teacher = '"teacher"'
     const student = '"student"'
     const admin = '"admin"'
-  
+  if(token !== null){
     if(role === student){
       navigate("/Student_Dashboard")
     }else if(role === teacher){
@@ -95,12 +100,23 @@ function Login(){
     }else if(role === admin){
       navigate("/Admin_Dashboard")
     }
+  }else{
+    navigate('/')
+  }
     })
     
   }
 
+  
+
+
+  
+
+
+
 return(
     <div >
+      
 <ThemeProvider theme={theme}>
 <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
@@ -152,6 +168,8 @@ return(
         {errMsg && <div color="red"> {errMsg} </div>}
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>
+
+        <Link to="/ForgotPassword" >Forgot Password ?</Link>
         
         </div>
         </form>

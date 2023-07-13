@@ -16,9 +16,9 @@ import StudentClassCalander from './Components/StudentComponents/StudentClassCal
 import TeacherClassCalander from './Components/TeacherComponents/TeacherClassCalander';
 import StudentGradeBook from './Components/StudentComponents/StudentGradeBook';
 import StudentIDE from './Components/StudentComponents/StudentIDE';
-
-
-
+import AddStudent from './Components/AdminComponents/AddStudent';
+import ConfigurePassword from './Components/ConfigurePassword';
+import ForgotPassword from './Components/ForgotPassword';
 
 function App() {
   return (
@@ -42,6 +42,9 @@ function App() {
         <Route path="/IDE" element={<StudentIDE/>}/>
         <Route path="/Message" element={<Message/>}/>
         <Route path="/Profile" element={<Profile/>}/>
+        <Route path="/Add Student" element={<AddStudent/>}/>
+        <Route path='/ConfigurePassword' element={<ConfigurePassword/>}/>
+        <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
       </Routes>
 
       </BrowserRouter>

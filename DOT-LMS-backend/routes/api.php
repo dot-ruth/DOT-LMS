@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CoursesController;
@@ -27,13 +28,52 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [UserRoleController::class, 'userLogin']);
+Route::group(['middleware' => ['web']], function () {
+    //login functionality
+    Route::post('/login', [UserRoleController::class, 'userLogin']);
+});
+
+//Route::post('/login', [UserRoleController::class, 'userLogin']);
+
+//route for password configuration for a student user
+Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+
+//route to send forgot password? email
+Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
+
+//Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+
+
+//Admin add student functionality
+Route::post('/admin/add_student', [StudentUserController::class, 'store'])->middleware('auth');
+
+//Admin get student data
+Route::get('/admin/student_users', [StudentUserController::class, 'index'])->middleware('auth');
+
+//admin edit student data
+Route::put('/admin/edit_student/{student}', [StudentUserController::class, 'update'])->middleware('auth');
+
+//admin delete student
+Route::delete('/admin/delete_student/{student}', [StudentUserController::class, 'destroy'])->middleware('auth');
+
+
+//Admin add teacher functionality
+Route::post('admin/add_teacher', [TeacherUserController::class, 'store'])->middleware('auth');
+
+//Admin get teacher data
+Route::get('admin/teachers', [TeacherUserController::class, 'index'])->middleware('auth');
+
+//admin edit teacher data
+Route::put('admin/edit_teacher/{teacher}', [TeacherUserController::class, 'update'])->middleware('auth');
+
+//admin delete teacher
+Route::delete('admin/delete_teacher/{teacher}', [TeacherUserController::class, 'destroy'])->middleware('auth');
 
 Route::resource('/user/student', StudentUserController::class);
 
 Route::resource('/user/teacher', TeacherUserController::class);
 
-Route::resource('/user/admin', AdminUser::class);
+Route::resource('/user/admin', AdminUserController::class);
 
 Route::resource('/courses', CoursesController::class);
 

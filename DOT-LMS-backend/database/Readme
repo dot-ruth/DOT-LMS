@@ -1,0 +1,46 @@
+Database creation
+
+
+create database dot_lms;
+
+php artisan migrate
+
+use dot_lms;
+create trigger student_insert after insert on student_users for each row
+insert into user__roles set 
+user_id = new.student_id,
+role = 'student',
+password = new.password,
+table_name='student_users',
+column_name = 'student_id';
+
+create trigger student_update after update on student_users for each row
+update user__roles set 
+user_id = new.student_id,
+password = new.password where user_id = student_id;
+
+create trigger teacher_insert after insert on teacher_users for each row
+insert into user__roles set 
+user_id = new.Teacher_id,
+role = 'teacher',
+password = new.password,
+table_name='teacher_users',
+column_name = 'Teacher_id';
+
+create trigger teacher_update after update on teacher_users for each row
+update user__roles set 
+user_id = new.Teacher_id,
+password = new.password where user_id = Teacher_id;
+
+create trigger admin_insert after insert on admin_users for each row
+insert into user__roles set 
+user_id = new.admin_id,
+role = 'admin',
+password = new.password,
+table_name='admin_users',
+column_name = 'admin_id';
+
+create trigger admin_update after update on admin_users for each row
+update user__roles set 
+user_id = new.admin_id,
+password = new.password where user_id = admin_id;
