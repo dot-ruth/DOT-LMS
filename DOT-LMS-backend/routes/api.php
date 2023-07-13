@@ -35,7 +35,7 @@ Route::group(['middleware' => ['web']], function () {
 
 //Route::post('/login', [UserRoleController::class, 'userLogin']);
 
-//route for password configuration
+//route for password configuration for a student user
 Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
 //Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);

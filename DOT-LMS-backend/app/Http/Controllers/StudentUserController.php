@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use PragmaRX\Google2FAQRCode\Google2FA;
 use App\Mail\DOTLMSMail;
-use App\Models\AdminUser;
 use App\Models\StudentUser;
+use App\Models\User_Role;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use PhpParser\Node\Expr\AssignOp\Concat;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
-use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 
 class StudentUserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
+        $this->middleware('jwt');
     }
-
 
     public function index()
     {
@@ -47,20 +47,29 @@ class StudentUserController extends Controller
             return response()->json(["success" => false, "validation_error" => $validation->errors()]);
         }
 
-        function userExists($id, $email)
+        function userExistsID($id)
         {
-            return StudentUser::where('student_id', $id)->exists() || StudentUser::where('email', $email)->exists();
+            return StudentUser::where('student_id', $id)->exists();
+        }
+
+        function userExistsEmail($email)
+        {
+            return StudentUser::where('email', $email)->exists();
         }
 
         $student_id = 'DBUR-' . mt_rand(1000, 9999) . date('-y');
 
-        if (userExists($student_id, $request->email)) {
+
+
+        while (userExistsID($student_id)) {
             $student_id = 'DBUR-' . mt_rand(1000, 9999) . date('-y');
         }
 
-        if (!userExists($student_id, $request->email)) {
+
+        if (!userExistsEmail($request->email)) {
 
             $Student_user = new StudentUser();
+
             $Student_user->student_id = $student_id;
             $Student_user->first_name = $request->first_name;
             $Student_user->last_name = $request->last_name;
@@ -73,13 +82,27 @@ class StudentUserController extends Controller
 
             $token = JWTAuth::fromUser($Student_user);
 
-            Mail::to($Student_user->email)->send(new DOTLMSMail($Student_user->first_name, $Student_user->student_id));
+            $one_time_passcode = mt_rand(100000, 999999);
+
+            Cache::put('otp', $one_time_passcode);
+
+
+            Mail::to($Student_user->email)->send(new DOTLMSMail($Student_user->first_name, $Student_user->student_id, $one_time_passcode));
+
 
             return response()->json(["success" => true, 'token' => $token]);
         } else {
-            return response()->json(['error' => 'User Already Exists']);
+            return response()->json([
+
+                'error' => 'User Already Exists',
+
+            ]);
         }
     }
+
+
+
+
 
 
     /**
