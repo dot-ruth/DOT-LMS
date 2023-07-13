@@ -77,18 +77,32 @@ class UserRoleController extends Controller
     {
         $otp = Cache::pull('otp');
         $hashed_password = Hash::make($request->password);
-        if ($request->otp == $otp) {
-            User_Role::where("user_id", $request->user_id)->firstOrFail()
-                ->update([
-                    'password' => $hashed_password
+        $user = User_Role::where("user_id", $request->user_id)->first();
+
+        if ($user != null) {
+            if ($request->otp == $otp) {
+                $table_name_array = DB::select("SELECT table_name FROM user__roles where user_id = '$request->user_id'");
+                $column_name_array = DB::select("SELECT column_name FROM user__roles where user_id = '$request->user_id'");
+                $table_name_raw = $table_name_array[0]->table_name;
+                $table_name = str_replace('"', '', $table_name_raw);
+                $column_name_raw = $column_name_array[0]->column_name;
+                $column_name = str_replace('"', '', $column_name_raw);
+                $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
+                User_Role::where("user_id", $request->user_id)->firstOrFail()
+                    ->update([
+                        'password' => $hashed_password
+                    ]);
+                return response()->json(['message' => "password has been updated", 'role' => $user->role, "data" => $user_data]);
+            } else {
+                return response()->json([
+                    'message' => "Wrong one time passcode please check your email",
                 ]);
-            return response()->json(['status' => "password has been updated"]);
+            }
         } else {
-            return response()->json([
-                'message' => "Wrong one time passcode please check your email",
-            ]);
+            return response()->json(["message" => "User doesn't Exist"]);
         }
     }
+
 
     public function ForgotPassword(Request $request)
     {
