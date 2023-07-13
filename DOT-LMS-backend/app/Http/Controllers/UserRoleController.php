@@ -10,12 +10,14 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use PhpParser\Node\Expr\Cast\String_;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\StudentUserController;
+use App\Mail\forgotPasswordMail;
 
 class UserRoleController extends Controller
 {
@@ -86,5 +88,20 @@ class UserRoleController extends Controller
                 'message' => "Wrong one time passcode please check your email",
             ]);
         }
+    }
+
+    public function ForgotPassword(Request $request)
+    {
+        $user = User_Role::where("user_id", $request->user_id)->firstOrFail();
+        $table_name_array = DB::select("SELECT table_name FROM user__roles where user_id = '$request->user_id'");
+        $column_name_array = DB::select("SELECT column_name FROM user__roles where user_id = '$request->user_id'");
+        $table_name_raw = $table_name_array[0]->table_name;
+        $table_name = str_replace('"', '', $table_name_raw);
+        $column_name_raw = $column_name_array[0]->column_name;
+        $column_name = str_replace('"', '', $column_name_raw);
+        $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
+        $one_time_passcode = mt_rand(100000, 999999);
+        Cache::put('otp', $one_time_passcode);
+        Mail::to($user_data[0]->email)->send(new forgotPasswordMail($user_data[0]->first_name, $one_time_passcode));
     }
 }

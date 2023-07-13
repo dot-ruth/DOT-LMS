@@ -39,7 +39,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
 //route to send forgot password? email
-Route::get('forgotPassword');
+Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
 
 //Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
