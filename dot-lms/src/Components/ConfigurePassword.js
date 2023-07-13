@@ -13,6 +13,7 @@ import { VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 export default function ConfigurePassword() {
@@ -28,7 +29,8 @@ export default function ConfigurePassword() {
     const [formData,setFormData] = useState({
       user_id:"",
       password:"",
-      ConfirmPassword:""
+      ConfirmPassword:"",
+      otp:""
     })
 
     const [errMsgUser,seterrMsgUser] = useState("")
@@ -53,6 +55,7 @@ export default function ConfigurePassword() {
         axios.post("http://127.0.0.1:8000/api/ConfigurePassword",{
           user_id:formData.user_id,
           password:formData.password,
+          otp:formData.otp
         })
         .then((response)=>{
           console.log(response)
@@ -95,22 +98,26 @@ export default function ConfigurePassword() {
       }
     }
 
+    const resendHandler = ()=>{
+      axios.get("http://127.0.0.1:8000/api/resendcode")
+    }
+
   return (
     <div >
       
 <ThemeProvider theme={theme}>
 <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-            <AppBar position="static" sx={{height:'5ch',mb: 5}}>
+            <AppBar position="static" sx={{height:'5ch',mb: 3}}>
                 <Typography sx={{ml:5,fontSize:25,fontWeight:'bold'}}>DOT</Typography>
                 </AppBar>
             
-<Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Password Configuration for the DOT Learning Management System</Typography>
-<Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Configure Password</Typography>
+<Typography sx={{m:2,fontSize:20,fontWeight:'bold'}}>Password Configuration for the DOT Learning Management System</Typography>
+<Typography sx={{m:2,fontSize:20,fontWeight:'bold'}}>Configure Password</Typography>
 
 
 
-<FormControl sx={{ m:2, width:'50ch'}} >
+<FormControl sx={{ m:1, width:'50ch'}} >
     <InputLabel color="primary">User ID</InputLabel>
     <OutlinedInput 
     type="text" 
@@ -118,12 +125,30 @@ export default function ConfigurePassword() {
     color="primary" 
     label="User ID" 
     variant="outlined"
+    autoComplete="off"
     value = {formData.user_id}
      onChange={onChangehandler}/>
      {errMsgUser && <div color="red"> {errMsgUser} </div>}
     
 </FormControl>
-<FormControl sx={{ m:2, width: '50ch' }} variant="outlined">
+
+<FormControl sx={{ m:1, width:'50ch'}} >
+    <InputLabel color="primary">Verification Code</InputLabel>
+    <OutlinedInput 
+    type="text" 
+    name="otp" 
+    color="primary" 
+    label="Verification Code" 
+    variant="outlined"
+    autoComplete="off"
+    value = {formData.otp}
+     onChange={onChangehandler}/>
+     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
+    
+</FormControl>
+
+
+<FormControl sx={{ m:1, width: '50ch' }} variant="outlined">
           <InputLabel color="primary" >Password</InputLabel>
           <OutlinedInput
             type={showPassword ? 'text' : 'password'}
@@ -140,15 +165,16 @@ export default function ConfigurePassword() {
             color="primary"
             label="Password"
             name="password"
+            autoComplete="off"
             value={formData.password}
             onChange={onChangehandler}
           />
-          {errMsgPwd && <div color="red"> {errMsgPwd} </div>}
+         
           
         </FormControl>
-        {errMsg && <div color="red"> {errMsg} </div>}
+       
 
-        <FormControl sx={{ m:2, width: '50ch' }} variant="outlined">
+        <FormControl sx={{ m:1, width: '50ch' }} variant="outlined">
           <InputLabel color="primary" >Confirm Password</InputLabel>
           <OutlinedInput
             type={showConfirmPassword ? 'text' : 'password'}
@@ -165,6 +191,7 @@ export default function ConfigurePassword() {
             color="primary"
             label="Password"
             name="ConfirmPassword"
+            autoComplete="off"
             value={formData.ConfirmPassword}
             onChange={onChangehandler}
           />
@@ -174,8 +201,10 @@ export default function ConfigurePassword() {
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onConfigurehandler} >Login</Button>
         
+        <Link onClick={resendHandler}>Resend Code</Link>
         </div>
         </form>
+
         </ThemeProvider>
         
     </div>

@@ -15,6 +15,7 @@ import { VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Login(){
     const [showPassword, setShowPassword] = React.useState(false);
@@ -100,6 +101,11 @@ function Login(){
     
   }
 
+  const forgotPasswordHandler = ()=>{
+    axios.get("http://127.0.0.1:8000/api/forgotPassword")
+  }
+
+
   
 
 
@@ -158,6 +164,8 @@ return(
         {errMsg && <div color="red"> {errMsg} </div>}
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>
+
+        <Link to="/ForgotPassword" onClick={forgotPasswordHandler}>Forgot Password ?</Link>
         
         </div>
         </form>
