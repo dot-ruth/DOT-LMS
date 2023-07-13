@@ -59,26 +59,15 @@ export default function ConfigurePassword() {
         })
         .then((response)=>{
           console.log(response)
+          sessionStorage.setItem("isLoggedIn",true);
+        sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
+        sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
+        sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
+        sessionStorage.setItem("role",JSON.stringify(response.data.role));
+        sessionStorage.setItem("token",JSON.stringify(response.data.token));
+
           const role = JSON.stringify(response.data.role);
           console.log(role)
-    
-          
-          if(response.data.status === "failed" && response.data.success === undefined){
-    
-            seterrMsgUser(response.data.validation_error.user_id)
-            seterrMsgPwd(response.data.validation_error.password)
-            setTimeout(()=>{
-              seterrMsgUser("")
-              seterrMsgPwd("")
-            },3000);
-          }else if (response.data.status === "failed" &&
-          response.data.success === false)
-          {
-            seterrMsg(response.data.message)
-            setTimeout(() => {
-              seterrMsg(" ")
-            }, 3000);
-          }
     
         const teacher = '"teacher"'
         const student = '"student"'
@@ -189,7 +178,7 @@ export default function ConfigurePassword() {
               </InputAdornment>
             }
             color="primary"
-            label="Password"
+            label="Confirm Password"
             name="ConfirmPassword"
             autoComplete="off"
             value={formData.ConfirmPassword}
@@ -199,9 +188,9 @@ export default function ConfigurePassword() {
           
         </FormControl>
 
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onConfigurehandler} >Login</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onConfigurehandler} >Done</Button>
         
-        <Link onClick={resendHandler}>Resend Code</Link>
+        
         </div>
         </form>
 
