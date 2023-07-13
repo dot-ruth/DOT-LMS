@@ -45,7 +45,7 @@ function Login(){
     }
 
   const onLoginhandler = () =>{
-    toast.loading("Please wait, Loading...")
+    
     axios.post("http://127.0.0.1:8000/api/login",{
       user_id:formData.user_id,
       password:formData.password
@@ -101,9 +101,7 @@ function Login(){
     
   }
 
-  const forgotPasswordHandler = ()=>{
-    axios.get("http://127.0.0.1:8000/api/forgotPassword")
-  }
+  
 
 
   
@@ -165,7 +163,7 @@ return(
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onLoginhandler} >Login</Button>
 
-        <Link to="/ForgotPassword" onClick={forgotPasswordHandler}>Forgot Password ?</Link>
+        <Link to="/ForgotPassword" >Forgot Password ?</Link>
         
         </div>
         </form>
