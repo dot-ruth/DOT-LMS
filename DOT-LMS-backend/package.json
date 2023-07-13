@@ -15,14 +15,13 @@
         "react-dom": "^18.2.0",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
-<<<<<<< HEAD
-=======
+
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-regular-svg-icons": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/react-fontawesome": "^0.2.0"
->>>>>>> 1b760b3cfbed96f1638195b35e5a3866d6bed2a6
+
     }
 }

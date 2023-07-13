@@ -31,6 +31,7 @@ function Login(){
   const [errMsgPwd,seterrMsgPwd] = useState("")
   const [errMsg,seterrMsg] = useState("")
 
+
   const navigate = useNavigate();
 
 
@@ -58,11 +59,13 @@ function Login(){
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
+
         sessionStorage.setItem("token",JSON.stringify(response.data.token));
       }else{
         console.log('excuted else for response')
       }
       
+
 
       
       if(response.data.status === "failed" && response.data.success === undefined){
@@ -77,12 +80,15 @@ function Login(){
       response.data.success === false)
       {
         seterrMsg(response.data.message)
+
         setTimeout(() => {
           seterrMsg(" ")
         }, 3000);
       }
+
       const role = JSON.stringify(response.data.role);
       const token = JSON.stringify(response.data.token);
+
     const teacher = '"teacher"'
     const student = '"student"'
     const admin = '"admin"'

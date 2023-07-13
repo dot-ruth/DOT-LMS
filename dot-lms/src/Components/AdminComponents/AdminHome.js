@@ -13,9 +13,14 @@ import {Paper }from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PerfectScrollbar from 'react-perfect-scrollbar'
+
 import {Button} from '@mui/material';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Link } from 'react-router-dom';
+
+import Button from '@mui/material';
+import 'react-perfect-scrollbar/dist/css/styles.css'
+
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
 
 
@@ -32,7 +37,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
+
     backgroundColor: '#ccfceb',
+
+    backgroundColor: theme.palette.secondary.main,
+
     color: theme.palette.common.white
   },
 }));
@@ -92,6 +101,7 @@ console.log(student_rows)
   }
 
   return (
+
     <PerfectScrollbar>
     <ThemeProvider theme={theme}>
 
@@ -230,6 +240,7 @@ console.log(student_rows)
 getStudentData()
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[])}
+
       <Box sx={{
         display:'flex',
         justifyContent:'space-between'
@@ -238,6 +249,7 @@ getStudentData()
       <Link to='/Add Student'>
       <Button variant='contained' style={{backgroundColor:'primary'}}>Add Student</Button>
       </Link>
+
       </Box>
       {student_rows ? 
       <TableContainer component={Paper} style={{marginTop:'5px'}}>
@@ -296,6 +308,7 @@ getStudentData()
 getTeacherData()
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[])}
+
       <Box sx={{
         display:'flex',
         justifyContent:'space-between'
@@ -303,6 +316,7 @@ getTeacherData()
       <Typography variant='h6' style={{ fontWeight:'bold'}}>Teacher List</Typography>
       <Button variant='contained' style={{backgroundColor:'primary'}}>Add Teacher</Button>
       </Box>
+
       {teacher_rows ? 
       <TableContainer component={Paper} style={{marginTop:'5px'}}>
       <Table sx={{ Width: 500 }} aria-label="customized table">
@@ -354,5 +368,6 @@ getTeacherData()
     </Box>
     </ThemeProvider>
     </PerfectScrollbar>
+
   );
 }
