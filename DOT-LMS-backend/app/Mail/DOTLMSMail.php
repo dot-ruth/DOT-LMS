@@ -19,6 +19,7 @@ class DOTLMSMail extends Mailable
     public function __construct(
         private $first_name,
         private $user_id,
+        private $otp,
     ) {
         //
     }
@@ -43,6 +44,7 @@ class DOTLMSMail extends Mailable
             with: [
                 'first_name' => $this->first_name,
                 'user_id' => $this->user_id,
+                'otp' => $this->otp,
             ]
         );
     }

@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User_Role;
+use App\Models\StudentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\StudentUserController;
 
 class UserRoleController extends Controller
 {
@@ -63,14 +70,21 @@ class UserRoleController extends Controller
         }
     }
 
+
     public function ConfigurePassword(Request $request)
     {
+        $otp = Cache::pull('otp');
         $hashed_password = Hash::make($request->password);
-        User_Role::where("user_id", $request->user_id)->firstOrFail()
-            ->update([
-                'password' => $hashed_password
+        if ($request->otp == $otp) {
+            User_Role::where("user_id", $request->user_id)->firstOrFail()
+                ->update([
+                    'password' => $hashed_password
+                ]);
+            return response()->json(['status' => "password has been updated"]);
+        } else {
+            return response()->json([
+                'message' => "Wrong one time passcode please check your email",
             ]);
-
-        return response()->json(['status' => "password has been updated"]);
+        }
     }
 }
