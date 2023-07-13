@@ -38,6 +38,9 @@ Route::group(['middleware' => ['web']], function () {
 //route for password configuration for a student user
 Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
+//route to send forgot password? email
+Route::get('forgotPassword');
+
 //Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
 
