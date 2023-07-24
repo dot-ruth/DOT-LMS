@@ -1,5 +1,4 @@
 import React from 'react'
-import {useEffect} from 'react'
 import { Box } from '@mui/material'
 import {ThemeProvider }from '@mui/material'
 import AdminSideDrawer from './AdminSideDrawer'
@@ -22,8 +21,6 @@ function AddStudent() {
     department:"",
     year:"",
     semester:"",
-    password:"",
-    confirm_password:"",
   })
 
   // const [errMsg_firstName,seterrMsg_first_Name] = useState("")

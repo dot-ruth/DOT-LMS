@@ -19,6 +19,7 @@ import StudentIDE from './Components/StudentComponents/StudentIDE';
 import AddStudent from './Components/AdminComponents/AddStudent';
 import ConfigurePassword from './Components/ConfigurePassword';
 import ForgotPassword from './Components/ForgotPassword';
+import AddTeacher from './Components/AdminComponents/AddTeacher';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/Add Student" element={<AddStudent/>}/>
         <Route path='/ConfigurePassword' element={<ConfigurePassword/>}/>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
+        <Route path='/Add_Teacher' element={<AddTeacher/>}/>
       </Routes>
 
       </BrowserRouter>

@@ -306,7 +306,9 @@ React.useEffect(()=>{
         justifyContent:'space-between'
       }}>
       <Typography variant='h6' style={{ fontWeight:'bold'}}>Teacher List</Typography>
+      <Link to='/Add_Teacher'>
       <Button variant='contained' style={{backgroundColor:'primary'}}>Add Teacher</Button>
+      </Link>
       </Box>
 
       {teacher_rows ? 
@@ -317,6 +319,7 @@ React.useEffect(()=>{
             <StyledTableCell >First Name</StyledTableCell>
             <StyledTableCell >Last Name</StyledTableCell>
             <StyledTableCell >Teacher ID</StyledTableCell>
+            <StyledTableCell >Email</StyledTableCell>
             <StyledTableCell >Department</StyledTableCell>
             <StyledTableCell > </StyledTableCell>
           </TableRow>
@@ -343,6 +346,7 @@ React.useEffect(()=>{
             <StyledTableCell >First Name</StyledTableCell>
             <StyledTableCell >Last Name</StyledTableCell>
             <StyledTableCell >TEacher ID </StyledTableCell>
+            <StyledTableCell >Email</StyledTableCell>
             <StyledTableCell >Department</StyledTableCell>
           </TableRow>
         </TableHead>
