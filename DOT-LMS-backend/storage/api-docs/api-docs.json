@@ -1,0 +1,745 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "DOT-LMS API Documentation",
+        "contact": {
+            "email": "ruthgetaneh5@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "DOT-LMS API Server"
+        }
+    ],
+    "paths": {
+        "/Admin": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get list of Admins for the DOT-LMS",
+                "description": "Returns list of Admins",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Store new Admin data into the database",
+                "description": "Returns the entered Admin's data",
+                "operationId": "store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Admin/{id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get a specific Admin",
+                "description": "Returns the specified Admin's data",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Admin's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ADM-6832"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update existing Admin",
+                "description": "Returns updated Admin's data",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Admin's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ADM-6832"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete existing Admin",
+                "description": "Deletes a record and returns no content",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Admin's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ADM-6832"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Student": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get list of Students in the DOT-LMS",
+                "description": "Returns list of Students",
+                "operationId": "38e52c1874d60354b8bf504acb766db3",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Store new Student's data into the database",
+                "description": "Returns the entered Student's data",
+                "operationId": "07aa417aa0b004fe04713b8bf8d84dc9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StudentUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Student/{id}": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get a specific Student",
+                "description": "Returns the specified Student's data",
+                "operationId": "6048f0228dbb1745eefeab92e5cc6fb5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DBUR-6832-23"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Update existing Student",
+                "description": "Returns updated Student's data",
+                "operationId": "1096a2fd3de535d2e25528a9276494c6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DBUR-6832-23"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StudentUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Delete existing Student",
+                "description": "Deletes a record and returns no content",
+                "operationId": "075af06c7b9368bae4eea1b537cf47ff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Student's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DBUR-6832-23"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Teacher": {
+            "get": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Get list of Teachers in the DOT-LMS",
+                "description": "Returns list of Teachers",
+                "operationId": "ec8a5e8122736159d775bf6ff746fd70",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Store new Teacher's data into the database",
+                "description": "Returns the entered Teacher's data",
+                "operationId": "b1f0a1d091203474ec4e30447f570df4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeacherUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/Teacher/{id}": {
+            "get": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Get a specific Teacher",
+                "description": "Returns the specified Teacher's data",
+                "operationId": "5659e09b367e5b922faf7da332cd9315",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Teacher's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6832"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Update existing Teacher",
+                "description": "Returns updated Teacher's data",
+                "operationId": "e8be842ab9b37cedd18bf2e85063f490",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Teacher's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6832"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TeacherUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Delete existing Teacher",
+                "description": "Deletes a record and returns no content",
+                "operationId": "38c0346189d6ca04edc41d40cae223a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Teacher's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6832"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Login": {
+            "post": {
+                "tags": [
+                    "User Management Endpoints"
+                ],
+                "summary": "Login a user into the system",
+                "description": "Login a user into the system",
+                "operationId": "5426fe18441cdca79e9e3c58873c3582",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "ADM-7864"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1abc123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/ConfigurePassword": {
+            "post": {
+                "tags": [
+                    "User Management Endpoints"
+                ],
+                "summary": "configure a user password",
+                "description": "an API Endpoint that enables a user to configure a password, otp=> one time passcode",
+                "operationId": "3db665430fd0cfdb182c83d81aded7d9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "otp",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "ADM-7864"
+                                    },
+                                    "otp": {
+                                        "type": "integer",
+                                        "example": "234123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1abc123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AdminUser": {
+                "title": "Admin",
+                "description": "Admin data",
+                "properties": {
+                    "first_name": {
+                        "title": "first_name",
+                        "description": "First Name of the Admin",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "last_name",
+                        "description": "last Name of the Admin",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "email address of the Admin",
+                        "type": "string",
+                        "example": "Johndoe@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
+            "StudentUser": {
+                "title": "Student",
+                "description": "Student data",
+                "properties": {
+                    "first_name": {
+                        "title": "first_name",
+                        "description": "First Name of the Student",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "last_name",
+                        "description": "last Name of the Student",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "email address of the Student",
+                        "type": "string",
+                        "example": "Johndoe@gmail.com"
+                    },
+                    "department": {
+                        "title": "department",
+                        "description": "department of the Student",
+                        "type": "string",
+                        "example": "Software Engineering"
+                    },
+                    "year": {
+                        "title": "year",
+                        "description": "Academic year of the Student",
+                        "type": "string",
+                        "example": "4"
+                    },
+                    "semester": {
+                        "title": "semester",
+                        "description": "in which semester of the academic year is the student currently attending",
+                        "type": "string",
+                        "example": "2"
+                    }
+                },
+                "type": "object"
+            },
+            "TeacherUser": {
+                "title": "Teacher",
+                "description": "Teacher data",
+                "properties": {
+                    "first_name": {
+                        "title": "first_name",
+                        "description": "First Name of the Teacher",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "last_name",
+                        "description": "Last Name of the Teacher",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email Address of the Teacher",
+                        "type": "string",
+                        "example": "Johndoe@gmail.com"
+                    },
+                    "department": {
+                        "title": "department",
+                        "description": "department of the Teacher",
+                        "type": "string",
+                        "example": "Software Engineering"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "jwt": {
+                "type": "apiKey",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "DOT-LMS",
+            "description": "API Endpoints of DOT-LMS"
+        }
+    ]
+}

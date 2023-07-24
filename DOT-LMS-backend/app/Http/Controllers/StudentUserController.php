@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use PragmaRX\Google2FAQRCode\Google2FA;
 use App\Mail\DOTLMSMail;
 use App\Models\StudentUser;
-use App\Models\User_Role;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class StudentUserController extends Controller
@@ -23,16 +16,66 @@ class StudentUserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt');
+        // $this->middleware('auth:api', ['except' => ['store', 'index']]);
     }
 
-    public function index()
-    {
-        return StudentUser::all();
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Get(
+     *      path="/Student",
+     *      tags={"Student"},
+     *      summary="Get list of Students in the DOT-LMS",
+     *      description="Returns list of Students",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server error",
+     *      ),
+     *     )
+     */
+    public function index()
+    {
+        return response()->json(["students" => StudentUser::all(), "student_count" => StudentUser::count()]);
+    }
+
+
+
+
+    /**
+     * @OA\Post(
+     *      path="/Student",
+     *      tags={"Student"},
+     *      summary="Store new Student's data into the database",
+     *      description="Returns the entered Student's data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StudentUser")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -71,23 +114,22 @@ class StudentUserController extends Controller
             $Student_user = new StudentUser();
 
             $Student_user->student_id = $student_id;
-            $Student_user->first_name = $request->first_name;
-            $Student_user->last_name = $request->last_name;
-            $Student_user->department = $request->department;
-            $Student_user->email = $request->email;
-            $Student_user->year = $request->year;
-            $Student_user->semester = $request->semester;
+            $Student_user->First_Name = $request->first_name;
+            $Student_user->Last_Name = $request->last_name;
+            $Student_user->Department = $request->department;
+            $Student_user->Email = $request->email;
+            $Student_user->Year = $request->year;
+            $Student_user->Semester = $request->semester;
             $Student_user->password = null;
             $Student_user->save();
 
-            $token = JWTAuth::fromUser($Student_user);
+            $token = Auth::fromUser($Student_user);
 
             $one_time_passcode = mt_rand(100000, 999999);
 
-            Cache::put('otp', $one_time_passcode);
+            Cache::put($Student_user->student_id, $one_time_passcode);
 
-
-            Mail::to($Student_user->email)->send(new DOTLMSMail($Student_user->first_name, $Student_user->student_id, $one_time_passcode));
+            Mail::to($Student_user->Email)->send(new DOTLMSMail($Student_user->First_Name, $Student_user->student_id, $one_time_passcode));
 
 
             return response()->json(["success" => true, 'token' => $token]);
@@ -102,19 +144,97 @@ class StudentUserController extends Controller
 
 
 
-
-
-
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/Student/{id}",
+     *      
+     *      tags={"Student"},
+     *      summary="Get a specific Student",
+     *      description="Returns the specified Student's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Student's id",
+     *          required=true,
+     * example = "DBUR-6832-23",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
      */
     public function show(string $id)
     {
-        return StudentUser::where('Student_id', $id)->firstOrFail();
+        if (!$token = Auth::attempt(['user_id' => $id, 'password' => null])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $user = StudentUser::where('Student_id', $id)->firstorFail();
+
+        return response()->json(['user' => $user, 'token' => $token]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/Student/{id}",
+     *      tags={"Student"},
+     *      summary="Update existing Student",
+     *      description="Returns updated Student's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Student's id",
+     *          required=true,
+     * example = "DBUR-6832-23",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StudentUser")
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -124,10 +244,49 @@ class StudentUserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/Student/{id}",
+     *      
+     *      tags={"Student"},
+     *      summary="Delete existing Student",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Student's id",
+     *          required=true,
+     *          in="path",
+     * example = "DBUR-6832-23",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(string $id)
     {
-        StudentUser::destroy($id);
+        $user = StudentUser::where('student_id', $id)->firstorFail();
+        if ($user != null) {
+            $user->delete();
+            return response()->json(['Message' => 'User Deleted']);
+        } else {
+            return response()->json(['Message' => 'User does not exist']);
+        }
     }
 }

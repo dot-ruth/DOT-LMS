@@ -15,7 +15,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        return courses::all();
+        return response()->json(["courses" => courses::all(), "course_count" => courses::count()]);
     }
 
     /**

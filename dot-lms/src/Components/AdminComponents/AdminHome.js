@@ -18,7 +18,6 @@ import {Button} from '@mui/material';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Link } from 'react-router-dom';
 
-import Button from '@mui/material';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
@@ -40,7 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
     backgroundColor: '#ccfceb',
 
-    backgroundColor: theme.palette.secondary.main,
+    // backgroundColor: theme.palette.secondary.main,
 
     color: theme.palette.common.white
   },
@@ -50,15 +49,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function AdminHome() {
 
-  function create_student_Data(First_Name, Last_Name,student_id, department) {
-    return { First_Name, Last_Name,student_id, department};
+  function create_student_Data(First_Name, Last_Name,student_id,Email, department) {
+    return { First_Name, Last_Name,student_id,Email, department};
   }
 
-  function create_teacher_Data(First_Name, Last_Name,teacher_id, department) {
-    return { First_Name, Last_Name,teacher_id, department};
+  function create_teacher_Data(First_Name, Last_Name,teacher_id, Email,department) {
+    return { First_Name, Last_Name,teacher_id,Email, department};
   }
 
   const [student_rows,setstudent_rows] = React.useState([])
+
+  const [student_count,setstudent_count] = React.useState()
+
+  const [teacher_count,setteacher_count] = React.useState()
+
+  const [course_count,setcourse_count] = React.useState()
 
   let studentarray = []
   let teacherarray = []
@@ -66,44 +71,65 @@ export default function AdminHome() {
   const [teacher_rows,setteacher_rows] = React.useState([])
 
   function getStudentData(){
-  axios.get("http://127.0.0.1:8000/api/user/student")
+  axios.get("http://127.0.0.1:8000/api/Student")
     .then((response)=>{
-      //console.log(response.data)
-      for (let i = 0; i < response.data.length; i++) {
-
-        // Array.from(student_rows).push(
-        //   create_student_Data(response.data[i]['first_name'], response.data[i]['last_name'],response.data[i]['student_id'], response.data[i]['department'],)
-        // )
-        studentarray.push(create_student_Data(response.data[i]['first_name'], response.data[i]['last_name'],response.data[i]['student_id'], response.data[i]['department'],))
-         
+      console.log(response.data.students)
+      for (let i = 0; i < response.data.students.length; i++) {
+        studentarray.push(create_student_Data(response.data.students[i]['first_name'], response.data.students[i]['last_name'],response.data.students[i]['student_id'],response.data.students[i]['email'], response.data.students[i]['department']))  
   }
   setstudent_rows(studentarray)
+  setstudent_count(response.data.student_count)
 })
-// Array.from(student_rows).map((row)=>{return console.log(row.First_Name)})
-
-    console.log(typeof(student_rows))
-console.log(student_rows)
-    console.log("hello")
 }
 
   function getTeacherData(){
-    axios.get("http://127.0.0.1:8000/api/user/teacher")
+    axios.get("http://127.0.0.1:8000/api/Teacher")
     .then((response)=>{
       // console.log(response.data)
-      for (let i = 0; i < response.data.length; i++) {
+      for (let i = 0; i < response.data.teachers.length; i++) {
 
-        teacherarray.push(create_teacher_Data(response.data[i]['First_Name'], response.data[i]['Last_Name'],  response.data[i]['Teacher_id'], response.data[i]['Department'],))
+        teacherarray.push(create_teacher_Data(response.data.teachers[i]['First_Name'], response.data.teachers[i]['Last_Name'],  response.data.teachers[i]['Teacher_id'],response.data.teachers[i]['email'],response.data.teachers[i]['Department'],))
         
 
       }
       setteacher_rows(teacherarray)
+      setteacher_count(response.data.teacher_count)
+    })
+  }
+
+  function getCourseCount(){
+    axios.get("http://127.0.0.1:8000/api/courses")
+    .then((response)=>{
+       setcourse_count(response.data.course_count)
     })
   }
 
   return (
 
+    
+
     <PerfectScrollbar>
     <ThemeProvider theme={theme}>
+
+    {
+      React.useEffect(()=>{
+getStudentData()
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
+}
+{
+React.useEffect(()=>{
+  getTeacherData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+}
+
+{
+React.useEffect(()=>{
+  getCourseCount()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+}
 
       <Box sx={{
         height:'100vh',
@@ -111,13 +137,14 @@ console.log(student_rows)
       }}
       >
     <Box sx={{
+      weidth:'100vw',
       display:'flex',
       flexDirection:'row',
       justifyContent:'space-between'
     }}>
        <Card style={{
-        width:280,
-        height:280,
+        width:375,
+        height:200,
         border:"2px solid #68cca9",
         display:'flex',
         flexDirection:'column',
@@ -138,11 +165,13 @@ console.log(student_rows)
           <Typography  variant="subtitle1" style={{margin:1}}>
            Total Number of Students
           </Typography>
-           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>0</Typography>
+           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>{student_count}</Typography>
           
         </CardContent>
       </CardActionArea>
       </Card>
+
+     
 
       <Card style={{
         border:"2px solid #68cca9",
@@ -152,8 +181,8 @@ console.log(student_rows)
         alignItems:'center',
         marginTop:'5px',
         marginLeft:'15px',
-        width:280,
-        height:280,
+        width:375,
+        height:200,
        }}>
         <CardActionArea>
         <CardContent sx={{
@@ -165,38 +194,9 @@ console.log(student_rows)
             
           <BookIcon fontSize='large' style={{fontWeight:'bold',margin:5,fontSize:'70px',color:'#68cca9'}}/>
           <Typography  variant="subtitle1" style={{margin:1}}>
-           Total Number of Departments
-          </Typography>
-           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>0</Typography>
-          
-        </CardContent>
-      </CardActionArea>
-      </Card>
-
-      <Card style={{
-        border:"2px solid #68cca9",
-        display:'flex',
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:'5px',
-        marginLeft:'15px',
-        width:280,
-        height:280,
-       }}>
-        <CardActionArea>
-        <CardContent sx={{
-          display:'flex',
-          flexDirection:'column',
-          justifyContent:'center',
-          alignItems:'center'
-        }} >
-            
-          <CastForEducationIcon fontSize='large' style={{fontWeight:'bold',margin:5,fontSize:'70px',color:'#68cca9'}}/>
-          <Typography  variant="subtitle1" style={{margin:1}}>
            Total Number of Courses
           </Typography>
-           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>0</Typography>
+           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>{course_count}</Typography>
           
         </CardContent>
       </CardActionArea>
@@ -210,8 +210,8 @@ console.log(student_rows)
         alignItems:'center',
         marginTop:'5px',
         marginLeft:'15px',
-        width:280,
-        height:280,
+        width:375,
+        height:200,
        }}>
         <CardActionArea>
         <CardContent sx={{
@@ -225,7 +225,7 @@ console.log(student_rows)
          <Typography  variant="subtitle1" style={{margin:1}}>
            Total Number of Teachers
           </Typography>
-           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>0</Typography>
+           <Typography variant='h6' style={{fontWeight:'bold',margin:5,fontSize:'40px'}}>{teacher_count}</Typography>
           
         </CardContent>
       </CardActionArea>
@@ -235,11 +235,7 @@ console.log(student_rows)
     <Box>
       <Box sx={{
         margin:'15px'
-      }}>{
-        React.useEffect(()=>{
-getStudentData()
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[])}
+      }}>
 
       <Box sx={{
         display:'flex',
@@ -259,6 +255,7 @@ getStudentData()
             <StyledTableCell >First Name</StyledTableCell>
             <StyledTableCell >Last Name</StyledTableCell>
             <StyledTableCell >Student ID</StyledTableCell>
+            <StyledTableCell >Email</StyledTableCell>
             <StyledTableCell >Department</StyledTableCell>
             <StyledTableCell > </StyledTableCell>
           </TableRow>
@@ -269,6 +266,7 @@ getStudentData()
               <StyledTableCell >{row.First_Name}</StyledTableCell>
               <StyledTableCell >{row.Last_Name}</StyledTableCell>
               <StyledTableCell >{row.student_id}</StyledTableCell>
+              <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
               <StyledTableCell><EditIcon color='primary'/>  <DeleteIcon color='primary'/></StyledTableCell>
             </StyledTableRow>
@@ -284,6 +282,7 @@ getStudentData()
             <StyledTableCell >First Name</StyledTableCell>
             <StyledTableCell >Last Name</StyledTableCell>
             <StyledTableCell >Student ID</StyledTableCell>
+            <StyledTableCell >Email</StyledTableCell>
             <StyledTableCell >Department</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -302,13 +301,6 @@ getStudentData()
         marginTop:'5px',
         marginLeft:'15px'
       }}>
-
-{
-        React.useEffect(()=>{
-getTeacherData()
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[])}
-
       <Box sx={{
         display:'flex',
         justifyContent:'space-between'
@@ -335,6 +327,7 @@ getTeacherData()
               <StyledTableCell >{row.First_Name}</StyledTableCell>
               <StyledTableCell >{row.Last_Name}</StyledTableCell>
               <StyledTableCell >{row.teacher_id}</StyledTableCell>
+              <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
               <StyledTableCell><EditIcon color='primary'/>  <DeleteIcon color='primary'/></StyledTableCell>
             </StyledTableRow>

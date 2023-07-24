@@ -44,7 +44,7 @@ function AddStudent() {
     
 
     const onCreatehandler =  () =>{
-      axios.post("http://127.0.0.1:8000/api/user/student",{
+      axios.post("http://127.0.0.1:8000/api/Student",{
           first_name:formData.first_name,
           last_name:formData.last_name,
           email:formData.email,

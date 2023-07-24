@@ -47,7 +47,7 @@ function Login(){
 
   const onLoginhandler = () =>{
     
-    axios.post("http://127.0.0.1:8000/api/login",{
+    axios.post("http://127.0.0.1:8000/api/Login",{
       user_id:formData.user_id,
       password:formData.password
     })
@@ -59,7 +59,6 @@ function Login(){
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
-
         sessionStorage.setItem("token",JSON.stringify(response.data.token));
       }else{
         console.log('excuted else for response')

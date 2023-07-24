@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\User_Role as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User_Role extends Model implements JWTSubject
+class User_Role extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 

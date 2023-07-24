@@ -3,20 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User_Role;
-use App\Models\StudentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\App;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
-use PhpParser\Node\Expr\Cast\String_;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\StudentUserController;
 use App\Mail\forgotPasswordMail;
 
 class UserRoleController extends Controller
@@ -26,10 +20,37 @@ class UserRoleController extends Controller
     // {
     //     $this->middleware('auth:api', ['except' => ['ConfigurePassword']]);
     // }
-    //
+
+    /**
+     * @OA\Post(
+     *      path="/Login",
+     *      tags={"User Management Endpoints"},
+     *      summary="Login a user into the system",
+     *      description="Login a user into the system",
+     * 
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *       required={"user_id","password"},
+     *       @OA\Property(property="user_id", type="string", example="ADM-7864"),
+     *       @OA\Property(property="password", type="string", format="text", example="1abc123"),
+     *    ),
+     *      ),
+     * 
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server error",
+     *      ),
+     *     )
+     */
+
     public function userLogin(Request $request)
     {
-        $FormFeilds = [$request->user_id, $request->password];
+        //$FormFeilds = [$request->user_id, $request->password];
         $validation = Validator::make($request->all(), [
             "user_id" => "required",
             "password" => "required"
@@ -61,7 +82,6 @@ class UserRoleController extends Controller
                 $column_name_raw = $column_name_array[0]->column_name;
                 $column_name = str_replace('"', '', $column_name_raw);
                 $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
-                $request->session()->regenerate();
                 $token = JWTAuth::fromUser($user);
                 return response()->json(["success" => true, "token" => $token, "message" => "You are Logged in", "data" => $user_data, "role" => $user->role]);
             } else {
@@ -72,10 +92,35 @@ class UserRoleController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *      path="/ConfigurePassword",
+     *      tags={"User Management Endpoints"},
+     *      summary="configure a user password",
+     *      description="an API Endpoint that enables a user to configure a password, otp=> one time passcode",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *       required={"user_id","otp","password"},
+     *       @OA\Property(property="user_id", type="string", example="ADM-7864"),
+     *       @OA\Property(property="otp", type="integer", example="234123"),
+     *       @OA\Property(property="password", type="string", format="text", example="1abc123"),
+     *    ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server error",
+     *      ),
+     *     )
+     */
 
     public function ConfigurePassword(Request $request)
     {
-        $otp = Cache::pull('otp');
+        $otp = Cache::pull($request->user_id);
         $hashed_password = Hash::make($request->password);
         $user = User_Role::where("user_id", $request->user_id)->first();
 
@@ -115,7 +160,7 @@ class UserRoleController extends Controller
         $column_name = str_replace('"', '', $column_name_raw);
         $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
         $one_time_passcode = mt_rand(100000, 999999);
-        Cache::put('otp', $one_time_passcode);
+        Cache::put($request->user_id, $one_time_passcode);
         Mail::to($user_data[0]->email)->send(new forgotPasswordMail($user_data[0]->first_name, $one_time_passcode));
     }
 }

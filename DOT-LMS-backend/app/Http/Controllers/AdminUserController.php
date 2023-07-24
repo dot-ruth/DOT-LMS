@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Mail\DOTLMSMail;
 use App\Models\AdminUser;
-use App\Models\TeacherUser;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class AdminUserController extends Controller
 
@@ -16,11 +17,35 @@ class AdminUserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
+        //  $this->middleware('auth:api', ['except' => ['store', 'index']]);
+    }
+
+    function userExistsEmail($email)
+    {
+        return AdminUser::where('email', $email)->exists();
     }
 
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/Admin",
+     *      operationId="index",
+     *      tags={"Admin"},
+     *      summary="Get list of Admins for the DOT-LMS",
+     *      description="Returns list of Admins",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     * 
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function index()
     {
@@ -28,50 +53,121 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/Admin",
+     *      operationId="store",
+     *      tags={"Admin"},
+     *      summary="Store new Admin data into the database",
+     *      description="Returns the entered Admin's data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/AdminUser")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => ['required', 'email'],
-            'password' => 'required',
         ]);
 
-        function userExists($id, $email)
+        function userExistsID($id)
         {
-            return AdminUser::where('admin_id', $id)->exists() || AdminUser::where('email', $email)->exists();
+            return AdminUser::where('admin_id', $id)->exists();
         }
+
 
         $admin_id = 'ADM-' . mt_rand(1000, 9999);
 
-        if (userExists($admin_id, $request->email)) {
-            $admin_id = 'ADM-' . mt_rand(1000, 9999);
+        while (userExistsID($admin_id)) {
+            $admin_id = 'DBUR-' . mt_rand(1000, 9999) . date('-y');
         }
 
-        if (!userExists($admin_id, $request->email)) {
+
+        if (!$this->userExistsEmail($request->email)) {
             $Admin_user = new AdminUser();
-            $Admin_user->first_name = $request->first_name;
-            $Admin_user->last_name = $request->last_name;
+
+            $Admin_user->First_Name = $request->first_name;
+            $Admin_user->Last_Name = $request->last_name;
             $Admin_user->admin_id = $admin_id;
-            $Admin_user->email = $request->email;
+            $Admin_user->Email = $request->email;
             $Admin_user->password = $request->password;
             $Admin_user->save();
 
             $token = JWTAuth::fromUser($Admin_user);
 
-            Mail::to($Admin_user->email)->send(new DOTLMSMail($Admin_user->first_name, $Admin_user->admin_id));
+            $user = Auth::user();
 
-            return response()->json(["success" => true, 'token' => $token]);
+            $one_time_passcode = mt_rand(100000, 999999);
+
+            Cache::put($Admin_user->admin_id, $one_time_passcode);
+
+            Mail::to($Admin_user->Email)->send(new DOTLMSMail($Admin_user->First_Name, $Admin_user->admin_id, $one_time_passcode));
+
+            return response()->json(["success" => true, 'token' => $token, 'user' => $user]);
         } else {
-            return response()->json(['error' => 'User Already Exists']);
+            return response()->json(['Message' => 'User Already Exists']);
         }
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/Admin/{id}",
+     *      operationId="show",
+     *      tags={"Admin"},
+     *      summary="Get a specific Admin",
+     *      description="Returns the specified Admin's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Admin's id",
+     *          required=true,
+     * example = "ADM-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function show(string $id)
     {
@@ -79,20 +175,108 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/Admin/{id}",
+     *      operationId="update",
+     *      tags={"Admin"},
+     *      summary="Update existing Admin",
+     *      description="Returns updated Admin's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Admin's id",
+     *          required=true,
+     * example = "ADM-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/AdminUser")
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function update(Request $request, string $id)
     {
-        $user = AdminUser::where('Admin_id', $id)->firstOrFail();
-        $user->update($request->all());
-        return $user;
+
+
+        if (!userExistsEmail($request->email)) {
+            $user = AdminUser::where('admin_id', $id)->firstOrFail();
+            $user->update($request->all());
+            return $user;
+        } else {
+            return response()->json(['Message' => 'User Already Exists']);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/Admin/{id}",
+     *      operationId="delete",
+     *      tags={"Admin"},
+     *      summary="Delete existing Admin",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Admin's id",
+     *          required=true,
+     *          in="path",
+     * example = "ADM-6832",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(string $id)
     {
-        AdminUser::destroy($id);
+
+
+
+        $user = AdminUser::where('admin_id', $id)->firstorFail();
+        if ($user != null) {
+            $user->delete();
+            return response()->json(['Message' => 'User Deleted']);
+        } else {
+            return response()->json(['Message' => 'User does not exist']);
+        }
     }
 }

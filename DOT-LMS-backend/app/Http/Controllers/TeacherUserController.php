@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Mail\DOTLMSMail;
 use App\Models\TeacherUser;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class TeacherUserController extends Controller
 {
@@ -15,19 +16,63 @@ class TeacherUserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store', 'index', 'update', 'destroy']]);
+        // $this->middleware('auth:api', ['except' => ['index']]);
     }
 
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/Teacher",
+     *      tags={"Teacher"},
+     *      summary="Get list of Teachers in the DOT-LMS",
+     *      description="Returns list of Teachers",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server error",
+     *      ),
+     *     )
      */
     public function index()
     {
-        return TeacherUser::all();
+        return response()->json(["teachers" => TeacherUser::all(), "teacher_count" => TeacherUser::count()]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/Teacher",
+     *      security={{"jwt":{}}},
+     *      tags={"Teacher"},
+     *      summary="Store new Teacher's data into the database",
+     *      description="Returns the entered Teacher's data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/TeacherUser")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -52,17 +97,21 @@ class TeacherUserController extends Controller
 
         if (!userExists($teacher_id, $request->email)) {
             $teacher_user = new TeacherUser();
-            $teacher_user->first_name = $request->first_name;
-            $teacher_user->last_name = $request->last_name;
-            $teacher_user->email = $request->email;
+            $teacher_user->First_Name = $request->first_name;
+            $teacher_user->Last_Name = $request->last_name;
+            $teacher_user->Email = $request->email;
             $teacher_user->teacher_id = $teacher_id;
-            $teacher_user->department = $request->department;
+            $teacher_user->Department = $request->department;
             $teacher_user->password = $request->password;
             $teacher_user->save();
 
             $token = JWTAuth::fromUser($teacher_user);
 
-            Mail::to($teacher_user->email)->send(new DOTLMSMail($teacher_user->first_name, $teacher_user->teacher_id));
+            $one_time_passcode = mt_rand(100000, 999999);
+
+            Cache::put($teacher_user->teacher_id, $one_time_passcode);
+
+            Mail::to($teacher_user->Email)->send(new DOTLMSMail($teacher_user->First_Name, $teacher_user->teacher_id, $one_time_passcode));
 
             return response()->json(["success" => true, 'token' => $token]);
         } else {
@@ -71,7 +120,40 @@ class TeacherUserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/Teacher/{id}",
+     *      
+     *      tags={"Teacher"},
+     *      summary="Get a specific Teacher",
+     *      description="Returns the specified Teacher's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Teacher's id",
+     *          required=true,
+     * example = "TCH-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
      */
     public function show(string $id)
     {
@@ -79,7 +161,47 @@ class TeacherUserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/Teacher/{id}",
+     *      
+     *      tags={"Teacher"},
+     *      summary="Update existing Teacher",
+     *      description="Returns updated Teacher's data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Teacher's id",
+     *          required=true,
+     * example = "TCH-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/TeacherUser")
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -89,10 +211,49 @@ class TeacherUserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/Teacher/{id}",
+     *      
+     *      tags={"Teacher"},
+     *      summary="Delete existing Teacher",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Teacher's id",
+     *          required=true,
+     *          in="path",
+     * example = "TCH-6832",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(string $id)
     {
-        return TeacherUser::destroy($id);
+        $user = TeacherUser::where('student_id', $id)->firstorFail();
+        if ($user != null) {
+            $user->delete();
+            return response()->json(['Message' => 'User Deleted']);
+        } else {
+            return response()->json(['Message' => 'User does not exist']);
+        }
     }
 }

@@ -1,9 +1,25 @@
 <?php
 
-use App\Models\User;
+
 use App\Models\User_Role;
 
+
 return [
+
+
+
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -17,7 +33,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -46,7 +62,6 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-            'hash' => false,
         ],
     ],
 
@@ -70,7 +85,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => User::class,
+            'model' => User_Role::class,
         ],
 
         // 'users' => [

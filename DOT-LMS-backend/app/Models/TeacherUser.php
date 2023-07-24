@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * @OA\Schema(
+ *      title="Teacher",
+ *      description="Teacher data",
+ * )
+ */
 
 class TeacherUser extends Model implements JWTSubject
 {
@@ -18,6 +25,50 @@ class TeacherUser extends Model implements JWTSubject
         'department',
         'password',
     ];
+
+    /**
+     * @OA\Property(
+     *      title="first_name",
+     *      description="First Name of the Teacher",
+     *      example="John"
+     * )
+     *
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @OA\Property(
+     *      title="last_name",
+     *      description="Last Name of the Teacher",
+     *      example="Doe"
+     * )
+     *
+     * @var string
+     */
+    public $last_name;
+
+    /**
+     * @OA\Property(
+     *      title="email",
+     *      description="Email Address of the Teacher",
+     *      example="Johndoe@gmail.com"
+     * )
+     *
+     * @var string
+     */
+    public $email;
+
+    /**
+     * @OA\Property(
+     *      title="department",
+     *      description="department of the Teacher",
+     *      example="Software Engineering"
+     * )
+     *
+     * @var string
+     */
+    public $department;
 
     public function getJWTIdentifier()
     {

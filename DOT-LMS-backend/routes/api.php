@@ -1,23 +1,24 @@
-<?php
+<!-- <?php
 
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\ChapterController;
-use App\Http\Controllers\CoursesController;
-use App\Http\Controllers\GradebookController;
-use App\Http\Controllers\MessagesController;
-use App\Http\Controllers\MockExamController;
-use App\Http\Controllers\StudentUserController;
-use App\Http\Controllers\TeacherUserController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserRoleController;
-use App\Models\AdminUser;
-use App\Models\gradebook;
-use App\Models\StudentUser;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+        use App\Http\Controllers\AdminUserController;
+        use App\Http\Controllers\AssignmentController;
+        use App\Http\Controllers\ChapterController;
+        use App\Http\Controllers\Controller;
+        use App\Http\Controllers\CoursesController;
+        use App\Http\Controllers\GradebookController;
+        use App\Http\Controllers\MessagesController;
+        use App\Http\Controllers\MockExamController;
+        use App\Http\Controllers\StudentUserController;
+        use App\Http\Controllers\TeacherUserController;
+        use App\Http\Controllers\UserController;
+        use App\Http\Controllers\UserRoleController;
+        use App\Models\AdminUser;
+        use App\Models\gradebook;
+        use App\Models\StudentUser;
+        use Illuminate\Http\Request;
+        use Illuminate\Support\Facades\Route;
 
-/*
+        /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -28,65 +29,73 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //login functionality
-    Route::post('/login', [UserRoleController::class, 'userLogin']);
-});
+        // Route::resource('/', Controller::class);
 
-//Route::post('/login', [UserRoleController::class, 'userLogin']);
+        // Route::group(['middleware' => ['web']], function () {
+        //     //login functionality
+        //     Route::post('/login', [UserRoleController::class, 'userLogin']);
+        // });
 
-//route for password configuration for a student user
-Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+        // Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
-//route to send forgot password? email
-Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
+        // 
 
-//Route::resource('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
+        // Route::post('/admin/add_student', [StudentUserController::class, 'store'])->middleware('jwt');
 
+        // Route::get('/admin/student_users', [StudentUserController::class, 'index'])->middleware('jwt');
 
-//Admin add student functionality
-Route::post('/admin/add_student', [StudentUserController::class, 'store'])->middleware('auth');
+        // Route::put('/admin/edit_student/{student}', [StudentUserController::class, 'update'])->middleware('jwt');
 
-//Admin get student data
-Route::get('/admin/student_users', [StudentUserController::class, 'index'])->middleware('auth');
+        // Route::delete('/admin/delete_student/{student}', [StudentUserController::class, 'destroy'])->middleware('jwt');
 
-//admin edit student data
-Route::put('/admin/edit_student/{student}', [StudentUserController::class, 'update'])->middleware('auth');
+        // Route::post('admin/add_teacher', [TeacherUserController::class, 'store'])->middleware('jwt');
 
-//admin delete student
-Route::delete('/admin/delete_student/{student}', [StudentUserController::class, 'destroy'])->middleware('auth');
+        // Route::get('admin/teachers', [TeacherUserController::class, 'index'])->middleware('jwt');
 
+        // Route::put('admin/edit_teacher/{teacher}', [TeacherUserController::class, 'update'])->middleware('jwt');
 
-//Admin add teacher functionality
-Route::post('admin/add_teacher', [TeacherUserController::class, 'store'])->middleware('auth');
+        // Route::delete('admin/delete_teacher/{teacher}', [TeacherUserController::class, 'destroy'])->middleware('jwt');
 
-//Admin get teacher data
-Route::get('admin/teachers', [TeacherUserController::class, 'index'])->middleware('auth');
+        // 
 
-//admin edit teacher data
-Route::put('admin/edit_teacher/{teacher}', [TeacherUserController::class, 'update'])->middleware('auth');
+        // Route::resource('/user/teacher', TeacherUserController::class);
 
-//admin delete teacher
-Route::delete('admin/delete_teacher/{teacher}', [TeacherUserController::class, 'destroy'])->middleware('auth');
+        //  Route::group(['middleware' => ['auth:api']], function () {
+        Route::resource('Admin', AdminUserController::class);
 
-Route::resource('/user/student', StudentUserController::class);
+        Route::resource('Student', StudentUserController::class);
 
-Route::resource('/user/teacher', TeacherUserController::class);
+        Route::resource('Teacher', TeacherUserController::class);
 
-Route::resource('/user/admin', AdminUserController::class);
+        Route::post('/ConfigurePassword', [UserRoleController::class, 'ConfigurePassword']);
 
-Route::resource('/courses', CoursesController::class);
+        Route::post('Login', [UserRoleController::class, 'userLogin']);
 
-Route::resource('/course/chapter', ChapterController::class);
+        Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
 
-Route::resource('/mockexam', MockExamController::class);
+        Route::get('/student_count', [StudentUserController::class, 'student_count']);
 
-Route::resource('/course/assignment', AssignmentController::class);
+        Route::get('teacher_count', [TeacherUserController::class, 'teacher_count']);
 
-Route::resource('/messages', MessagesController::class);
+        Route::get('course_count', [CoursesController::class, 'course_count']);
 
-Route::resource('/gradebook', GradebookController::class);
+        Route::resource('/courses', CoursesController::class);
+      //  });
+
+        
+
+        // 
+
+        // Route::resource('/course/chapter', ChapterController::class);
+
+        // Route::resource('/mockexam', MockExamController::class);
+
+        // Route::resource('/course/assignment', AssignmentController::class);
+
+        // Route::resource('/messages', MessagesController::class);
+
+        // Route::resource('/gradebook', GradebookController::class);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
-// });
+// }); -->

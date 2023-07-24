@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * @OA\Schema(
+ *      title="Student",
+ *      description="Student data",
+ * )
+ */
 
 class StudentUser extends Model implements JWTSubject
 {
@@ -13,10 +20,77 @@ class StudentUser extends Model implements JWTSubject
     protected $fillable = [
         'first_name',
         'last_name',
+        'email',
         'department',
         'year',
         'semester',
     ];
+
+    /**
+     * @OA\Property(
+     *      title="first_name",
+     *      description="First Name of the Student",
+     *      example="John"
+     * )
+     *
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @OA\Property(
+     *      title="last_name",
+     *      description="last Name of the Student",
+     *      example="Doe"
+     * )
+     *
+     * @var string
+     */
+    public $last_name;
+
+    /**
+     * @OA\Property(
+     *      title="email",
+     *      description="email address of the Student",
+     *      example="Johndoe@gmail.com"
+     * )
+     *
+     * @var string
+     */
+    public $email;
+
+    /**
+     * @OA\Property(
+     *      title="department",
+     *      description="department of the Student",
+     *      example="Software Engineering"
+     * )
+     *
+     * @var string
+     */
+    public $department;
+
+    /**
+     * @OA\Property(
+     *      title="year",
+     *      description="Academic year of the Student",
+     *      example="4"
+     * )
+     *
+     * @var string
+     */
+    public $year;
+
+    /**
+     * @OA\Property(
+     *      title="semester",
+     *      description="in which semester of the academic year is the student currently attending",
+     *      example="2"
+     * )
+     *
+     * @var string
+     */
+    public $semester;
 
     public function getJWTIdentifier()
     {

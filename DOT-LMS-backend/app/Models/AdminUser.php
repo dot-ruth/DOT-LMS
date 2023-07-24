@@ -2,20 +2,60 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * @OA\Schema(
+ *      title="Admin",
+ *      description="Admin data",
+ * )
+ */
 
 class AdminUser extends Model implements JWTSubject
 {
-    use HasFactory;
+    use  HasFactory;
     protected $fillable = [
         'first_name',
         'last_name',
-        'admin_id',
         'email',
-        'password',
+        'admin_id'
     ];
+
+
+    /**
+     * @OA\Property(
+     *      title="first_name",
+     *      description="First Name of the Admin",
+     *      example="John"
+     * )
+     *
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @OA\Property(
+     *      title="last_name",
+     *      description="last Name of the Admin",
+     *      example="Doe"
+     * )
+     *
+     * @var string
+     */
+    public $last_name;
+
+    /**
+     * @OA\Property(
+     *      title="email",
+     *      description="email address of the Admin",
+     *      example="Johndoe@gmail.com"
+     * )
+     *
+     * @var string
+     */
+    public $email;
 
     public function getJWTIdentifier()
     {
