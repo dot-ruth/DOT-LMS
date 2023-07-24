@@ -85,10 +85,10 @@ export default function AdminHome() {
   function getTeacherData(){
     axios.get("http://127.0.0.1:8000/api/Teacher")
     .then((response)=>{
-      // console.log(response.data)
+      console.log(response.data.teachers)
       for (let i = 0; i < response.data.teachers.length; i++) {
 
-        teacherarray.push(create_teacher_Data(response.data.teachers[i]['First_Name'], response.data.teachers[i]['Last_Name'],  response.data.teachers[i]['Teacher_id'],response.data.teachers[i]['email'],response.data.teachers[i]['Department'],))
+        teacherarray.push(create_teacher_Data(response.data.teachers[i]['first_name'], response.data.teachers[i]['last_name'],  response.data.teachers[i]['teacher_id'],response.data.teachers[i]['email'],response.data.teachers[i]['department'],))
         
 
       }
