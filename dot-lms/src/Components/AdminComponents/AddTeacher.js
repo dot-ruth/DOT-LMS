@@ -72,7 +72,7 @@ export default function AddTeacher() {
         <Box sx={{mt:1}}>
         <form>
     <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-       <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Create Teacher From</Typography>
+       <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Create Teacher Form</Typography>
 
 
 

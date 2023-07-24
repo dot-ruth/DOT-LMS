@@ -182,12 +182,9 @@ class StudentUserController extends Controller
      */
     public function show(string $id)
     {
-        if (!$token = Auth::attempt(['user_id' => $id, 'password' => null])) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
-        }
+        $Student_user = StudentUser::where('student_id', $id)->firstOrFail();
+
+        $token = Auth::fromUser($Student_user);
 
         $user = StudentUser::where('Student_id', $id)->firstorFail();
 
@@ -238,7 +235,7 @@ class StudentUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = StudentUser::where('Student_id', $id)->firstOrFail();
+        $user = StudentUser::where('Student_id', $id)->first();
         $user->update($request->all());
         return $user;
     }

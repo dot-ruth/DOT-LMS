@@ -13,14 +13,26 @@ import {Paper }from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
+import { ToastContainer, toast } from 'react-toastify'
 import {Button} from '@mui/material';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { Link } from 'react-router-dom';
-
-import 'react-perfect-scrollbar/dist/css/styles.css'
-
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import Modal from '@mui/material/Modal';
+import EditStudent from './EditStudent';
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -70,7 +82,14 @@ export default function AdminHome() {
 
   const [teacher_rows,setteacher_rows] = React.useState([])
 
-  function getStudentData(){
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
+
+  const getStudentData =()=>{
   axios.get("http://127.0.0.1:8000/api/Student")
     .then((response)=>{
       console.log(response.data.students)
@@ -104,13 +123,29 @@ export default function AdminHome() {
     })
   }
 
-  return (
+  function delete_student(){
+     axios.delete("http://127.0.0.1:8000/api/Student")
+     .then(()=>{
+      toast.success('User deleted Successfully',{
+        position:toast.POSITION.BOTTOM_CENTER
+      })
+     })
+  }
 
-    
+  function delete_teacher(){
+    axios.delete("http://127.0.0.1:8000/api/Teacher")
+    .then(()=>{
+     toast.success('User deleted Successfully',{
+       position:toast.POSITION.BOTTOM_CENTER
+     })
+    })
+  }
+
+  return (
 
     <PerfectScrollbar>
     <ThemeProvider theme={theme}>
-
+<ToastContainer/>
     {
       React.useEffect(()=>{
 getStudentData()
@@ -268,7 +303,24 @@ React.useEffect(()=>{
               <StyledTableCell >{row.student_id}</StyledTableCell>
               <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
-              <StyledTableCell><EditIcon color='primary'/>  <DeleteIcon color='primary'/></StyledTableCell>
+              <StyledTableCell><EditIcon color='primary' onClick={handleOpen}/>  <DeleteIcon color='primary' onClick={delete_student}/></StyledTableCell>
+              <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography> */}
+          
+          <EditStudent data={student_rows} />
+        </Box>
+      </Modal>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -332,7 +384,7 @@ React.useEffect(()=>{
               <StyledTableCell >{row.teacher_id}</StyledTableCell>
               <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
-              <StyledTableCell><EditIcon color='primary'/>  <DeleteIcon color='primary'/></StyledTableCell>
+              <StyledTableCell> <Link to='Edit_teacher'><EditIcon color='primary'/> </Link> <DeleteIcon color='primary' onClick={delete_teacher}/></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

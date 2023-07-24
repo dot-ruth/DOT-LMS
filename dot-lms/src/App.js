@@ -20,6 +20,8 @@ import AddStudent from './Components/AdminComponents/AddStudent';
 import ConfigurePassword from './Components/ConfigurePassword';
 import ForgotPassword from './Components/ForgotPassword';
 import AddTeacher from './Components/AdminComponents/AddTeacher';
+import EditStudent from './Components/AdminComponents/EditStudent';
+import EditTeacher from './Components/AdminComponents/EditTeacher';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
         <Route path='/ConfigurePassword' element={<ConfigurePassword/>}/>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
         <Route path='/Add_Teacher' element={<AddTeacher/>}/>
+        <Route path='/Edit_teacher' element={<EditTeacher/>}/>
+        <Route path='/Edit_student' element={<EditStudent/>}/>
       </Routes>
 
       </BrowserRouter>

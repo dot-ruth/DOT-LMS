@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import {ThemeProvider }from '@mui/material'
-import AdminSideDrawer from './AdminSideDrawer'
 import theme from '../theme'
 import { useState } from 'react'
 import {Typography} from '@mui/material'
@@ -11,74 +10,62 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import { ToastContainer, toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
-function AddStudent() {
+export default function EditStudent(data,getStudentData) {
+    const [formData,setFormData] = useState({
+        user_id:data.data[0].student_id,
+        first_name:data.data[0].First_Name,
+        last_name:data.data[0].Last_Name,
+        email:data.data[0].Email,
+        department:data.data[0].department,
+        year:"",
+        semester:"",
+      })
 
-  const [formData,setFormData] = useState({
-    first_name:"",
-    last_name:"",
-    email:"",
-    department:"",
-    year:"",
-    semester:"",
-  })
-
-  // const [errMsg_firstName,seterrMsg_first_Name] = useState("")
-  // const [errMsg_lastName,seterrMsg_lastName] = useState("")
-  // const [errMsg_email,seterrMsg_email] = useState("")
-  // const [errMsg_department,seterrMsg_department] = useState("")
-  // const [errMsg_year,seterrMsg_year] = useState("")
-  // const [errMsg_semester,seterrMsg_semester] = useState("")
-
-  let onChangehandler = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    let data = {};
-    data[name] = value;
-    setFormData((prevFormData)=>({...prevFormData,[name]:value}))
-    }
-
-    
-
-    const onCreatehandler =  () =>{
-      axios.post("http://127.0.0.1:8000/api/Student",{
-          first_name:formData.first_name,
-          last_name:formData.last_name,
-          email:formData.email,
-          department:formData.department,
-          year:formData.year,
-          semester:formData.semester,
-          mode:'cors'
-
-        },
-        toast.info('Registration is loading,please wait a moment...',{
-          position:toast.POSITION.BOTTOM_CENTER
-        })
-        ).then((response)=>{
-          console.log(response)
-          if(response.data.success){
-          toast.success('User registered Successfully',{
-            position:toast.POSITION.BOTTOM_CENTER
-          })
-        }else{
-          toast.error('Error While registering the user, Please try again',{
-            position:toast.POSITION.BOTTOM_CENTER
-          })
+      let onChangehandler = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+        let data = {};
+        data[name] = value;
+        setFormData((prevFormData)=>({...prevFormData,[name]:value}))
         }
-        })
-    }
-  return (
 
-    
-    
-        <Box
+        const onUpdatehandler =  () =>{
+            axios.put("http://127.0.0.1:8000/api/Student/" + data.data[0].student_id,{
+                first_name:formData.first_name,
+                last_name:formData.last_name,
+                email:formData.email,
+                department:formData.department,
+                year:formData.year,
+                semester:formData.semester
+              },
+              toast.info('Registration is loading,please wait a moment...',{
+                position:toast.POSITION.BOTTOM_CENTER
+              })
+              ).then((response)=>{
+                console.log(response)
+                if(response.status === 200){
+                toast.success('User updated Successfully',{
+                  position:toast.POSITION.BOTTOM_CENTER
+                })
+              }else{
+                toast.error('Error While updating the user, Please try again',{
+                  position:toast.POSITION.BOTTOM_CENTER
+                })
+              }
+              })
+          }
+  return (
+    <PerfectScrollbar>
+    <Box
         sx={{
             height:'100vh',
             weidth:'100vw',
           }}>
           <ToastContainer/>
             <ThemeProvider theme={theme}>
-        <AdminSideDrawer/>
+        
         <Box 
         sx={{
         display:'flex', 
@@ -88,9 +75,22 @@ function AddStudent() {
             <Box sx={{mt:1}}>
             <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Create Student Form</Typography>
+           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Update Student Form</Typography>
+           
 
-
+           <FormControl sx={{ m:2, width:'50ch'}} >
+<InputLabel color="primary">User ID</InputLabel>
+    <OutlinedInput 
+    type="text" 
+    name="user_id" 
+    label='User ID'
+    color="primary" 
+    required={true}
+    variant="outlined"
+    value = {formData.user_id}
+     onChange={onChangehandler}/>
+    
+</FormControl>
 
 <FormControl sx={{ m:2, width:'50ch'}} >
 <InputLabel color="primary">First Name</InputLabel>
@@ -103,7 +103,6 @@ function AddStudent() {
     variant="outlined"
     value = {formData.first_name}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
@@ -118,7 +117,6 @@ function AddStudent() {
     variant="outlined"
     value = {formData.last_name}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
@@ -133,7 +131,6 @@ function AddStudent() {
     variant="outlined"
     value = {formData.email}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
@@ -148,7 +145,6 @@ function AddStudent() {
     variant="outlined"
     value = {formData.department}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
@@ -162,7 +158,6 @@ function AddStudent() {
     variant="outlined"
     value = {formData.year}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
@@ -176,11 +171,11 @@ function AddStudent() {
     variant="outlined"
     value = {formData.semester}
      onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
     
 </FormControl>
 
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onCreatehandler} >Create</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler}  >Update</Button>
+       
         
         </div>
         </form>
@@ -189,12 +184,11 @@ function AddStudent() {
         </Box>
         </ThemeProvider>
         </Box>
+        </PerfectScrollbar>
   )
 }
 
-export default AddStudent
 
-  
 
 
 
