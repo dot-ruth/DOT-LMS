@@ -248,7 +248,7 @@ class TeacherUserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = TeacherUser::where('student_id', $id)->firstorFail();
+        $user = TeacherUser::where('teacher_id', $id)->firstorFail();
         if ($user != null) {
             $user->delete();
             return response()->json(['Message' => 'User Deleted']);

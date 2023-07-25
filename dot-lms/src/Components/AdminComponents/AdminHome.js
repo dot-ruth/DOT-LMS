@@ -123,21 +123,23 @@ export default function AdminHome() {
     })
   }
 
-  function delete_student(){
-     axios.delete("http://127.0.0.1:8000/api/Student")
+  function delete_student(user_id){
+     axios.delete("http://127.0.0.1:8000/api/Student/"+user_id)
      .then(()=>{
       toast.success('User deleted Successfully',{
         position:toast.POSITION.BOTTOM_CENTER
       })
+      window.location.reload(true)
      })
   }
 
-  function delete_teacher(){
-    axios.delete("http://127.0.0.1:8000/api/Teacher")
+  function delete_teacher(user_id){
+    axios.delete("http://127.0.0.1:8000/api/Teacher/"+user_id)
     .then(()=>{
      toast.success('User deleted Successfully',{
        position:toast.POSITION.BOTTOM_CENTER
      })
+     window.location.reload(true)
     })
   }
 
@@ -303,21 +305,12 @@ React.useEffect(()=>{
               <StyledTableCell >{row.student_id}</StyledTableCell>
               <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
-              <StyledTableCell><EditIcon color='primary' onClick={handleOpen}/>  <DeleteIcon color='primary' onClick={delete_student}/></StyledTableCell>
+              <StyledTableCell><EditIcon color='primary' onClick={handleOpen}/>  <DeleteIcon color='primary' onClick={()=>delete_student(row.student_id)}/></StyledTableCell>
               <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
-          
           < EditStudent data={student_rows} />
         </Box>
       </Modal>
@@ -384,7 +377,7 @@ React.useEffect(()=>{
               <StyledTableCell >{row.teacher_id}</StyledTableCell>
               <StyledTableCell >{row.Email}</StyledTableCell>
               <StyledTableCell >{row.department}</StyledTableCell>
-              <StyledTableCell> <Link to='Edit_teacher'><EditIcon color='primary'/> </Link> <DeleteIcon color='primary' onClick={delete_teacher}/></StyledTableCell>
+              <StyledTableCell> <Link to='Edit_teacher'><EditIcon color='primary'/> </Link> <DeleteIcon color='primary' onClick={()=>delete_teacher(row.teacher_id)}/></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
