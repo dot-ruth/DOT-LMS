@@ -22,6 +22,7 @@ import ForgotPassword from './Components/ForgotPassword';
 import AddTeacher from './Components/AdminComponents/AddTeacher';
 import EditStudent from './Components/AdminComponents/EditStudent';
 import EditTeacher from './Components/AdminComponents/EditTeacher';
+import ManageCourses from './Components/AdminComponents/ManageCourses';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <Route path='/Add_Teacher' element={<AddTeacher/>}/>
         <Route path='/Edit_teacher' element={<EditTeacher/>}/>
         <Route path='/Edit_student' element={<EditStudent/>}/>
+        <Route path='/Manage_courses' element={<ManageCourses/>}/>
       </Routes>
 
       </BrowserRouter>

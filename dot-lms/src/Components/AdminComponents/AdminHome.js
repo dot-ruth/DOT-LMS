@@ -117,7 +117,7 @@ export default function AdminHome() {
   }
 
   function getCourseCount(){
-    axios.get("http://127.0.0.1:8000/api/courses")
+    axios.get("http://127.0.0.1:8000/api/Course")
     .then((response)=>{
        setcourse_count(response.data.course_count)
     })

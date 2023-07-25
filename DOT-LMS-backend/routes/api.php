@@ -73,13 +73,7 @@
 
         Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
 
-        Route::get('/student_count', [StudentUserController::class, 'student_count']);
-
-        Route::get('teacher_count', [TeacherUserController::class, 'teacher_count']);
-
-        Route::get('course_count', [CoursesController::class, 'course_count']);
-
-        Route::resource('/courses', CoursesController::class);
+        Route::resource('/Course', CoursesController::class);
       //  });
 
         

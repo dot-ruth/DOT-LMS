@@ -112,7 +112,6 @@ class StudentUserController extends Controller
         if (!userExistsEmail($request->email)) {
 
             $Student_user = new StudentUser();
-
             $Student_user->student_id = $student_id;
             $Student_user->First_Name = $request->first_name;
             $Student_user->Last_Name = $request->last_name;

@@ -12,15 +12,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-export default function EditStudent(data,getStudentData) {
+export default function AddCourse() {
     const [formData,setFormData] = useState({
-        user_id:data.data[0].student_id,
-        first_name:data.data[0].First_Name,
-        last_name:data.data[0].Last_Name,
-        email:data.data[0].Email,
-        department:data.data[0].department,
-        year:"",
-        semester:"",
+        course_title:"",
+        course_topic:"",
+        course_description:"",
       })
 
       let onChangehandler = (e) => {
@@ -31,22 +27,21 @@ export default function EditStudent(data,getStudentData) {
         setFormData((prevFormData)=>({...prevFormData,[name]:value}))
         }
 
-        const onUpdatehandler =  () =>{
-            axios.put("http://127.0.0.1:8000/api/Student/" + data.data[0].student_id,{
-                first_name:formData.first_name,
-                last_name:formData.last_name,
-                email:formData.email,
-                department:formData.department,
-                year:formData.year,
-                semester:formData.semester
+        const onCreatehandler =  () =>{
+          console.log(formData.course_title,formData.course_topic,formData.course_img,formData.course_description)
+            axios.post("http://127.0.0.1:8000/api/Course",{
+                course_title:formData.course_title,
+                course_topic:formData.course_topic,
+                course_img:formData.course_img,
+                course_description:formData.course_description,
               },
-              toast.info('Updating,please wait a moment...',{
+              toast.info('Adding Course,please wait a moment...',{
                 position:toast.POSITION.BOTTOM_CENTER
               })
               ).then((response)=>{
                 console.log(response)
                 if(response.status === 200){
-                toast.success('User updated Successfully',{
+                toast.success('Course Created Successfully',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
                 window.location.reload(true)
@@ -74,108 +69,70 @@ export default function EditStudent(data,getStudentData) {
         alignItems:'center',
         }}>
             <Box sx={{mt:1}}>
-            <form>
+            <form method="POST"  encType="multipart/form-data">
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Update Student Form</Typography>
+           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Create Course Form</Typography>
            
 
            <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">User ID</InputLabel>
+<InputLabel color="primary">Course Title</InputLabel>
     <OutlinedInput 
     type="text" 
-    name="user_id" 
-    label='User ID'
+    name="course_title" 
+    label='Course Title'
     color="primary" 
     required={true}
     variant="outlined"
-    value = {formData.user_id}
-     onChange={onChangehandler}/>
+    value = {formData.course_title}
+    onChange={onChangehandler}/>
     
 </FormControl>
 
 <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">First Name</InputLabel>
+<InputLabel color="primary">Course Topic</InputLabel>
     <OutlinedInput 
     type="text" 
-    name="first_name" 
-    label='First Name'
+    name="course_topic" 
+    label='Course Topic'
     color="primary" 
     required={true}
     variant="outlined"
-    value = {formData.first_name}
+    value = {formData.course_topic}
      onChange={onChangehandler}/>
     
 </FormControl>
 
 <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Last Name</InputLabel>
+<InputLabel color="primary">Course Image</InputLabel>
     <OutlinedInput 
-    type="text" 
-    name="last_name" 
+    type="file" 
+    name="course_img" 
     color="primary" 
-    label='Last Name'
+    label='Course Image'
     required={true}
     variant="outlined"
-    value = {formData.last_name}
+    value = {formData.course_img}
      onChange={onChangehandler}/>
     
 </FormControl>
 
 <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Email</InputLabel>
+<InputLabel color="primary">Course Description</InputLabel>
     <OutlinedInput 
     type="text" 
-    name="email" 
+    name="course_description" 
     color="primary" 
-    label='Email'
+    label='course_description'
     required={true}
     variant="outlined"
-    value = {formData.email}
+    multiline
+    value = {formData.course_description}
      onChange={onChangehandler}/>
     
 </FormControl>
 
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Department</InputLabel>
-    <OutlinedInput 
-    type="text" 
-    name="department" 
-    color="primary" 
-    label='Department'
-    required={true}
-    variant="outlined"
-    value = {formData.department}
-     onChange={onChangehandler}/>
-    
-</FormControl>
 
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Year</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="year" 
-    color="primary" 
-    label="Year"
-    variant="outlined"
-    value = {formData.year}
-     onChange={onChangehandler}/>
-    
-</FormControl>
-
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Semester</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="semester" 
-    color="primary" 
-    label="Semester"
-    variant="outlined"
-    value = {formData.semester}
-     onChange={onChangehandler}/>
-    
-</FormControl>
-
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler} >Update</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onCreatehandler} >Create</Button>
        
         
         </div>
@@ -189,8 +146,4 @@ export default function EditStudent(data,getStudentData) {
   )
 }
 
-
-
-
-
-
+ 

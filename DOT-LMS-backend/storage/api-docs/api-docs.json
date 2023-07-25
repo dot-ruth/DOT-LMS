@@ -187,6 +187,176 @@
                 }
             }
         },
+        "/Course": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Get list of Courses in the DOT-LMS",
+                "description": "Returns list of Courses",
+                "operationId": "0e983a02ad23642fd57bc77599d47bf7",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Store new Course data into the database",
+                "description": "Returns the entered Course data",
+                "operationId": "9a711728b23f4322714b147b4b95879a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/courses"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Course/{id}": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Get a specific Course data",
+                "description": "Returns the specified Course data",
+                "operationId": "4aaa9e243350287cb7065fdb9095bb8d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Course id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-7539"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Update existing Course",
+                "description": "Returns updated Course's data",
+                "operationId": "4306232a9cb13c45be45be4b1a0245ee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Course's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-7539"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/courses"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Course"
+                ],
+                "summary": "Delete existing Course",
+                "description": "Deletes a record and returns no content",
+                "operationId": "d26f12dce819b5d0d67a7a6f37fa1846",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Course's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-7539"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/Student": {
             "get": {
                 "tags": [
@@ -721,6 +891,37 @@
                         "description": "department of the Teacher",
                         "type": "string",
                         "example": "Software Engineering"
+                    }
+                },
+                "type": "object"
+            },
+            "courses": {
+                "title": "Course",
+                "description": "Course data",
+                "properties": {
+                    "course_title": {
+                        "title": "course_title",
+                        "description": "Title of the Course",
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "course_img": {
+                        "title": "course_img",
+                        "description": "A descriptive image of the course to be added",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "course_topic": {
+                        "title": "course_topic",
+                        "description": "The topic's the course focuses on",
+                        "type": "string",
+                        "example": "Javascript,html,css,react"
+                    },
+                    "course_description": {
+                        "title": "course_description",
+                        "description": "A Brief description of the course to added",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a varius nisl, a tempor felis. Aenean pretium convallis odio, at gravida lorem imperdiet porttitor. Pellentesque vitae eros rhoncus, euismod lectus at, bibendum urna. Integer id dolor at mi vulputate iaculis. Donec sodales nisl cursus, fermentum nibh quis, vehicula dolor. In facilisis lacus vitae imperdiet gravida. Suspendisse leo erat, rutrum vel pharetra vitae, vehicula commodo dui. Donec molestie, magna ut sodales faucibus, est turpis finibus tellus, tincidunt dapibus libero metus non orci. Sed tempor turpis dui, at vehicula tortor lacinia vel. Quisque at leo eget leo pretium semper. Suspendisse venenatis porta sapien eu finibus. Maecenas ultrices ut lacus nec feugiat. Quisque laoreet sapien ac dui faucibus, non euismod dui condimentum. Fusce ultrices leo id nibh hendrerit, non maximus justo scelerisque. Fusce semper lacus massa, quis auctor risus feugiat et. Curabitur volutpat nulla non nibh elementum, ut tempus metus imperdiet."
                     }
                 },
                 "type": "object"
