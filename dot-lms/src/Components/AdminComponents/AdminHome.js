@@ -318,7 +318,7 @@ React.useEffect(()=>{
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography> */}
           
-          <EditStudent data={student_rows} />
+          < EditStudent data={student_rows} />
         </Box>
       </Modal>
             </StyledTableRow>

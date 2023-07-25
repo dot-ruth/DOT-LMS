@@ -49,6 +49,7 @@ export default function EditStudent(data,getStudentData) {
                 toast.success('User updated Successfully',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
+                window.location.reload(true)
               }else{
                 toast.error('Error While updating the user, Please try again',{
                   position:toast.POSITION.BOTTOM_CENTER
@@ -174,7 +175,7 @@ export default function EditStudent(data,getStudentData) {
     
 </FormControl>
 
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler}  >Update</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler} >Update</Button>
        
         
         </div>

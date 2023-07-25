@@ -59,7 +59,7 @@ export default function ConfigurePassword() {
         })
         .then((response)=>{
           console.log(response)
-          sessionStorage.setItem("isLoggedIn",true);
+        sessionStorage.setItem("isLoggedIn",true);
         sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
@@ -87,9 +87,7 @@ export default function ConfigurePassword() {
       }
     }
 
-    const resendHandler = ()=>{
-      axios.get("http://127.0.0.1:8000/api/resendcode")
-    }
+    
 
   return (
     <div >
