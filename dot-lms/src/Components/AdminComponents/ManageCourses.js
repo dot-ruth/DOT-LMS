@@ -63,7 +63,12 @@ export default function ManageCourses() {
 
     const [open_add, setOpen_add] = React.useState(false);
 
-    const handleOpen_edit = () => setOpen_edit(true);
+    const [edit_row,setedit_row] = React.useState();
+
+    const handleOpen_edit = (row) => {
+      setOpen_edit(true);
+      setedit_row(row);
+    }
 
     const handleOpen_add = () => setOpen_add(true);
   
@@ -146,17 +151,27 @@ export default function ManageCourses() {
               <StyledTableCell >{row.Course_Title}</StyledTableCell>
               <StyledTableCell >{row.Course_ID}</StyledTableCell>
               <StyledTableCell >{row.Course_Topic}</StyledTableCell>
-              <StyledTableCell><EditIcon color='primary' onClick={handleOpen_edit}/>  <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/></StyledTableCell>
-              <Modal
+              <StyledTableCell><EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/>  <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/></StyledTableCell>
+            </StyledTableRow>
+          ))}
+
+          
+
+<Modal
+
         open={open_edit}
         onClose={handleClose_edit}
       >
+        {open_edit?
         <Box sx={style}>
-          < EditCourse data={course_rows} />
-        </Box>
+        < EditCourse row={edit_row} />
+      </Box>:
+      <Box></Box>
+      }
+        
+        
       </Modal>
-            </StyledTableRow>
-          ))}
+          
         </TableBody>
       </Table>
     </TableContainer>

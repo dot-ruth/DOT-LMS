@@ -110,7 +110,7 @@ class CoursesController extends Controller
             $course->save();
         }
 
-        return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse]);
+        return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse, 'request' => $request->all()]);
     }
 
     /**
@@ -204,7 +204,6 @@ class CoursesController extends Controller
         $course = courses::where('course_id', $id)->first();
         $course->update($request->all());
         return $course;
-        //return $request->course_title;
     }
 
     /**

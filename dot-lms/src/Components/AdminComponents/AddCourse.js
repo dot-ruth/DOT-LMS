@@ -19,6 +19,8 @@ export default function AddCourse() {
         course_description:"",
       })
 
+      const [Image,setImage] = useState()
+
       let onChangehandler = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -27,12 +29,15 @@ export default function AddCourse() {
         setFormData((prevFormData)=>({...prevFormData,[name]:value}))
         }
 
+        let ImageUpload = (e) => {
+          setImage(e.target.files[0]) 
+        }
+
         const onCreatehandler =  () =>{
-          console.log(formData.course_title,formData.course_topic,formData.course_img,formData.course_description)
             axios.post("http://127.0.0.1:8000/api/Course",{
                 course_title:formData.course_title,
                 course_topic:formData.course_topic,
-                course_img:formData.course_img,
+                course_img:Image,
                 course_description:formData.course_description,
               },
               toast.info('Adding Course,please wait a moment...',{
@@ -69,7 +74,7 @@ export default function AddCourse() {
         alignItems:'center',
         }}>
             <Box sx={{mt:1}}>
-            <form method="POST"  encType="multipart/form-data">
+            <form   encType="multipart/form-data" >
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
            <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Create Course Form</Typography>
            
@@ -111,8 +116,8 @@ export default function AddCourse() {
     label='Course Image'
     required={true}
     variant="outlined"
-    value = {formData.course_img}
-     onChange={onChangehandler}/>
+    //value = {Image}
+     onChange={ImageUpload}/>
     
 </FormControl>
 

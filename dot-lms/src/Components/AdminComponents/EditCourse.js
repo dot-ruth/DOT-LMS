@@ -12,14 +12,17 @@ import { ToastContainer, toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-export default function EditCourse(data) {
+export default function EditCourse(edit_row) {
+
+  console.log(edit_row)
 
     const [formData,setFormData] = useState({
-        course_title:data.data[0].Course_Title,
-        course_topic:data.data[0].Course_Topic,
-        course_img:"",
+        course_title:edit_row.row.Course_Title,
+        course_topic:edit_row.row.Course_Topic,
         course_description:"",
       })
+
+      const [Image,setImage] = useState()
 
       let onChangehandler = (e) => {
         let name = e.target.name;
@@ -29,10 +32,15 @@ export default function EditCourse(data) {
         setFormData((prevFormData)=>({...prevFormData,[name]:value}))
         }
 
+        let ImageUpload = (e) => {
+          setImage(e.target.files[0]) 
+        }
+
         const onUpdatehandler =  () =>{
-            axios.put("http://127.0.0.1:8000/api/Course/" + data.data[0].Course_ID,{
+          
+            axios.put("http://127.0.0.1:8000/api/Course/"+edit_row.row.Course_ID ,{
                 course_title:formData.course_title,
-                course_id:formData.course_id,
+                course_img:Image,
                 course_topic:formData.course_topic,
                 course_description:formData.course_description,
               },
@@ -112,8 +120,7 @@ export default function EditCourse(data) {
     label='Course Image'
     required={true}
     variant="outlined"
-    value = {formData.course_img}
-     onChange={onChangehandler}/>
+    onChange={ImageUpload}/>
     
 </FormControl>
 
