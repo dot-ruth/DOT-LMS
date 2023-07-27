@@ -110,7 +110,7 @@ class CoursesController extends Controller
             $course->save();
         }
 
-        return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse, 'request' => $request->all() . $request->file('course_img')]);
+        return response()->json(['File Uploaded Successfully', 'success', 200, $uploadedImageResponse, 'request' => $request->all()]);
     }
 
     /**
@@ -160,7 +160,6 @@ class CoursesController extends Controller
      *      tags={"Course"},
      *      summary="Update existing Course",
      *      description="Returns updated Course's data",
-     *    
      *      @OA\Parameter(
      *          name="id",
      *          description="Course's id",
@@ -174,27 +173,8 @@ class CoursesController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *         @OA\MediaType(
-     *          mediaType="application/json",
-     *          @OA\Schema(
-     *                 @OA\Property(
-     *                     property="course_title",
-     *                     title="coursetitle",
-     *                     description="Title of the Course",
-     *                     example="Web Development"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="course_topic",
-     *                     title="coursetopic",
-     *                     description="Topic the course focuses on",
-     *                     example="Javascript"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="course_description",
-     *                     title="coursedescription",
-     *                     description="A Brief description of the course to be added",
-     *                     example="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a varius nisl, a tempor felis. Aenean pretium convallis odio, at gravida lorem imperdiet porttitor. Pellentesque vitae eros rhoncus, euismod lectus at, bibendum urna. Integer id dolor at mi vulputate iaculis. Donec sodales nisl cursus, fermentum nibh quis, vehicula dolor. In facilisis lacus vitae imperdiet gravida. Suspendisse leo erat, rutrum vel pharetra vitae, vehicula commodo dui. Donec molestie, magna ut sodales faucibus, est turpis finibus tellus, tincidunt dapibus libero metus non orci. Sed tempor turpis dui, at vehicula tortor lacinia vel. Quisque at leo eget leo pretium semper. Suspendisse venenatis porta sapien eu finibus. Maecenas ultrices ut lacus nec feugiat. Quisque laoreet sapien ac dui faucibus, non euismod dui condimentum. Fusce ultrices leo id nibh hendrerit, non maximus justo scelerisque. Fusce semper lacus massa, quis auctor risus feugiat et. Curabitur volutpat nulla non nibh elementum, ut tempus metus imperdiet."
-     *                 )
-     *             )
+     *          mediaType="multipart/form-data",
+     *          @OA\Schema(ref="#/components/schemas/courses")
      *     )    
      *      ),
      *      @OA\Response(

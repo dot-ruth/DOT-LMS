@@ -200,7 +200,7 @@ class StudentUserController extends Controller
      *          name="id",
      *          description="Student's id",
      *          required=true,
-     *          example = "DBUR-6832-23",
+     * example = "DBUR-6832-23",
      *          in="path",
      *          @OA\Schema(
      *              type="string"
