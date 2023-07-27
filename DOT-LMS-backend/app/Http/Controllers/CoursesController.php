@@ -32,7 +32,8 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        return response()->json(["courses" => courses::all(), "course_count" => courses::count()]);
+        $courses = new courses();
+        return response()->json(["courses" => $courses->orderBy('created_at', 'desc')->get(), "course_count" => courses::count()]);
     }
 
     /**

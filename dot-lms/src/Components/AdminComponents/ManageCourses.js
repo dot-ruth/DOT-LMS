@@ -14,6 +14,7 @@ import EditCourse from './EditCourse';
 import Typography from '@mui/material/Typography';import {Button} from '@mui/material';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import AddCourse from './AddCourse';
+import {Visibility} from "@mui/icons-material";
 
 const style = {
     position: 'absolute',
@@ -135,7 +136,11 @@ export default function ManageCourses() {
 
       </Box>
       {course_rows? 
-      <TableContainer component={Paper} style={{marginTop:'5px'}}>
+      
+      <TableContainer component={Paper} style={{
+        marginTop:'5px',
+        height:'100vh'
+        }}>
       <Table sx={{ minWidth: 500 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -151,7 +156,7 @@ export default function ManageCourses() {
               <StyledTableCell >{row.Course_Title}</StyledTableCell>
               <StyledTableCell >{row.Course_ID}</StyledTableCell>
               <StyledTableCell >{row.Course_Topic}</StyledTableCell>
-              <StyledTableCell><EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/>  <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/></StyledTableCell>
+              <StyledTableCell> <Visibility color='primary'/>  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/>   <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/></StyledTableCell>
             </StyledTableRow>
           ))}
 
@@ -175,26 +180,9 @@ export default function ManageCourses() {
         </TableBody>
       </Table>
     </TableContainer>
+    
 : 
-<TableContainer component={Paper} style={{marginTop:'5px'}}>
- <Table sx={{ minWidth: 500 }} aria-label="customized table">
- <TableHead>
-   <TableRow>
-     <StyledTableCell >First Name</StyledTableCell>
-     <StyledTableCell >Last Name</StyledTableCell>
-     <StyledTableCell >Student ID</StyledTableCell>
-     <StyledTableCell >Email</StyledTableCell>
-     <StyledTableCell >Department</StyledTableCell>
-   </TableRow>
- </TableHead>
- <TableBody>
- <StyledTableRow>
-       <StyledTableCell >No Student Users</StyledTableCell>
-     </StyledTableRow>
-   
- </TableBody>
-</Table>
-</TableContainer>
+<Box></Box>
 }
         </Box>
         </Box>
