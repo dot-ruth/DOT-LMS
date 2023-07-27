@@ -34,12 +34,16 @@ export default function AddCourse() {
         }
 
         const onCreatehandler =  () =>{
+          //console.log(formData.course_title,formData.course_topic,Image,formData.course_description)
             axios.post("http://127.0.0.1:8000/api/Course",{
                 course_title:formData.course_title,
                 course_topic:formData.course_topic,
                 course_img:Image,
                 course_description:formData.course_description,
-              },
+              },{
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              }},
               toast.info('Adding Course,please wait a moment...',{
                 position:toast.POSITION.BOTTOM_CENTER
               })
@@ -49,7 +53,7 @@ export default function AddCourse() {
                 toast.success('Course Created Successfully',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
-                window.location.reload(true)
+                //window.location.reload(true)
               }else{
                 toast.error('Error While updating the user, Please try again',{
                   position:toast.POSITION.BOTTOM_CENTER

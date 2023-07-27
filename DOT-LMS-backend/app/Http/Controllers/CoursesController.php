@@ -78,9 +78,6 @@ class CoursesController extends Controller
         $uploadFolder = 'course_image';
         $image = $request->file('course_img');
         $image_uploaded_path = $image->store($uploadFolder, 'public');
-
-        /** @var \Illuminate\Filesystem\FilesystemManager $image_url */
-        // $image_url = Storage::disk('public');
         $url = 'http://127.0.0.1:8000/storage/course_image/' . basename($image_uploaded_path);
 
         $uploadedImageResponse = array(
