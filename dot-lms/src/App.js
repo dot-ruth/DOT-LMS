@@ -23,6 +23,7 @@ import AddTeacher from './Components/AdminComponents/AddTeacher';
 import EditStudent from './Components/AdminComponents/EditStudent';
 import EditTeacher from './Components/AdminComponents/EditTeacher';
 import ManageCourses from './Components/AdminComponents/ManageCourses';
+import ShowCourse from './Components/AdminComponents/ShowCourse';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path='/Edit_teacher' element={<EditTeacher/>}/>
         <Route path='/Edit_student' element={<EditStudent/>}/>
         <Route path='/Manage_courses' element={<ManageCourses/>}/>
+        <Route path='/Show_Course' element={<ShowCourse/>}/>
       </Routes>
 
       </BrowserRouter>

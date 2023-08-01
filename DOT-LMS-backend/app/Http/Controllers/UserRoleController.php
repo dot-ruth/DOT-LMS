@@ -149,6 +149,30 @@ class UserRoleController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *      path="/forgotPassword",
+     *      tags={"User Management Endpoints"},
+     *      summary="user enters his/her ID to get a configure password email",
+     *      description="an API Endpoint that enables a user to configure a password,if they forgot their password, otp=> one time passcode",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *       required={"user_id"},
+     *       @OA\Property(property="user_id", type="string", example="ADM-7864"),
+     *    ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server error",
+     *      ),
+     *     )
+     */
+
     public function ForgotPassword(Request $request)
     {
         $user = User_Role::where("user_id", $request->user_id)->firstOrFail();

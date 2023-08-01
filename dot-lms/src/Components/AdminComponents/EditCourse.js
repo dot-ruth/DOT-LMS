@@ -112,19 +112,6 @@ export default function EditCourse(edit_row) {
 </FormControl>
 
 <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Course Image</InputLabel>
-    <OutlinedInput 
-    type="file" 
-    name="course_img" 
-    color="primary" 
-    label='Course Image'
-    required={true}
-    variant="outlined"
-    onChange={ImageUpload}/>
-    
-</FormControl>
-
-<FormControl sx={{ m:2, width:'50ch'}} >
 <InputLabel color="primary">Course Description</InputLabel>
     <OutlinedInput 
     type="text" 

@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-export default function EditStudent(data,getStudentData) {
+export default function EditStudent(data) {
     const [formData,setFormData] = useState({
         user_id:data.data[0].student_id,
         first_name:data.data[0].First_Name,
@@ -31,7 +31,7 @@ export default function EditStudent(data,getStudentData) {
         setFormData((prevFormData)=>({...prevFormData,[name]:value}))
         }
 
-        const onUpdatehandler =  () =>{
+        const onUpdatehandler =  () => {
             axios.put("http://127.0.0.1:8000/api/Student/" + data.data[0].student_id,{
                 first_name:formData.first_name,
                 last_name:formData.last_name,

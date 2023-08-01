@@ -15,6 +15,10 @@ import Typography from '@mui/material/Typography';import {Button} from '@mui/mat
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import AddCourse from './AddCourse';
 import {Visibility} from "@mui/icons-material";
+import { Link } from 'react-router-dom';
+import ShowCourse from './ShowCourse';
+
+export const CourseidContext = React.createContext();
 
 const style = {
     position: 'absolute',
@@ -41,11 +45,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(even)': {
-  
       backgroundColor: '#ccfceb',
-  
-      // backgroundColor: theme.palette.secondary.main,
-  
       color: theme.palette.common.white
     },
   }));
@@ -76,6 +76,8 @@ export default function ManageCourses() {
     const handleClose_edit = () => setOpen_edit(false);
 
     const handleClose_add = () => setOpen_add(false);
+
+    
 
     const getCourseData =()=>{
         axios.get("http://127.0.0.1:8000/api/Course")
@@ -151,17 +153,20 @@ export default function ManageCourses() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {course_rows.map((row,i) => (
+          {course_rows.map((row,i) => 
+          (
             <StyledTableRow key={i}>
               <StyledTableCell >{row.Course_Title}</StyledTableCell>
               <StyledTableCell >{row.Course_ID}</StyledTableCell>
               <StyledTableCell >{row.Course_Topic}</StyledTableCell>
-              <StyledTableCell> <Visibility color='primary'/>  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/>   <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/></StyledTableCell>
+              <StyledTableCell> 
+                <Link to='/Show_Course' state={{course_id:row.Course_ID}}>
+                  <Visibility color='primary'/></Link>
+                  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
+                    <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/>
+                    </StyledTableCell>
             </StyledTableRow>
           ))}
-
-          
-
 <Modal
 
         open={open_edit}
