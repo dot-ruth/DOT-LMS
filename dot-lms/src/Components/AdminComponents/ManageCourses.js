@@ -16,9 +16,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import AddCourse from './AddCourse';
 import {Visibility} from "@mui/icons-material";
 import { Link } from 'react-router-dom';
-import ShowCourse from './ShowCourse';
-
-export const CourseidContext = React.createContext();
 
 const style = {
     position: 'absolute',

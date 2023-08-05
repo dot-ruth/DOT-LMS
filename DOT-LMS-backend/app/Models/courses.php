@@ -35,6 +35,8 @@ class courses extends Model
      */
     public $course_title;
 
+
+
     /**
      * @OA\Property(
      *      title="course_img",

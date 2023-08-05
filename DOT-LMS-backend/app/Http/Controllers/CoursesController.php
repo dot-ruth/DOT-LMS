@@ -44,16 +44,14 @@ class CoursesController extends Controller
      *      description="Returns the entered Course data",
      *      @OA\RequestBody(
      *          required=true,
-     * @OA\MediaType(
+     *     @OA\MediaType(
      *     mediaType="multipart/form-data",
      *     @OA\Schema(ref="#/components/schemas/courses")
-     *   )
-     *         
+     *   )  
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          
      *       ),
      *      @OA\Response(
      *          response=400,

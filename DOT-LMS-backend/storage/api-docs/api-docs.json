@@ -187,6 +187,260 @@
                 }
             }
         },
+        "/Chapter": {
+            "get": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Get list of all the Chapters ",
+                "description": "Returns list of Chapter in a course",
+                "operationId": "c5b23ac8335a68f4cb6068cadcf97e09",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Store new Course data into the database",
+                "description": "Returns the entered Course data",
+                "operationId": "083ebb845337f4cfe38708f16c499ee3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/chapter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Chapter/Add_File": {
+            "post": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Store new file into the database",
+                "description": "Returns true if the file is uploaded",
+                "operationId": "f4f7c546af85da46b1c8e27779e1f2cd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "chapter_id": {
+                                        "type": "string",
+                                        "example": "CHP-3213"
+                                    },
+                                    "file_name": {
+                                        "type": "string",
+                                        "example": "HTML"
+                                    },
+                                    "chapter_contents": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Chapter/{id}": {
+            "get": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Get a specific Chapter data",
+                "description": "Returns the specified Chapter's data",
+                "operationId": "4d14acffea8594676f9c8ae17921339c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Chapter id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CHP-7539"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Update existing Chapter",
+                "description": "Returns updated Chapter's data",
+                "operationId": "38b3afb90192080883a37e99cf255314",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Chapter's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CHP-7539"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/chapter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Delete existing Chapter",
+                "description": "Deletes a record and returns no content",
+                "operationId": "a416ffc57d962f41ea50e7339f3500ad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Chapter's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CHP-7539"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Course/Chapter/{course_id}": {
+            "get": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "Get a  Chapter data for a specified course",
+                "description": "Returns the  Chapter's data of a specific course",
+                "operationId": "c08e4a761c3fed62bd0a27fa9eabf9a3",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "Course id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-7539"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Course": {
             "get": {
                 "tags": [
@@ -928,6 +1182,43 @@
                         "description": "department of the Teacher",
                         "type": "string",
                         "example": "Software Engineering"
+                    }
+                },
+                "type": "object"
+            },
+            "chapter": {
+                "title": "Chapters",
+                "description": "Chapter data",
+                "properties": {
+                    "chapter_title": {
+                        "title": "chapter_title",
+                        "description": "Title of the Chapter",
+                        "type": "string",
+                        "example": "HTML"
+                    },
+                    "course_id": {
+                        "title": "course_id",
+                        "description": "The ID of the course this chapter belongs to",
+                        "type": "string",
+                        "example": "CUS-4857"
+                    },
+                    "file_name": {
+                        "title": "file_name",
+                        "description": "The name of the file to be uploaded",
+                        "type": "string",
+                        "example": "HTML"
+                    },
+                    "chapter_contents": {
+                        "title": "chapter_contents",
+                        "description": "A pdf or any other type file for the chapter",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "chapter_description": {
+                        "title": "chapter_description",
+                        "description": "A Brief description of the chapter ",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a varius nisl, a tempor felis. Aenean pretium convallis odio, at gravida lorem imperdiet porttitor. Pellentesque vitae eros rhoncus, euismod lectus at, bibendum urna. Integer id dolor at mi vulputate iaculis. Donec sodales nisl cursus, fermentum nibh quis, vehicula dolor. In facilisis lacus vitae imperdiet gravida. Suspendisse leo erat, rutrum vel pharetra vitae, vehicula commodo dui. Donec molestie, magna ut sodales faucibus, est turpis finibus tellus, tincidunt dapibus libero metus non orci. Sed tempor turpis dui, at vehicula tortor lacinia vel. Quisque at leo eget leo pretium semper. Suspendisse venenatis porta sapien eu finibus. Maecenas ultrices ut lacus nec feugiat. Quisque laoreet sapien ac dui faucibus, non euismod dui condimentum. Fusce ultrices leo id nibh hendrerit, non maximus justo scelerisque. Fusce semper lacus massa, quis auctor risus feugiat et. Curabitur volutpat nulla non nibh elementum, ut tempus metus imperdiet."
                     }
                 },
                 "type": "object"

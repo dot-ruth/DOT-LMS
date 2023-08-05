@@ -74,6 +74,12 @@
         Route::post('/forgotPassword', [UserRoleController::class, 'ForgotPassword']);
 
         Route::resource('/Course', CoursesController::class);
+
+        Route::resource('/Chapter', ChapterController::class);
+
+        Route::get('/Course/Chapter/{course_id}', [ChapterController::class, 'course_chapter']);
+
+        Route::post('/Chapter/Add_File', [ChapterController::class, 'addFile']);
       //  });
 
         

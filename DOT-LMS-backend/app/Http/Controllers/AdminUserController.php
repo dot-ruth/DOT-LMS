@@ -144,7 +144,7 @@ class AdminUserController extends Controller
      *          name="id",
      *          description="Admin's id",
      *          required=true,
-     * example = "ADM-6832",
+     *          example = "ADM-6832",
      *          in="path",
      *          @OA\Schema(
      *              type="string"
@@ -153,7 +153,6 @@ class AdminUserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          
      *       ),
      *      @OA\Response(
      *          response=400,

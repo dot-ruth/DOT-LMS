@@ -1,14 +1,63 @@
-import React, { useContext, useState } from 'react';
+import React, {  useState } from 'react';
 import theme from "../theme";
 import axios from "axios";
 import { Box, Button, ThemeProvider, Typography } from "@mui/material";
 import AdminSideDrawer from "./AdminSideDrawer";
 import { useLocation } from 'react-router-dom';
-import { Image } from 'react-bootstrap';
-import Overlay from 'react-bootstrap';
+import {styled} from '@mui/material/styles';
+import {Paper }from '@mui/material';
+import {Visibility} from "@mui/icons-material";
+import { Link } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Modal from '@mui/material/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+import AddChapter from './AddChapter';
+import EditChapter from './EditChapter';
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
+import ShowChapter from './ShowChapter';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+ 
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    backgroundColor: '#ccfceb',
+    color: theme.palette.common.white
+  },
+}));
 
 
 export default function ShowCourse() {
+
+  function create_chapter_Data(Chapter_Title,Chapter_ID,Course_ID,Chapter_File_Name,Chapter_File,Chapter_Description) {
+    return { Chapter_Title,Chapter_ID,Course_ID,Chapter_File_Name,Chapter_File,Chapter_Description};
+  }
+
+  function create_file_data(File_Name,File){
+    return {File_Name,File}
+  }
 
 const [course_title,setcourse_title] = useState()
 
@@ -18,9 +67,48 @@ let topicArray = []
 
 const [course_topic_array,setcourse_topic_array] = useState([])
 
+let chapterFileArray= []
+
+let fileArray = []
+
+const [chapter_file_array,setchapter_file_array] = useState([])
+
+let file_name_array = []
+
+const [chapter_row,setchapter_row] = useState([])
+
+let chapterArray = []
+
 const [course_description,setcourse_description] = useState()
 
-  console.log(useLocation().state.course_id)
+const [open_edit, setOpen_edit] = React.useState(false);
+
+    const [open_add, setOpen_add] = React.useState(false);
+
+    const [open_show,setOpen_show] = React.useState(false);
+
+    const [edit_row,setedit_row] = React.useState();
+
+    const [show_row,setshow_row] = React.useState();
+
+    const handleOpen_edit = (row) => {
+      setOpen_edit(true);
+      setedit_row(row);
+    }
+    const handleOpen_show = (row) => {
+      setOpen_show(true)
+      setshow_row(row)
+    }
+    
+
+    const handleOpen_add = () => setOpen_add(true);
+
+    const handleClose_show = () => setOpen_show(false);
+  
+    const handleClose_edit = () => setOpen_edit(false);
+
+    const handleClose_add = () => setOpen_add(false);
+
   const course_id = useLocation().state.course_id
     const getCourseData =()=>{
         axios.get("http://127.0.0.1:8000/api/Course/" + course_id )
@@ -34,15 +122,57 @@ const [course_description,setcourse_description] = useState()
       })
       }
 
+      const getChapterData =()=>{
+        axios.get("http://127.0.0.1:8000/api/Course/Chapter/" + course_id )
+          .then((response)=>{
+            
+            console.log(response.data.chapter[1])
+            
+            for (let i = 0; i < response.data.chapter.length; i++) {
+              fileArray.push(response.data.chapter[i].chapter_contents.split(','))
+              file_name_array.push(response.data.chapter[i].file_name.split(','))
+              chapterArray.push(create_chapter_Data(response.data.chapter[i].chapter_title, response.data.chapter[i].chapter_id,response.data.chapter[i].course_id,response.data.chapter[i].file_name,response.data.chapter[i].chapter_contents,response.data.chapter[i].chapter_description))
+            }  
+            for(let i=0;i<fileArray.length;i++){
+              chapterFileArray.push(create_file_data(file_name_array[i],fileArray[i]))
+            }
+              
+        setchapter_row(chapterArray)
+        setchapter_file_array(chapterFileArray)
+        console.log(fileArray.length)
+        console.log(fileArray)
+        console.log(chapterFileArray[0].File_Name)
+        // setchapter_file_name_array(file_name_array)
+      })
+      }
+
+      function delete_chapter(chapter_id){
+        axios.delete("http://127.0.0.1:8000/api/Chapter"+chapter_id)
+        .then(()=>{
+         toast.success('Chapter deleted Successfully',{
+           position:toast.POSITION.BOTTOM_CENTER
+         })
+         window.location.reload(true)
+        })
+      }
+
 
   return (
 
-
+<PerfectScrollbar>
     <Box>
             <ThemeProvider theme={theme}>
+            <ToastContainer/>
             {
             React.useEffect(()=>{
       getCourseData()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[])
+      }
+
+{
+            React.useEffect(()=>{
+      getChapterData()
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[])
       }
@@ -53,7 +183,6 @@ const [course_description,setcourse_description] = useState()
         display:'flex', 
         justifyContent:'space-between',
         height:'100vh',
-        overflowY:'hidden',
         }}>
             <Box sx={{mt:1}}>
         
@@ -117,11 +246,101 @@ const [course_description,setcourse_description] = useState()
            
 
         </Box>
-        <Typography variant='h6' sx={{padding:2}}>{course_description}</Typography>
+        <Typography variant='h6' sx={{
+          paddingTop:1,
+          paddingBottom:1,
+          paddingLeft:4,
+          paddingRight:4
+          }}>{course_description}</Typography>
+
+<Box sx={{
+        display:'flex',
+        justifyContent:'space-between'
+      }}>
+      <Typography variant='h6' style={{ fontWeight:'bold'}}>Chapter List</Typography>
+      <Button variant='contained' style={{backgroundColor:'primary'}} onClick={handleOpen_add}>Add Chapter</Button>
+      <Modal
+        open={open_add}
+        onClose={handleClose_add}
+      >
+        <Box sx={style}>
+          < AddChapter courseID={course_id}/>
+        </Box>
+      </Modal>
+
+      </Box>
+
+<TableContainer component={Paper} style={{
+        marginTop:'5px',
+        height:'100vh'
+        }}>
+      <Table sx={{ minWidth: 500 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell >Chapter Title</StyledTableCell>
+            <StyledTableCell >Chapter ID</StyledTableCell>
+            <StyledTableCell >Chapter File</StyledTableCell>
+            <StyledTableCell > </StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {chapter_row.map((row,rowIndex) => 
+          (
+            <StyledTableRow key={rowIndex}>
+              <StyledTableCell >{row.Chapter_Title}</StyledTableCell>
+              <StyledTableCell >{row.Chapter_ID}</StyledTableCell>
+              <StyledTableCell>
+              {chapter_file_array[rowIndex].File.map((row_file,columnIndex)=>
+                (
+                <StyledTableCell key={columnIndex}><a href={row_file} target="_blank" rel="noreferrer">{chapter_file_array[rowIndex].File_Name[columnIndex]},</a></StyledTableCell>
+            
+              ))}
+              </StyledTableCell>
+              <StyledTableCell> 
+                  <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
+                  
+                  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
+                    <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
+                    </StyledTableCell>
+            </StyledTableRow>
+          ))}
+<Modal
+
+        open={open_edit}
+        onClose={handleClose_edit}
+      >
+        {open_edit?
+        <Box sx={style}>
+        < EditChapter row={edit_row} />
+      </Box>:
+      <Box></Box>
+      }
+      </Modal>
+
+      <Modal
+
+        open={open_show}
+        onClose={handleClose_show}
+      >
+        {open_show?
+        <Box sx={style}>
+        < ShowChapter row={show_row} id='modal'/>
+      </Box>:
+      <Box></Box>
+      }
+        
+        
+      </Modal>
+          
+        </TableBody>
+      </Table>
+    </TableContainer>
+
         </Box>
         
         </Box>
         </ThemeProvider>
         </Box>
+        </PerfectScrollbar>
   )
 }
