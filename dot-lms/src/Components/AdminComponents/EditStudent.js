@@ -64,7 +64,7 @@ export default function EditStudent(data) {
             height:'100vh',
             weidth:'100vw',
           }}>
-          <ToastContainer/>
+          
             <ThemeProvider theme={theme}>
         
         <Box 
