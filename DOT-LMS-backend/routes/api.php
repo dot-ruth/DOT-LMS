@@ -80,6 +80,8 @@
         Route::get('/Course/Chapter/{course_id}', [ChapterController::class, 'course_chapter']);
 
         Route::post('/Chapter/Add_File', [ChapterController::class, 'addFile']);
+
+        Route::delete('/Chapter/delete_file/{chapter_id}', [ChapterController::class, 'deleteFile']);
       //  });
 
         

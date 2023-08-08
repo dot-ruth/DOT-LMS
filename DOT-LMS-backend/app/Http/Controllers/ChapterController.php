@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class ChapterController extends Controller
 {
@@ -119,7 +120,7 @@ class ChapterController extends Controller
      *      path="/Chapter/Add_File",
      *      tags={"Chapter"},
      *      summary="Store new file into the database",
-     *      description="Returns true if the file is uploaded",
+     *      description="Returns an array of the file name and files",
      *      @OA\RequestBody(
      *          required=true,
      * @OA\MediaType(
@@ -165,7 +166,6 @@ class ChapterController extends Controller
      *      )
      * )
      */
-    //public $chapter_content_array = [1, 2, 3];
     public function addFile(Request $request)
     {
 
@@ -174,11 +174,6 @@ class ChapterController extends Controller
         $file_uploaded_path = $chapter_file->store($uploadFolder, 'public');
         $url = 'http://127.0.0.1:8000/storage/chapter_content/' . basename($file_uploaded_path);
 
-        $uploadedFileResponse = array(
-            "file_name" => basename($file_uploaded_path),
-            "file_url" => $url,
-            "mime" => $chapter_file->getClientMimeType()
-        );
 
         $chapter_contents_column = 'chapter_contents';
         $current_files = DB::table('chapters')->where('chapter_id', $request->chapter_id)->value($chapter_contents_column);
@@ -200,6 +195,74 @@ class ChapterController extends Controller
 
         ]);
     }
+
+    /**
+     * @OA\Delete(
+     *      path="/Chapter/delete_file/{chapter_id}",
+     *      tags={"Chapter"},
+     *      summary="delete file from the database",
+     *      description="Returns true if the file is deleted",
+     *      @OA\Parameter(
+     *         name="chapter_id",
+     *         in="header",
+     *         required=true,
+     *     ),
+     * @OA\Parameter(
+     *         name="url",
+     *         in="header",
+     *         required=true,
+     *     ),
+     * @OA\Parameter(
+     *         name="file_name",
+     *         in="header",
+     *         required=true,
+     *     ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function deleteFile(Request $request, string $chapter_id)
+    {
+        $chapter_contents_column = 'chapter_contents';
+        $current_files = DB::table('chapters')->where('chapter_id', $request->header('chapter_id'))->value($chapter_contents_column);
+        $file_array = explode(",", $current_files);
+        $index = array_search($request->header('url'), $file_array);
+        unset($file_array[$index]);
+        $string_file_array = implode(",", $file_array);
+        DB::table('chapters')->where('chapter_id', $request->header('chapter_id'))->update([
+            $chapter_contents_column => $string_file_array,
+        ]);
+
+        $file_name_column = 'file_name';
+        $current_file_names = DB::table('chapters')->where('chapter_id', $request->header('chapter_id'))->value($file_name_column);
+        $file_name_array = explode(",", $current_file_names);
+        $name_index = array_search($request->header('file_name'), $file_name_array);
+        unset($file_name_array[$name_index]);
+        $string_file_name_array = implode(",", $file_name_array);
+        DB::table('chapters')->where('chapter_id', $request->header('chapter_id'))->update([
+            $file_name_column => $string_file_name_array,
+        ]);
+
+        return response()->json([
+            'response' => 'updated'
+        ]);
+    }
+
 
     /**
      * @OA\Get(

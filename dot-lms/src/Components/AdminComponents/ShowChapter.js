@@ -3,17 +3,12 @@ import React from 'react'
 import { Box } from '@mui/material'
 import {ThemeProvider }from '@mui/material'
 import theme from '../theme'
-import { useState } from 'react'
 import {Typography} from '@mui/material'
-import {FormControl,OutlinedInput,Button} from '@mui/material'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { ToastContainer, toast } from 'react-toastify'
-import {InputLabel} from '@mui/material'
+import {  toast } from 'react-toastify'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import Modal from '@mui/material/Modal';
-import AddFile from './AddFile';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -29,17 +24,11 @@ const divider_style = {
 
 export default function ShowChapter(show_row) {
 
-  // console.log(show_row)
-  // console.log(show_row.row.Chapter_File)
-  // console.log(show_row.row.Chapter_File_Name)
-  // console.log(show_row.row.Chapter_ID)
-  // console.log(show_row.row.Chapter_Title)
-  // console.log(show_row.row.Chapter_Description)
-  // console.log(show_row.row.Course_ID)
+  const [delete_file,setdelete_file] = React.useState("")
 
-  const [delete_file,setdelete_file] = React.useState()
+  const [delete_file_name,setdelete_file_name] = React.useState("")
 
-  const [open_delete,setopen_delete] = React.useState(false)
+  const delete_chapter_id = show_row.row.Chapter_ID
 
   const [course_Name,setcourse_Name] = React.useState("")
 
@@ -49,15 +38,6 @@ export default function ShowChapter(show_row) {
 
   let file_array = []
 
-  //const [file_array,setfile_array] = React.useState([])
-
-  // <button onClick={() => }>Change Fruits</button>
-
-
-  const handleOpen_delete = (file) => {
-    setopen_delete(true)
-    setdelete_file(file)
-  }
 
   const getCourse_Name = () => {
     axios.get("http://127.0.0.1:8000/api/Course/"+show_row.row.Course_ID)
@@ -94,7 +74,7 @@ export default function ShowChapter(show_row) {
           }} >
             
             <ListItemText primary={file.key}/> </a>
-          <DeleteIcon color='primary' onClick={()=>handleDelete_file()}/>
+          <DeleteIcon color='primary' onClick={()=>delete_confirmation(file.value,file.key)}/>
           
         </ListItem>
         <Divider />
@@ -104,30 +84,37 @@ export default function ShowChapter(show_row) {
       );
   }
 
-  // const onDelete =  () => {
+  const handleDelete = () => {
+    console.log(delete_file_name)
+    console.log(delete_file)
+    axios.delete("http://127.0.0.1:8000/api/Chapter/delete_file/"+delete_chapter_id,{
+      headers: {
+        'chapter_id': delete_chapter_id,
+        'url': delete_file
+      }
+    }).then((response)=>{
+      if(response.status===200){
+        toast.success('File Deleted',{
+          position:toast.POSITION.BOTTOM_CENTER
+        })
+        window.location.reload(true)
+      }else{
+        toast.error('Error While deleting file, Please try again',{
+          position:toast.POSITION.BOTTOM_CENTER
+        })
+      }
+    })
+  }
 
-  // }
-
-
-  const handleDelete_file = () => {
-    toast.success(
-      "Are you sure",
-      {
-        position: "top-right",
-        duration: 3000,
-        closeButton: true,
-        action: {
-          text: "View Details",
-          onClick: () => {
-            console.log("Action button clicked!");
-          },
-        },
-        target: {
-          element: document.body,
-          selector: "#modal",
-        },
-      },
-    );
+  const delete_confirmation = (deleteFile,deleteFile_name) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Are you Sure")) {
+      setdelete_file(deleteFile)
+      setdelete_file_name(deleteFile_name)
+      handleDelete()
+    } else {
+      console.log('cancled deletion')
+    }
   }
   
 
@@ -145,7 +132,6 @@ export default function ShowChapter(show_row) {
             height:'100vh',
             weidth:'100vw',
           }}>
-          <ToastContainer/>
             <ThemeProvider theme={theme}>
         
         <Box 

@@ -246,7 +246,7 @@
                     "Chapter"
                 ],
                 "summary": "Store new file into the database",
-                "description": "Returns true if the file is uploaded",
+                "description": "Returns an array of the file name and files",
                 "operationId": "f4f7c546af85da46b1c8e27779e1f2cd",
                 "requestBody": {
                     "required": true,
@@ -272,6 +272,47 @@
                         }
                     }
                 },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Chapter/delete_file/{chapter_id}": {
+            "delete": {
+                "tags": [
+                    "Chapter"
+                ],
+                "summary": "delete file from the database",
+                "description": "Returns true if the file is deleted",
+                "operationId": "bcc3f0bd3ef1155e7fb1722763f16150",
+                "parameters": [
+                    {
+                        "name": "chapter_id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "url",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "file_name",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Successful operation"
