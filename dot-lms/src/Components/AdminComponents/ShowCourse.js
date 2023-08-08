@@ -17,6 +17,8 @@ import EditChapter from './EditChapter';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
 import ShowChapter from './ShowChapter';
+import AddFile from './AddFile';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 const style = {
   position: 'absolute',
@@ -99,7 +101,7 @@ const [open_edit, setOpen_edit] = React.useState(false);
       setOpen_show(true)
       setshow_row(row)
     }
-    
+        
 
     const handleOpen_add = () => setOpen_add(true);
 
@@ -108,6 +110,17 @@ const [open_edit, setOpen_edit] = React.useState(false);
     const handleClose_edit = () => setOpen_edit(false);
 
     const handleClose_add = () => setOpen_add(false);
+
+    const [open_add_chapter, setOpen_add_chapter] = React.useState(false);
+
+    const [add_chapter_row,setadd_chapter_row] = React.useState();
+
+    const handleOpen_add_chapter= (row) => {
+      setOpen_add_chapter(true);
+      setadd_chapter_row(row);
+    }
+
+    const handleClose_add_chapter = () => setOpen_add_chapter(false);
 
   const course_id = useLocation().state.course_id
     const getCourseData =()=>{
@@ -298,9 +311,10 @@ const [open_edit, setOpen_edit] = React.useState(false);
               </StyledTableCell>
               <StyledTableCell> 
                   <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
-                  
                   <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                    <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
+                  <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
+                  <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
+                  
                     </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -325,6 +339,21 @@ const [open_edit, setOpen_edit] = React.useState(false);
         {open_show?
         <Box sx={style}>
         < ShowChapter row={show_row} id='modal'/>
+      </Box>:
+      <Box></Box>
+      }
+        
+        
+      </Modal>
+
+      <Modal
+
+        open={open_add_chapter}
+        onClose={handleClose_add_chapter}
+      >
+        {open_add_chapter?
+        <Box sx={style}>
+        < AddFile row={add_chapter_row} />
       </Box>:
       <Box></Box>
       }

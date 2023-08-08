@@ -8,11 +8,10 @@ import {FormControl,OutlinedInput,Button} from '@mui/material'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { ToastContainer, toast } from 'react-toastify'
+import {  toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import Modal from '@mui/material/Modal';
-import AddFile from './AddFile';
+
 
 const style = {
   position: 'absolute',
@@ -42,20 +41,6 @@ export default function EditChapter(edit_row) {
       data[name] = value;
       setFormData((prevFormData)=>({...prevFormData,[name]:value}))
       }
-
-
-    const [open_add, setOpen_add] = React.useState(false);
-
-    const [add_row,setadd_row] = React.useState();
-
-    const handleOpen_add = (row) => {
-      setOpen_add(true);
-      setadd_row(row);
-    }
-
-    const handleClose_add = () => setOpen_add(false);
-
-      
 
       const onUpdatehandler =  () =>{
         
@@ -88,7 +73,7 @@ export default function EditChapter(edit_row) {
             height:'100vh',
             weidth:'100vw',
           }}>
-          <ToastContainer/>
+          
             <ThemeProvider theme={theme}>
         
         <Box 
@@ -136,27 +121,6 @@ export default function EditChapter(edit_row) {
 
         <Box sx={{display:'flex'}}>
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler} >Update</Button>
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} 
-        onClick={()=>{
-          handleOpen_add(edit_row.row.Chapter_ID)
-        }
-        } >
-          Add File 
-          </Button>
-          <Modal
-
-        open={open_add}
-        onClose={handleClose_add}
-      >
-        {open_add?
-        <Box sx={style}>
-        < AddFile row={add_row} />
-      </Box>:
-      <Box></Box>
-      }
-        
-        
-      </Modal>
         
         </Box>
         </div>
