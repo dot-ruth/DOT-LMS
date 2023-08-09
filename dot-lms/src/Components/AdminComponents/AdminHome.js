@@ -109,7 +109,6 @@ export default function AdminHome() {
 
         teacherarray.push(create_teacher_Data(response.data.teachers[i]['first_name'], response.data.teachers[i]['last_name'],  response.data.teachers[i]['teacher_id'],response.data.teachers[i]['email'],response.data.teachers[i]['department'],))
         
-
       }
       setteacher_rows(teacherarray)
       setteacher_count(response.data.teacher_count)
@@ -124,23 +123,35 @@ export default function AdminHome() {
   }
 
   function delete_student(user_id){
-     axios.delete("http://127.0.0.1:8000/api/Student/"+user_id)
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Are you Sure")) {
+      axios.delete("http://127.0.0.1:8000/api/Student/"+user_id)
      .then(()=>{
       toast.success('User deleted Successfully',{
         position:toast.POSITION.BOTTOM_CENTER
       })
       window.location.reload(true)
      })
+    } else {
+      console.log('cancled deletion')
+    }
+     
   }
 
   function delete_teacher(user_id){
-    axios.delete("http://127.0.0.1:8000/api/Teacher/"+user_id)
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Are you Sure")) {
+      axios.delete("http://127.0.0.1:8000/api/Teacher/"+user_id)
     .then(()=>{
      toast.success('User deleted Successfully',{
        position:toast.POSITION.BOTTOM_CENTER
      })
      window.location.reload(true)
     })
+    } else {
+      console.log('cancled deletion')
+    } 
+    
   }
 
   return (

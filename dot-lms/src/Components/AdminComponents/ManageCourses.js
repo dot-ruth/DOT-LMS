@@ -88,13 +88,19 @@ export default function ManageCourses() {
       }
 
       function delete_course(course_id){
-        axios.delete("http://127.0.0.1:8000/api/Course/"+course_id)
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("Are you Sure")) {
+          axios.delete("http://127.0.0.1:8000/api/Course/"+course_id)
         .then(()=>{
          toast.success('Course deleted Successfully',{
            position:toast.POSITION.BOTTOM_CENTER
          })
          window.location.reload(true)
         })
+        } else {
+          console.log('cancled deletion')
+        }
+        
       }
 
     return (
