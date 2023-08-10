@@ -24,6 +24,7 @@ class TeacherUser extends Model implements JWTSubject
         'email',
         'department',
         'password',
+        'course_id',
     ];
 
     /**

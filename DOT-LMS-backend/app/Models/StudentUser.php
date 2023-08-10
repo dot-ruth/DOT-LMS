@@ -24,6 +24,8 @@ class StudentUser extends Model implements JWTSubject
         'department',
         'year',
         'semester',
+        'student_id',
+        'course_id',
     ];
 
     /**
@@ -115,7 +117,10 @@ class StudentUser extends Model implements JWTSubject
         'password',
     ];
 
-
+    public function courses()
+    {
+        return $this->hasMany(courses::class, 'course_id');
+    }
 
     public function assignment()
     {

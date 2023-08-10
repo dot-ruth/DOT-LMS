@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('teacher_id')->unique();
-            $table->string('course_id');
+            $table->string('course_id')->nullable();
             $table->foreign('course_id')->references('course_id')->on('courses');
             $table->string('email')->unique();
             $table->string('department');

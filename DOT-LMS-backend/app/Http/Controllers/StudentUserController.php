@@ -234,7 +234,7 @@ class StudentUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = StudentUser::where('Student_id', $id)->first();
+        $user = StudentUser::where('student_id', $id)->first();
         $user->update($request->all());
         return $user;
     }

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('year')->nullable();
             $table->string('semester')->nullable();
             $table->string('password')->nullable();
+            $table->string('course_id')->nullable();
+            $table->foreign('course_id')->references('course_id')->on('courses');
             $table->timestamps();
         });
     }
