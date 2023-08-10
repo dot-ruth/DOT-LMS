@@ -27,8 +27,7 @@ const style = {
 
 export default function EditChapter(edit_row) {
 
-  console.log(edit_row)
-
+ 
   const [formData,setFormData] = useState({
       chapter_title:edit_row.row.Chapter_Title,
       chapter_description:"",
@@ -43,8 +42,7 @@ export default function EditChapter(edit_row) {
       }
 
       const onUpdatehandler =  () =>{
-        
-          axios.get("http://127.0.0.1:8000/api/Course/"+edit_row.row.Chapter_ID ,{
+          axios.put("http://127.0.0.1:8000/api/Chapter/"+edit_row.row.Chapter_ID ,{
               chapter_title:formData.chapter_title,
               chapter_description:formData.chapter_description,
             },

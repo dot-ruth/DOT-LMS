@@ -56,10 +56,6 @@ export default function ShowCourse() {
     return { Chapter_Title,Chapter_ID,Course_ID,Chapter_File_Name,Chapter_File,Chapter_Description};
   }
 
-  function create_file_data(File_Name,File){
-    return {File_Name,File}
-  }
-
 const [course_title,setcourse_title] = useState()
 
 const [course_img,setcourse_img] = useState()
@@ -162,7 +158,7 @@ const [open_edit, setOpen_edit] = React.useState(false);
       function delete_chapter(chapter_id){
         // eslint-disable-next-line no-restricted-globals
         if (confirm("Are you Sure")) {
-          axios.delete("http://127.0.0.1:8000/api/Chapter"+chapter_id)
+          axios.delete("http://127.0.0.1:8000/api/Chapter/"+chapter_id)
         .then(()=>{
          toast.success('Chapter deleted Successfully',{
            position:toast.POSITION.BOTTOM_CENTER
@@ -320,7 +316,7 @@ const [open_edit, setOpen_edit] = React.useState(false);
             <StyledTableCell> 
                 <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
                 <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
+                <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Chapter_ID)}/>
                 <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
                 
                   </StyledTableCell>

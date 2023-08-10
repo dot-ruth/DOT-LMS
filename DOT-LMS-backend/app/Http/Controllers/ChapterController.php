@@ -362,12 +362,10 @@ class ChapterController extends Controller
      *              type="string"
      *          )
      *      ),
-     *      @OA\RequestBody(
+     *      
+     * @OA\RequestBody(
      *          required=true,
-     *         @OA\MediaType(
-     *          mediaType="multipart/form-data",
-     *          @OA\Schema(ref="#/components/schemas/chapter")
-     *     )    
+     *          @OA\JsonContent(ref="#/components/schemas/chapter")
      *      ),
      *      @OA\Response(
      *          response=202,
@@ -393,7 +391,7 @@ class ChapterController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $chapter = chapter::where('chapter_id', $id)->firstOrFail();
+        $chapter = chapter::where('chapter_id', $id)->first();
         $chapter->update($request->all());
         return $chapter;
     }

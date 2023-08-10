@@ -8,7 +8,7 @@ import {FormControl,OutlinedInput,Button} from '@mui/material'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { ToastContainer, toast } from 'react-toastify'
+import {  toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -73,7 +73,7 @@ export default function AddChapter(chapter) {
             height:'100vh',
             weidth:'100vw',
           }}>
-          <ToastContainer/>
+          
             <ThemeProvider theme={theme}>
         
         <Box 
