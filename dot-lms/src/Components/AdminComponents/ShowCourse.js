@@ -137,20 +137,25 @@ const [open_edit, setOpen_edit] = React.useState(false);
       const getChapterData =()=>{
         axios.get("http://127.0.0.1:8000/api/Course/Chapter/" + course_id )
           .then((response)=>{
-            
-            console.log(response.data.chapter[1])
-            
+            let newFile
             for (let i = 0; i < response.data.chapter.length; i++) {
               fileArray.push(response.data.chapter[i].chapter_contents.split(','))
               file_name_array.push(response.data.chapter[i].file_name.split(','))
               chapterArray.push(create_chapter_Data(response.data.chapter[i].chapter_title, response.data.chapter[i].chapter_id,response.data.chapter[i].course_id,response.data.chapter[i].file_name,response.data.chapter[i].chapter_contents,response.data.chapter[i].chapter_description))
             }  
             for(let i=0;i<fileArray.length;i++){
-              chapterFileArray.push(create_file_data(file_name_array[i],fileArray[i]))
+              // chapterFileArray.push(create_file_data(file_name_array[i],fileArray[i]))
+              newFile = {
+                key:file_name_array[i],
+                value:fileArray[i]
+              }
+              chapterFileArray.push(newFile)
             }
               
         setchapter_row(chapterArray)
         setchapter_file_array(chapterFileArray)
+        console.log(chapter_row)
+        console.log(chapterFileArray[0])
       })
       }
 
@@ -306,9 +311,9 @@ const [open_edit, setOpen_edit] = React.useState(false);
             <StyledTableCell >{row.Chapter_Title}</StyledTableCell>
             <StyledTableCell >{row.Chapter_ID}</StyledTableCell>
             <StyledTableCell>
-            {chapter_file_array[rowIndex].File.map((row_file,columnIndex)=>
+            {chapter_file_array[rowIndex].key.map((row_file,columnIndex)=>
               (
-              <StyledTableCell key={columnIndex}><a href={row_file} target="_blank" rel="noreferrer">{chapter_file_array[rowIndex].File_Name[columnIndex]},</a></StyledTableCell>
+              <StyledTableCell key={columnIndex}><a href={chapter_file_array[rowIndex].value[columnIndex]} target="_blank" rel="noreferrer">{row_file},</a></StyledTableCell>
           
             ))}
             </StyledTableCell>
