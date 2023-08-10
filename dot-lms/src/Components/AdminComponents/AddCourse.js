@@ -8,7 +8,7 @@ import {FormControl,OutlinedInput,Button} from '@mui/material'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { ToastContainer, toast } from 'react-toastify'
+import {  toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -53,7 +53,7 @@ export default function AddCourse() {
                 toast.success('Course Created Successfully',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
-                //window.location.reload(true)
+              window.location.reload(true)
               }else{
                 toast.error('Error While updating the user, Please try again',{
                   position:toast.POSITION.BOTTOM_CENTER
@@ -104,6 +104,7 @@ export default function AddCourse() {
     name="course_topic" 
     label='Course Topic'
     color="primary" 
+    placeholder='Enter the tpoic separated by comma'
     required={true}
     variant="outlined"
     value = {formData.course_topic}

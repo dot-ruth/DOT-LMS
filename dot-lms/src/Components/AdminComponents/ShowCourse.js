@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom';
 import {styled} from '@mui/material/styles';
 import {Paper }from '@mui/material';
 import {Visibility} from "@mui/icons-material";
-import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from '@mui/material/Modal';
@@ -152,10 +151,6 @@ const [open_edit, setOpen_edit] = React.useState(false);
               
         setchapter_row(chapterArray)
         setchapter_file_array(chapterFileArray)
-        console.log(fileArray.length)
-        console.log(fileArray)
-        console.log(chapterFileArray[0].File_Name)
-        // setchapter_file_name_array(file_name_array)
       })
       }
 
@@ -289,7 +284,8 @@ const [open_edit, setOpen_edit] = React.useState(false);
 
       </Box>
 
-<TableContainer component={Paper} style={{
+      {chapter_row?
+      <TableContainer component={Paper} style={{
         marginTop:'5px',
         height:'100vh'
         }}>
@@ -302,74 +298,80 @@ const [open_edit, setOpen_edit] = React.useState(false);
             <StyledTableCell > </StyledTableCell>
           </TableRow>
         </TableHead>
+        
         <TableBody>
-          {chapter_row.map((row,rowIndex) => 
-          (
-            <StyledTableRow key={rowIndex}>
-              <StyledTableCell >{row.Chapter_Title}</StyledTableCell>
-              <StyledTableCell >{row.Chapter_ID}</StyledTableCell>
-              <StyledTableCell>
-              {chapter_file_array[rowIndex].File.map((row_file,columnIndex)=>
-                (
-                <StyledTableCell key={columnIndex}><a href={row_file} target="_blank" rel="noreferrer">{chapter_file_array[rowIndex].File_Name[columnIndex]},</a></StyledTableCell>
-            
-              ))}
-              </StyledTableCell>
-              <StyledTableCell> 
-                  <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
-                  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                  <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
-                  <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
-                  
-                    </StyledTableCell>
-            </StyledTableRow>
-          ))}
+        {chapter_row.map((row,rowIndex) => 
+        (
+          <StyledTableRow key={rowIndex}>
+            <StyledTableCell >{row.Chapter_Title}</StyledTableCell>
+            <StyledTableCell >{row.Chapter_ID}</StyledTableCell>
+            <StyledTableCell>
+            {chapter_file_array[rowIndex].File.map((row_file,columnIndex)=>
+              (
+              <StyledTableCell key={columnIndex}><a href={row_file} target="_blank" rel="noreferrer">{chapter_file_array[rowIndex].File_Name[columnIndex]},</a></StyledTableCell>
+          
+            ))}
+            </StyledTableCell>
+            <StyledTableCell> 
+                <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
+                <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
+                <DeleteIcon color='primary' onClick={()=>delete_chapter(row.Course_ID)}/>
+                <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
+                
+                  </StyledTableCell>
+          </StyledTableRow>
+        ))}
 <Modal
 
-        open={open_edit}
-        onClose={handleClose_edit}
-      >
-        {open_edit?
-        <Box sx={style}>
-        < EditChapter row={edit_row} />
-      </Box>:
-      <Box></Box>
-      }
-      </Modal>
+      open={open_edit}
+      onClose={handleClose_edit}
+    >
+      {open_edit?
+      <Box sx={style}>
+      < EditChapter row={edit_row} />
+    </Box>:
+    <Box></Box>
+    }
+    </Modal>
 
-      <Modal
+    <Modal
 
-        open={open_show}
-        onClose={handleClose_show}
-      >
-        {open_show?
-        <Box sx={style}>
-        < ShowChapter row={show_row} id='modal'/>
-      </Box>:
-      <Box></Box>
-      }
+      open={open_show}
+      onClose={handleClose_show}
+    >
+      {open_show?
+      <Box sx={style}>
+      < ShowChapter row={show_row} id='modal'/>
+    </Box>:
+    <Box></Box>
+    }
+      
+      
+    </Modal>
+
+    <Modal
+
+      open={open_add_chapter}
+      onClose={handleClose_add_chapter}
+    >
+      {open_add_chapter?
+      <Box sx={style}>
+      < AddFile row={add_chapter_row} />
+    </Box>:
+    <Box></Box>
+    }
+      
+      
+    </Modal>
+        
+      </TableBody>
         
         
-      </Modal>
-
-      <Modal
-
-        open={open_add_chapter}
-        onClose={handleClose_add_chapter}
-      >
-        {open_add_chapter?
-        <Box sx={style}>
-        < AddFile row={add_chapter_row} />
-      </Box>:
-      <Box></Box>
-      }
-        
-        
-      </Modal>
-          
-        </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer> : <Box></Box>
+      }
+
+
 
         </Box>
         
