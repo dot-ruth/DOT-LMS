@@ -82,6 +82,8 @@
         Route::post('/Chapter/Add_File', [ChapterController::class, 'addFile']);
 
         Route::delete('/Chapter/delete_file/{chapter_id}', [ChapterController::class, 'deleteFile']);
+
+        Route::post('/Student/AddbyCSV', [StudentUserController::class, 'CSV_Import']);
       //  });
 
         

@@ -705,6 +705,46 @@
                 }
             }
         },
+        "/Student/AddbyCSV": {
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Store",
+                "description": "Returns an array of the file name and files",
+                "operationId": "281b080c11d64e3d874995a5558fab1f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "csv_file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Student/{id}": {
             "get": {
                 "tags": [

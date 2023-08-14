@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DOTLMSMail;
+use App\Imports\AddbyCSV;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Bus\PendingDispatch;
 
 class StudentUserController extends Controller
 {
@@ -139,6 +142,61 @@ class StudentUserController extends Controller
 
             ]);
         }
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/Student/AddbyCSV",
+     *      tags={"Student"},
+     *      summary="Store",
+     *      description="Returns an array of the file name and files",
+     *      @OA\RequestBody(
+     *          required=true,
+     * @OA\MediaType(
+     *     mediaType="multipart/form-data",
+     *     @OA\Schema(
+     * @OA\Property(
+     *                     property="csv_file",
+     *                     type="string",
+     *                     format="binary"
+     * 
+     *                 ),
+     * )
+     *   )
+     *         
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function CSV_Import(Request $request)
+    {
+        $csv_file = $request->file('csv_file');
+        $uploadFolder = 'CSV files';
+        $file_uploaded_path = $csv_file->store($uploadFolder, 'public');
+        $add_by_csv = new AddbyCSV();
+
+        Excel::import($add_by_csv, $file_uploaded_path, null, 'Csv');
+
+
+        return response()->json([
+            'status' => 'Students are added through CSV'
+        ]);
     }
 
 

@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import theme from '../theme'
 import { CardActionArea,CardContent,Card } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import BookIcon from '@mui/icons-material/Book';
 import axios from "axios";
 import {styled} from '@mui/material/styles';
@@ -21,6 +20,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import Modal from '@mui/material/Modal';
 import EditStudent from './EditStudent';
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
+import AddbyCSV from './AddbyCSV';
 
 const style = {
   position: 'absolute',
@@ -87,6 +87,14 @@ export default function AdminHome() {
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
+
+  const [open_csv,setopen_csv] = React.useState(false)
+
+  const handleOpen_csv = () => setopen_csv(true)
+
+  const handleClose_csv = () => setopen_csv(false)
+
+
 
 
   const getStudentData =()=>{
@@ -290,9 +298,20 @@ React.useEffect(()=>{
         justifyContent:'space-between'
       }}>
       <Typography variant='h6' style={{ fontWeight:'bold'}}>Student List</Typography>
+      <Box>
       <Link to='/Add Student'>
       <Button variant='contained' style={{backgroundColor:'primary'}}>Add Student</Button>
       </Link>
+      <Button variant='contained' style={{backgroundColor:'primary',marginLeft:5}} onClick={handleOpen_csv}>Add Student by CSV File</Button>
+      <Modal
+        open={open_csv}
+        onClose={handleClose_csv}
+      >
+        <Box sx={style}>
+          < AddbyCSV />
+        </Box>
+      </Modal>
+      </Box>
 
       </Box>
       {student_rows ? 

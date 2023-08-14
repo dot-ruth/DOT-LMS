@@ -11,53 +11,33 @@ import {OutlinedInput }from '@mui/material';
 import {Button} from '@mui/material';
 import axios from 'axios'
 
-
-
-export default function AddFile(add_row) {
-
-    console.log(add_row.row)
-
-    const [formData,setFormData] = useState({
-        chapter_id:add_row.row,
-        file_name:"",
-        chapter_contents:""
-      })
+export default function AddbyCSV() {
 
       const [File,setFile] = useState()
 
       let FileUpload = (e) => {
         setFile(e.target.files[0]) 
       }
-
-      let onChangehandler = (e) => {
-        let name = e.target.name;
-        let value = e.target.value;
-        let data = {};
-        data[name] = value;
-        setFormData((prevFormData)=>({...prevFormData,[name]:value}))
-        }
   
         const onAddhandler = () =>{
-            axios.post("http://127.0.0.1:8000/api/Chapter/Add_File",{
-                chapter_id:formData.chapter_id,
-                file_name:formData.file_name,
-                chapter_contents:File,
+            axios.post("http://127.0.0.1:8000/api/Student/AddbyCSV",{
+                csv_file:File,
               },{
                 headers: {
                   'Content-Type': 'multipart/form-data',
                 }},
-              toast.info('Adding File...',{
+              toast.info('Adding Students...',{
                 position:toast.POSITION.BOTTOM_CENTER
               })
               ).then((response)=>{
                 console.log(response)
                 if(response.status===200){
-                toast.success('File Added',{
+                toast.success('Students Added',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
                 window.location.reload(true)
               }else{
-                toast.error('Error While adding file, Please try again',{
+                toast.error('Error While adding Students, Please try again',{
                   position:toast.POSITION.BOTTOM_CENTER
                 })
               }
@@ -84,55 +64,28 @@ export default function AddFile(add_row) {
             <Box sx={{mt:1}}>
             <form>
         <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Add File Form</Typography>
+           <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Add Students by CSV file</Typography>
            
 
-           <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">File Name</InputLabel>
-    <OutlinedInput 
-    type="text" 
-    name="file_name" 
-    label='File Name'
-    color="primary" 
-    required={true}
-    variant="outlined"
-    value = {formData.file_name}
-    onChange={onChangehandler}/>
-    
-</FormControl>
-
 <FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Chapter ID</InputLabel>
-    <OutlinedInput 
-    type="text" 
-    name="chapter_id" 
-    label='Chapter ID'
-    color="primary" 
-    required={true}
-    variant="outlined"
-    value = {formData.chapter_id}
-    onChange={onChangehandler}/>
-    
-</FormControl>
-
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Chapter File</InputLabel>
+<InputLabel color="primary">CSV File</InputLabel>
     <OutlinedInput 
     type="file" 
-    name="chapter_contents" 
-    label='Chapter File'
+    name="csv_file" 
+    label='CSV File'
     color="primary" 
     required={true}
     variant="outlined"
-   // value = {formData.chapter_contents}
-     onChange={FileUpload}/>
+    onChange={FileUpload}/>
     
 </FormControl>
+
+
 
 
 
         <Box sx={{display:'flex'}}>
-        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onAddhandler} >Add File</Button>
+        <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onAddhandler} >Add Students</Button>
         </Box>
         </div>
         </form>
