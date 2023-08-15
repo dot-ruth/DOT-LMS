@@ -1037,6 +1037,50 @@
                 }
             }
         },
+        "/Teacher/Assign_courses": {
+            "post": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Assign courses to teachers",
+                "description": "Assign courses to teachers",
+                "operationId": "47ae083ceb8492f15d60d759668a9b72",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "teacher_id": {
+                                        "type": "string",
+                                        "example": "TCH-3213"
+                                    },
+                                    "course_id": {
+                                        "type": "string",
+                                        "example": "CUS-3245"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Login": {
             "post": {
                 "tags": [

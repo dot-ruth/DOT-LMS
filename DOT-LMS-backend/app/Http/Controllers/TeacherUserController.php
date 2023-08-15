@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Mail\DOTLMSMail;
 use App\Models\TeacherUser;
 use Illuminate\Http\Request;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class TeacherUserController extends Controller
 {
@@ -255,5 +256,68 @@ class TeacherUserController extends Controller
         } else {
             return response()->json(['Message' => 'User does not exist']);
         }
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/Teacher/Assign_courses",
+     *      tags={"Teacher"},
+     *      summary="Assign courses to teachers",
+     *      description="Assign courses to teachers",
+     *      @OA\RequestBody(
+     *          required=true,
+     * @OA\MediaType(
+     *     mediaType="multipart/form-data",
+     *     @OA\Schema(
+     * @OA\Property(
+     *                     property="teacher_id",
+     *                     type="string",
+     *                     example="TCH-3213"
+     *                 ),
+     * @OA\Property(
+     *                     property="course_id",
+     *                     type="string",
+     *                     example="CUS-3245"
+     * 
+     *                 ),
+     * )
+     *   )
+     *         
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function Assign_course(Request $request)
+    {
+        //$current_files = DB::table('chapters')->where('chapter_id', $request->chapter_id)->value($chapter_contents_column);
+        $assigned_courses = DB::table('teacher_users')->where('teacher_id', $request->teacher_id)->value('course_id');
+        $new_assigned_course =  $assigned_courses . ',' . $request->course_id;
+
+        $teacher_user = TeacherUser::where('teacher_id', $request->teacher_id)->firstorFail();
+
+        $teacher_user->update([
+            'course_id' => $new_assigned_course,
+        ]);
+
+        return response()->json([
+            'Assigned Courses' => DB::table('teacher_users')->where('teacher_id', $request->teacher_id)->value('course_id'),
+
+        ]);
     }
 }
