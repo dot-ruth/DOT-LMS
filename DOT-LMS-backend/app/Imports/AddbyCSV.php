@@ -18,15 +18,13 @@ class AddbyCSV implements ToModel
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
-    function check_userExistsID($id)
+    public function check_userExistsID($id)
     {
         return StudentUser::where('student_id', $id)->exists();
     }
 
     public function model(array $row)
     {
-
-
 
         $student_id = 'DBUR-' . mt_rand(1000, 9999) . date('-y');
 
