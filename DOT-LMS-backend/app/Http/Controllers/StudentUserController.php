@@ -400,9 +400,9 @@ class StudentUserController extends Controller
         $assigned_courses = DB::table('student_users')->where('student_id', $request->student_id)->value('course_id');
         $new_assigned_course =  $assigned_courses . ',' . $request->course_id;
 
-        $teacher_user = StudentUser::where('student_id', $request->student_id)->firstorFail();
+        $student_user = StudentUser::where('student_id', $request->student_id)->firstorFail();
 
-        $teacher_user->update([
+        $student_user->update([
             'course_id' => $new_assigned_course,
         ]);
 
@@ -463,9 +463,91 @@ class StudentUserController extends Controller
             'AssignedCourses' => $course_name_array,
             'Course_Data' => $course_data_array
         ]);
+    }
 
-        // return response()->json([
-        //     'output' => $course_array
-        // ]);
+
+    /**
+     * @OA\Post(
+     *      path="/Student/AssignbyBatch",
+     *      tags={"Student"},
+     *      summary="Assign courses to students by Batch",
+     *      description="Assign courses to students by Batch",
+     *      @OA\RequestBody(
+     *          required=true,
+     * @OA\MediaType(
+     *     mediaType="multipart/form-data",
+     *     @OA\Schema(
+     * @OA\Property(
+     *                     property="entry_year",
+     *                     type="string",
+     *                     example="23"
+     *                 ),
+     * @OA\Property(
+     *                     property="course_id",
+     *                     type="string",
+     *                     example="CUS-3245"
+     * 
+     *                 ),
+     * @OA\Property(
+     *                     property="department",
+     *                     type="string",
+     *                     example="computer science"
+     * 
+     *                 ),
+     * )
+     *   )
+     *         
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function AssignbyBatch(Request $request)
+    {
+        $student_id_by_department_array = DB::table('student_users')->where('department', $request->department)->pluck('student_id');
+        $student_id_by_batch_array = [];
+
+        foreach ($student_id_by_department_array as $student) {
+            if ($student != "") {
+                $batch = explode("-", $student);
+                if ($batch[2] == $request->entry_year) {
+                    array_push($student_id_by_batch_array, $student);
+                }
+            }
+        }
+
+
+
+        foreach ($student_id_by_batch_array as $student) {
+            $assigned_courses = DB::table('student_users')->where('student_id', $student)->value('course_id');
+            $new_assigned_course =  $assigned_courses . ',' . $request->course_id;
+
+            $student_user = StudentUser::where('student_id', $student)->firstorFail();
+
+            $student_user->update([
+                'course_id' => $new_assigned_course,
+            ]);
+        }
+
+
+
+        return response()->json([
+            'status' => 'assigned course to all students'
+        ]);
     }
 }

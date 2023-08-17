@@ -92,6 +92,8 @@
         Route::post('/Student/Assign_courses', [StudentUserController::class, 'Assign_course']);
 
         Route::get('/Student/AssignedCourse/{student_id}', [StudentUserController::class, 'getAssignedCourses']);
+
+        Route::post('/Student/AssignbyBatch', [StudentUserController::class, 'AssignbyBatch']);
       //  });
 
         

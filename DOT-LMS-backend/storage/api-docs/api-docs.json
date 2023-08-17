@@ -942,6 +942,54 @@
                 }
             }
         },
+        "/Student/AssignbyBatch": {
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Assign courses to students by Batch",
+                "description": "Assign courses to students by Batch",
+                "operationId": "4c8fb0953af65fd80e47316c07c4557a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "entry_year": {
+                                        "type": "string",
+                                        "example": "23"
+                                    },
+                                    "course_id": {
+                                        "type": "string",
+                                        "example": "CUS-3245"
+                                    },
+                                    "department": {
+                                        "type": "string",
+                                        "example": "computer science"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Teacher": {
             "get": {
                 "tags": [

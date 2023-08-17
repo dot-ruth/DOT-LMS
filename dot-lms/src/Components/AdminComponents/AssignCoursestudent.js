@@ -57,7 +57,9 @@ export default function AssignCoursestudent() {
 
   const [formData,setFormData] = useState({
     student_id:"",
-    course_id:""
+    course_id:"",
+    entry_year:"",
+    department:""
   })
 
   let onChangehandler = (e) => {
@@ -69,8 +71,8 @@ export default function AssignCoursestudent() {
     }
 
     const onAssignhandler = () =>{
-        axios.post("http://127.0.0.1:8000/api/Teacher/Assign_courses",{
-            teacher_id:formData.teacher_id,
+        axios.post("http://127.0.0.1:8000/api/Student/Assign_courses",{
+            student_id:formData.student_id,
             course_id:formData.course_id
           },
           toast.info('Assigning Course...',{
@@ -91,6 +93,31 @@ export default function AssignCoursestudent() {
           })
     }
 
+    const onAssignBatchhandler = () =>{
+      axios.post("http://127.0.0.1:8000/api/Student/AssignbyBatch",{
+          entry_year:formData.entry_year,
+          course_id:formData.course_id,
+          department:formData.department,
+          
+        },
+        toast.info('Assigning Course...',{
+          position:toast.POSITION.BOTTOM_CENTER
+        })
+        ).then((response)=>{
+          console.log(response)
+          if(response.status===200){
+          toast.success('Course Assigned',{
+            position:toast.POSITION.BOTTOM_CENTER
+          })
+          window.location.reload(true)
+        }else{
+          toast.error('Error While assigning Course, Please try again',{
+            position:toast.POSITION.BOTTOM_CENTER
+          })
+        }
+        })
+  }
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -103,9 +130,6 @@ export default function AssignCoursestudent() {
       </Box>
       <CustomTabPanel value={value} index={0}>
       <Box>
-        
-          
-      
       <Box 
       sx={{
       display:'flex', 
@@ -159,7 +183,69 @@ export default function AssignCoursestudent() {
       </Box>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Assign Course by Batch
+      <Box 
+      sx={{
+      display:'flex', 
+      justifyContent:'center',
+      alignItems:'center',
+      }}>
+          <Box sx={{mt:1}}>
+          <form>
+      <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
+         <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Assign Course by Batch</Typography>
+         
+
+<FormControl sx={{ m:2, width:'50ch'}} >
+<InputLabel color="primary">Entry Year</InputLabel>
+  <OutlinedInput 
+  type="text" 
+  name="entry_year" 
+  label='Entry Year'
+  color="primary" 
+  required={true}
+  variant="outlined"
+  value={formData.entry_year}
+  onChange={onChangehandler}/>
+  
+</FormControl>
+
+<FormControl sx={{ m:2, width:'50ch'}} >
+<InputLabel color="primary">Course ID</InputLabel>
+  <OutlinedInput 
+  type="text" 
+  name="course_id" 
+  label='Course ID'
+  color="primary" 
+  required={true}
+  variant="outlined"
+  value={formData.course_id}
+  onChange={onChangehandler}/>
+  
+</FormControl>
+
+<FormControl sx={{ m:2, width:'50ch'}} >
+<InputLabel color="primary">Department</InputLabel>
+  <OutlinedInput 
+  type="text" 
+  name="department" 
+  label='Department'
+  color="primary" 
+  required={true}
+  variant="outlined"
+  value={formData.department}
+  onChange={onChangehandler}/>
+  
+</FormControl>
+
+
+      <Box sx={{display:'flex'}}>
+      <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onAssignBatchhandler} >Assign Course</Button>
+      </Box>
+      </div>
+      </form>
+      </Box>
+      
+      </Box>
       </CustomTabPanel>
   
       </PerfectScrollbar>

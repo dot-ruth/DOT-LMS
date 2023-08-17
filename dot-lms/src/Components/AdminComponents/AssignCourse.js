@@ -12,6 +12,7 @@ import {styled} from '@mui/material/styles';
 import {Paper }from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
+import { ToastContainer} from 'react-toastify';
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
 
 const style = {
@@ -68,8 +69,6 @@ export default function AssignCourse() {
 
     const [course_array,setcourse_array] = React.useState([])
 
-    const [teacher_id,setteacher_id] = React.useState()
-
     function getAssignedCourses(teacher_id) {
 
       axios.get("http://127.0.0.1:8000/api/Teacher/AssignedCourse/"+teacher_id)
@@ -110,6 +109,7 @@ export default function AssignCourse() {
 
     <Box>
             <ThemeProvider theme={theme}>
+            <ToastContainer/>
             {
             React.useEffect(()=>{
       getTeacherData()
