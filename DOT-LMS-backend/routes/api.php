@@ -88,6 +88,10 @@
         Route::post('/Teacher/Assign_courses', [TeacherUserController::class, 'Assign_course']);
 
         Route::get('/Teacher/AssignedCourse/{teacher_id}', [TeacherUserController::class, 'getAssignedCourses']);
+
+        Route::post('/Student/Assign_courses', [StudentUserController::class, 'Assign_course']);
+
+        Route::get('/Student/AssignedCourse/{student_id}', [StudentUserController::class, 'getAssignedCourses']);
       //  });
 
         

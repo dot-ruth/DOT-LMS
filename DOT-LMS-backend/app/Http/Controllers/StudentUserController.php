@@ -6,7 +6,9 @@ use App\Mail\DOTLMSMail;
 use App\Imports\AddbyCSV;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\courses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -344,5 +346,126 @@ class StudentUserController extends Controller
         } else {
             return response()->json(['Message' => 'User does not exist']);
         }
+    }
+
+
+    /**
+     * @OA\Post(
+     *      path="/Student/Assign_courses",
+     *      tags={"Student"},
+     *      summary="Assign courses to students",
+     *      description="Assign courses to students",
+     *      @OA\RequestBody(
+     *          required=true,
+     * @OA\MediaType(
+     *     mediaType="multipart/form-data",
+     *     @OA\Schema(
+     * @OA\Property(
+     *                     property="student_id",
+     *                     type="string",
+     *                     example="DBU-3213-23"
+     *                 ),
+     * @OA\Property(
+     *                     property="course_id",
+     *                     type="string",
+     *                     example="CUS-3245"
+     * 
+     *                 ),
+     * )
+     *   )
+     *         
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function Assign_course(Request $request)
+    {
+
+        $assigned_courses = DB::table('student_users')->where('student_id', $request->student_id)->value('course_id');
+        $new_assigned_course =  $assigned_courses . ',' . $request->course_id;
+
+        $teacher_user = StudentUser::where('student_id', $request->student_id)->firstorFail();
+
+        $teacher_user->update([
+            'course_id' => $new_assigned_course,
+        ]);
+
+        return response()->json([
+            'Assigned Courses' => DB::table('student_users')->where('student_id', $request->student_id)->value('course_id'),
+        ]);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/Student/AssignedCourse/{student_id}",
+     *      tags={"Student"},
+     *      summary="Get assigned courses for a student",
+     *      description="Returns the assigned courses for a student",
+     *      @OA\Parameter(
+     *          name="student_id",
+     *          description="Student's id",
+     *          required=true,
+     * example = "DBU-6832-23",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function getAssignedCourses(String $student_id)
+    {
+        $course_array = explode(",", DB::table('student_users')->where('student_id', $student_id)->value('course_id'));
+        $course_name_array = [];
+        $course_data_array = [];
+
+        foreach ($course_array as $course) {
+            if ($course != "") {
+                array_push($course_name_array, DB::table('courses')->where('course_id', $course)->value('course_title'));
+                array_push($course_data_array, courses::where('course_id', $course)->firstorFail());
+            }
+        }
+
+        return response()->json([
+            'AssignedCourses' => $course_name_array,
+            'Course_Data' => $course_data_array
+        ]);
+
+        // return response()->json([
+        //     'output' => $course_array
+        // ]);
     }
 }

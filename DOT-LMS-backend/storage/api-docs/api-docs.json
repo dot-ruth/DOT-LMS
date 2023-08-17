@@ -862,6 +862,86 @@
                 }
             }
         },
+        "/Student/Assign_courses": {
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Assign courses to students",
+                "description": "Assign courses to students",
+                "operationId": "b694b1fe3317f4080d08cb9f481c369e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "student_id": {
+                                        "type": "string",
+                                        "example": "DBU-3213-23"
+                                    },
+                                    "course_id": {
+                                        "type": "string",
+                                        "example": "CUS-3245"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Student/AssignedCourse/{student_id}": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get assigned courses for a student",
+                "description": "Returns the assigned courses for a student",
+                "operationId": "65ed7cec561893838e0263f79d2797ea",
+                "parameters": [
+                    {
+                        "name": "student_id",
+                        "in": "path",
+                        "description": "Student's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DBU-6832-23"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Teacher": {
             "get": {
                 "tags": [

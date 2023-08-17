@@ -115,7 +115,7 @@ export default function AssignCoursestudent() {
           <Box sx={{mt:1}}>
           <form>
       <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
-         <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Assign Course to a Teacher</Typography>
+         <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Assign Course to a Student</Typography>
          
 
 <FormControl sx={{ m:2, width:'50ch'}} >
