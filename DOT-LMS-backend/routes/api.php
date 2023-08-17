@@ -86,6 +86,8 @@
         Route::post('/Student/AddbyCSV', [StudentUserController::class, 'CSV_Import']);
 
         Route::post('/Teacher/Assign_courses', [TeacherUserController::class, 'Assign_course']);
+
+        Route::get('/Teacher/AssignedCourse/{teacher_id}', [TeacherUserController::class, 'getAssignedCourses']);
       //  });
 
         

@@ -1081,6 +1081,42 @@
                 }
             }
         },
+        "/Teacher/AssignedCourse/{teacher_id}": {
+            "get": {
+                "tags": [
+                    "Teacher"
+                ],
+                "summary": "Get assigned courses for a teacher",
+                "description": "Returns the assigned courses for a teacher",
+                "operationId": "4011d74bae9cc8e52eb302635b20e83a",
+                "parameters": [
+                    {
+                        "name": "teacher_id",
+                        "in": "path",
+                        "description": "Teacher's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6832"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Login": {
             "post": {
                 "tags": [

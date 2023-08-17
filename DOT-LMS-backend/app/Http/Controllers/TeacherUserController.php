@@ -7,6 +7,7 @@ use App\Models\TeacherUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\courses;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -305,7 +306,7 @@ class TeacherUserController extends Controller
      */
     public function Assign_course(Request $request)
     {
-        //$current_files = DB::table('chapters')->where('chapter_id', $request->chapter_id)->value($chapter_contents_column);
+
         $assigned_courses = DB::table('teacher_users')->where('teacher_id', $request->teacher_id)->value('course_id');
         $new_assigned_course =  $assigned_courses . ',' . $request->course_id;
 
@@ -317,7 +318,61 @@ class TeacherUserController extends Controller
 
         return response()->json([
             'Assigned Courses' => DB::table('teacher_users')->where('teacher_id', $request->teacher_id)->value('course_id'),
-
         ]);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/Teacher/AssignedCourse/{teacher_id}",
+     *      tags={"Teacher"},
+     *      summary="Get assigned courses for a teacher",
+     *      description="Returns the assigned courses for a teacher",
+     *      @OA\Parameter(
+     *          name="teacher_id",
+     *          description="Teacher's id",
+     *          required=true,
+     * example = "TCH-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function getAssignedCourses(String $teacher_id)
+    {
+        $course_array = explode(",", DB::table('teacher_users')->where('Teacher_id', $teacher_id)->value('course_id'));
+        $course_name_array = [];
+
+        foreach ($course_array as $course) {
+            if ($course != "") {
+                array_push($course_name_array, DB::table('courses')->where('course_id', $course)->value('course_title'));
+            }
+        }
+
+        return response()->json([
+            'AssignedCourses' => $course_name_array
+        ]);
+
+        // return response()->json([
+        //     'output' => $course_array
+        // ]);
     }
 }
