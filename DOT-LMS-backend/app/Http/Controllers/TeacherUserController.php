@@ -360,15 +360,18 @@ class TeacherUserController extends Controller
     {
         $course_array = explode(",", DB::table('teacher_users')->where('Teacher_id', $teacher_id)->value('course_id'));
         $course_name_array = [];
+        $course_data_array = [];
 
         foreach ($course_array as $course) {
             if ($course != "") {
                 array_push($course_name_array, DB::table('courses')->where('course_id', $course)->value('course_title'));
+                array_push($course_data_array, courses::where('course_id', $course)->firstorFail());
             }
         }
 
         return response()->json([
-            'AssignedCourses' => $course_name_array
+            'AssignedCourses' => $course_name_array,
+            'Course_Data' => $course_data_array
         ]);
 
         // return response()->json([
