@@ -84,18 +84,18 @@ class CoursesController extends Controller
             "image_url" => $url,
             "mime" => $image->getClientMimeType()
         );
-        function userExistsID($id)
+        function CourseExistsID($id)
         {
             return courses::where('course_id', $id)->exists();
         }
 
         $course_id = 'CUS-' . mt_rand(1000, 9999);
 
-        while (userExistsID($course_id)) {
+        while (CourseExistsID($course_id)) {
             $course_id = 'CUS-' . mt_rand(1000, 9999);
         }
 
-        if (!userExistsID($course_id)) {
+        if (!CourseExistsID($course_id)) {
 
             $course = new courses();
             $course->Course_title = $request->course_title;
@@ -239,9 +239,9 @@ class CoursesController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = courses::where('course_id', $id)->firstorFail();
-        if ($user != null) {
-            $user->delete();
+        $course = courses::where('course_id', $id)->firstorFail();
+        if ($course != null) {
+            $course->delete();
             return response()->json(['Message' => 'Course Deleted']);
         } else {
             return response()->json(['Message' => 'Course does not exist']);

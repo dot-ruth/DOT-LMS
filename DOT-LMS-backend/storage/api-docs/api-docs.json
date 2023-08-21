@@ -652,6 +652,142 @@
                 }
             }
         },
+        "/Mockexams": {
+            "get": {
+                "tags": [
+                    "Mockexams"
+                ],
+                "summary": "Get list of Exams in the DOT-LMS",
+                "description": "Returns list of Exams",
+                "operationId": "14da830af129b10b5dbb985f1132c068",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Mockexams"
+                ],
+                "summary": "Store new Mock exam data into the database",
+                "description": "Returns the status of the store functionality",
+                "operationId": "80f6c3f9037ff3f939fd6162d975ff9e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MockExam"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Mockexams/{id}": {
+            "put": {
+                "tags": [
+                    "Mockexams"
+                ],
+                "summary": "Update existing Mockexam",
+                "description": "Returns updated Mockexam's data",
+                "operationId": "b7cc45aa11a8173f8965028cdd943ffa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Exam's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "EXM-7539"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MockExam"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Mockexams"
+                ],
+                "summary": "Delete existing Mockexam",
+                "description": "Deletes a record and returns no content",
+                "operationId": "34c38d3e6815a7faa507ae3f5f4e09f2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Mockexam's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-7539"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/Student": {
             "get": {
                 "tags": [
@@ -1397,6 +1533,43 @@
                         "description": "email address of the Admin",
                         "type": "string",
                         "example": "Johndoe@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
+            "MockExam": {
+                "title": "MockExam",
+                "description": "Exam data",
+                "properties": {
+                    "exam_title": {
+                        "title": "exam_title",
+                        "description": "Title of the Exam",
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "exam_contents": {
+                        "title": "exam_contents",
+                        "description": "The exam in a pdf form",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "exam_topic": {
+                        "title": "exam_topic",
+                        "description": "The topic's the exam focuses on",
+                        "type": "string",
+                        "example": "Javascript,html,css,react"
+                    },
+                    "course_id": {
+                        "title": "course_id",
+                        "description": "The id of the course the exam is related to",
+                        "type": "string",
+                        "example": "CUS-5432"
+                    },
+                    "teacher_id": {
+                        "title": "teacher_id",
+                        "description": "The id of the teacher the exam belongs to",
+                        "type": "string",
+                        "example": "TCH-5432"
                     }
                 },
                 "type": "object"

@@ -94,6 +94,8 @@
         Route::get('/Student/AssignedCourse/{student_id}', [StudentUserController::class, 'getAssignedCourses']);
 
         Route::post('/Student/AssignbyBatch', [StudentUserController::class, 'AssignbyBatch']);
+
+        Route::resource('/Mockexams', MockExamController::class);
       //  });
 
         

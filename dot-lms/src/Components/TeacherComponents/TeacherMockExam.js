@@ -36,7 +36,7 @@ export default function TeacherMockExam(){
         <CardMedia
           component="img"
           height="140"
-          image=" "
+          image="http://127.0.0.1:8000/storage/mock%20exam%20image.jpg"
           alt="Exam Title's Img"
         />
         <CardContent >
