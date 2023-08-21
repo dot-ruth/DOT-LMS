@@ -63,6 +63,7 @@ export default function ConfigurePassword() {
         sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
+        sessionStorage.setItem("teacher_id",JSON.stringify(response.data.data[0]['teacher_id']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
         sessionStorage.setItem("token",JSON.stringify(response.data.token));
 
