@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('exam_content');
             $table->string('course_id');
             $table->string('teacher_id');
-            $table->foreign('course_id')->references('course_id')->on('courses');
-            $table->foreign('teacher_id')->references('teacher_id')->on('teacher_users');
             $table->timestamps();
         });
     }

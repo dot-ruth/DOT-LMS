@@ -51,7 +51,7 @@ class MockExam extends Model
      * @OA\Property(
      *      title="exam_topic",
      *      description="The topic's the exam focuses on",
-     *      example="Javascript,html,css,react"
+     *      example="Javascript"
      * )
      *
      * @var string

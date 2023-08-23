@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MockExam;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\courses;
 
 class MockExamController extends Controller
 {
@@ -249,5 +251,48 @@ class MockExamController extends Controller
         } else {
             return response()->json(['Message' => 'Exam does not exist']);
         }
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/Mockexams/Exam/{teacher_id}",
+     *      tags={"Mockexams"},
+     *      summary="Get exams that belongs to a specific course",
+     *      description="Returns the exams of a course",
+     *      @OA\Parameter(
+     *          name="teacher_id",
+     *          description="Teacher's id",
+     * example = "TCH-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function getExams(String $teacher_id)
+    {
+        $exams = MockExam::where('teacher_id', $teacher_id)->get();
+
+        return response()->json([
+            'Exam' => $exams,
+        ]);
     }
 }
