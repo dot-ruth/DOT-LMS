@@ -8,19 +8,20 @@ import {FormControl,OutlinedInput,Button} from '@mui/material'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import { ToastContainer, toast } from 'react-toastify'
+import {  toast } from 'react-toastify'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 export default function EditStudent(data) {
+
+  console.log(data)
+
     const [formData,setFormData] = useState({
-        user_id:data.data[0].student_id,
-        first_name:data.data[0].First_Name,
-        last_name:data.data[0].Last_Name,
-        email:data.data[0].Email,
-        department:data.data[0].department,
-        year:"",
-        semester:"",
+        user_id:data.data.student_id,
+        first_name:data.data.First_Name,
+        last_name:data.data.Last_Name,
+        email:data.data.Email,
+        department:data.data.department,
       })
 
       let onChangehandler = (e) => {
@@ -32,13 +33,11 @@ export default function EditStudent(data) {
         }
 
         const onUpdatehandler =  () => {
-            axios.put("http://127.0.0.1:8000/api/Student/" + data.data[0].student_id,{
+            axios.put("http://127.0.0.1:8000/api/Student/" + data.data.student_id,{
                 first_name:formData.first_name,
                 last_name:formData.last_name,
                 email:formData.email,
                 department:formData.department,
-                year:formData.year,
-                semester:formData.semester
               },
               toast.info('Updating,please wait a moment...',{
                 position:toast.POSITION.BOTTOM_CENTER
@@ -149,31 +148,7 @@ export default function EditStudent(data) {
     
 </FormControl>
 
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Year</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="year" 
-    color="primary" 
-    label="Year"
-    variant="outlined"
-    value = {formData.year}
-     onChange={onChangehandler}/>
-    
-</FormControl>
 
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Semester</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="semester" 
-    color="primary" 
-    label="Semester"
-    variant="outlined"
-    value = {formData.semester}
-     onChange={onChangehandler}/>
-    
-</FormControl>
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onUpdatehandler} >Update</Button>
        

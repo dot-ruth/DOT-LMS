@@ -256,8 +256,6 @@ const [open_edit, setOpen_edit] = React.useState(false);
            
           ))}
           </Box>
-
-          <Button >Change Course Picture</Button>
            
 
         </Box>

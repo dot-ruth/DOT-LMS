@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import theme from "../theme";
 import axios from "axios";
-import { Box, Button, ThemeProvider, Typography } from "@mui/material";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import {styled} from '@mui/material/styles';
 import {Paper }from '@mui/material';
@@ -9,7 +9,6 @@ import {Visibility} from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import Modal from '@mui/material/Modal';
 import { ToastContainer } from 'react-toastify';
-import AddChapter from '../AdminComponents/AddChapter';
 import EditChapter from '../AdminComponents/EditChapter';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import {TableCell,tableCellClasses,TableRow,TableContainer,Table,TableHead,TableBody} from '@mui/material';
@@ -77,8 +76,6 @@ const [course_description,setcourse_description] = useState()
 
 const [open_edit, setOpen_edit] = React.useState(false);
 
-    const [open_add, setOpen_add] = React.useState(false);
-
     const [open_show,setOpen_show] = React.useState(false);
 
     const [edit_row,setedit_row] = React.useState();
@@ -95,13 +92,12 @@ const [open_edit, setOpen_edit] = React.useState(false);
     }
         
 
-    const handleOpen_add = () => setOpen_add(true);
+
 
     const handleClose_show = () => setOpen_show(false);
   
     const handleClose_edit = () => setOpen_edit(false);
 
-    const handleClose_add = () => setOpen_add(false);
 
     const [open_add_chapter, setOpen_add_chapter] = React.useState(false);
 
@@ -236,7 +232,6 @@ const [open_edit, setOpen_edit] = React.useState(false);
           ))}
           </Box>
 
-          <Button >Change Course Picture</Button>
            
 
         </Box>
@@ -252,16 +247,7 @@ const [open_edit, setOpen_edit] = React.useState(false);
         justifyContent:'space-between'
       }}>
       <Typography variant='h6' style={{ fontWeight:'bold'}}>Chapter List</Typography>
-      <Button variant='contained' style={{backgroundColor:'primary'}} onClick={handleOpen_add}>Add Chapter</Button>
-      <Modal
-        open={open_add}
-        onClose={handleClose_add}
-      >
-        <Box sx={style}>
-          < AddChapter courseID={course_id}/>
-        </Box>
-      </Modal>
-
+      
       </Box>
 
       {chapter_row?

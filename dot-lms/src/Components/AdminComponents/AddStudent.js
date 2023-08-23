@@ -19,16 +19,7 @@ function AddStudent() {
     last_name:"",
     email:"",
     department:"",
-    year:"",
-    semester:"",
   })
-
-  // const [errMsg_firstName,seterrMsg_first_Name] = useState("")
-  // const [errMsg_lastName,seterrMsg_lastName] = useState("")
-  // const [errMsg_email,seterrMsg_email] = useState("")
-  // const [errMsg_department,seterrMsg_department] = useState("")
-  // const [errMsg_year,seterrMsg_year] = useState("")
-  // const [errMsg_semester,seterrMsg_semester] = useState("")
 
   let onChangehandler = (e) => {
     let name = e.target.name;
@@ -152,33 +143,6 @@ function AddStudent() {
     
 </FormControl>
 
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Year</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="year" 
-    color="primary" 
-    label="Year"
-    variant="outlined"
-    value = {formData.year}
-     onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
-    
-</FormControl>
-
-<FormControl sx={{ m:2, width:'50ch'}} >
-<InputLabel color="primary">Semester</InputLabel>
-    <OutlinedInput 
-    type="number" 
-    name="semester" 
-    color="primary" 
-    label="Semester"
-    variant="outlined"
-    value = {formData.semester}
-     onChange={onChangehandler}/>
-     {/* {errMsgUser && <div color="red"> {errMsgUser} </div>} */}
-    
-</FormControl>
 
         <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onCreatehandler} >Create</Button>
         

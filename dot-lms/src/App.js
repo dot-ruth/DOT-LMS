@@ -26,40 +26,58 @@ import ManageCourses from './Components/AdminComponents/ManageCourses';
 import ShowCourse from './Components/AdminComponents/ShowCourse';
 import AssignCourse from './Components/AdminComponents/AssignCourse';
 import TeacherShowCourse from './Components/TeacherComponents/TeacherShowCourse';
+import { Navigate } from 'react-router-dom';
 
 function App() {
+
+  const token = sessionStorage.getItem("token");
+
+  
+  
   return (
+
     <div>
+
       {/* router.post('/', function(req, res) {
     // do something w/ req.body or req.files 
 }); */}
       
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login/>}/>
-        <Route path="/Student_Dashboard" element={<StudentDashboard/>}/>
-        <Route path="/Teacher_Dashboard" element={<TeacherDashboard/>}/>
-        <Route path="/Admin_Dashboard" element={<AdminDashboard/>}/>
-        <Route path="/Student_Mockexam" element={<StudentMockExam/>}/>
-        <Route path='/Teacher_Mockexam' element={<TeacherMockExam/>}/>
-        <Route path='/TutorialVideo' element={<StudentTutorialVideo/>}/>
-        <Route path='/Student_Classcalander'element={<StudentClassCalander/>}/>
-        <Route path="/Teacher_Classcalander" element={<TeacherClassCalander/>}/>
-        <Route path='/Student_Gradebook' element={<StudentGradeBook/>}/>
-        <Route path="/IDE" element={<StudentIDE/>}/>
-        <Route path="/Message" element={<Message/>}/>
-        <Route path="/Profile" element={<Profile/>}/>
-        <Route path="/Add Student" element={<AddStudent/>}/>
-        <Route path='/ConfigurePassword' element={<ConfigurePassword/>}/>
-        <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
-        <Route path='/Add_Teacher' element={<AddTeacher/>}/>
-        <Route path='/Edit_teacher' element={<EditTeacher/>}/>
-        <Route path='/Edit_student' element={<EditStudent/>}/>
-        <Route path='/Manage_courses' element={<ManageCourses/>}/>
-        <Route path='/Show_Course' element={<ShowCourse/>}/>
-        <Route path='/Assign_Course' element={<AssignCourse/>}/>
-        <Route path='/Teacher/ShowCourse' element={<TeacherShowCourse/>}/>
+      <Route path="/" element={<Login/>}/>
+      <Route path='/ConfigurePassword'  element={<ConfigurePassword/>}/>
+      <Route path='/ForgotPassword'  element={<ForgotPassword/>}/>
       </Routes>
+      
+       
+        { token !== null ? 
+
+<Routes>
+        <Route path="/Student_Dashboard"  element={<StudentDashboard/>} />
+        <Route path="/Teacher_Dashboard"  element={<TeacherDashboard/>} />
+        <Route path="/Admin_Dashboard"  element={<AdminDashboard/>} />
+        <Route path="/Student_Mockexam"  element={<StudentMockExam/>}/>
+        <Route path='/Teacher_Mockexam'  element={<TeacherMockExam/>}/>
+        <Route path='/TutorialVideo'  element={<StudentTutorialVideo/>}/>
+        <Route path='/Student_Classcalander' element={<StudentClassCalander/>}/>
+        <Route path="/Teacher_Classcalander"  element={<TeacherClassCalander/>}/>
+        <Route path='/Student_Gradebook'  element={<StudentGradeBook/>}/>
+        <Route path="/IDE"  element={<StudentIDE/>}/>
+        <Route path="/Message"  element={<Message/>}/>
+        <Route path="/Profile"  element={<Profile/>}/>
+        <Route path="/Add Student"  element={<AddStudent/>}/>
+        <Route path='/Add_Teacher'  element={<AddTeacher/>}/>
+        <Route path='/Edit_teacher'  element={<EditTeacher/>}/>
+        <Route path='/Edit_student'  element={<EditStudent/>}/>
+        <Route path='/Manage_courses'  element={<ManageCourses/>}/>
+        <Route path='/Show_Course'  element={<ShowCourse/>}/>
+        <Route path='/Assign_Course'  element={<AssignCourse/>}/>
+        <Route path='/Teacher/ShowCourse'  element={<TeacherShowCourse/>}/>
+        </Routes>:
+        <Routes>
+      </Routes>
+}
+      
 
       </BrowserRouter>
 
