@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\courses;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -239,7 +240,17 @@ class CoursesController extends Controller
      */
     public function destroy(string $id)
     {
+
         $course = courses::where('course_id', $id)->firstorFail();
+
+        $current_courses = DB::table('teacher_users')->where('course_id', 'like', '%' . $id . '%')->value('course_id');
+        $course_array = explode(",", $current_courses);
+        $index = array_search($id, $course_array);
+        unset($course_array[$index]);
+        $string_course_array = implode(",", $course_array);
+        DB::table('teacher_users')->where('course_id', 'like', '%' . $id . '%')->update([
+            'course_id' => $string_course_array,
+        ]);
         if ($course != null) {
             $course->delete();
             return response()->json(['Message' => 'Course Deleted']);
