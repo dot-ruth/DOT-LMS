@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('chapter_id')->unique();
             $table->string('chapter_title');
             $table->string('course_id');
-            $table->foreign('course_id')->references('course_id')->on('courses');
             $table->longText('chapter_description');
             $table->string('file_name');
             $table->string('chapter_contents');

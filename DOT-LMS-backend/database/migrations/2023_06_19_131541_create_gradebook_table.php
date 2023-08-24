@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('grade_id')->unique();
             $table->string('course_id');
-            $table->foreign('course_id')->references('course_id')->on('courses')->onDelete('cascade');
             $table->string('attendance');
             $table->string('individual_assignment');
             $table->string('group_assignment');
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->string('final_exam');
             $table->string('total_value');
             $table->string('student_id');
-            $table->foreign('student_id')->references('student_id')->on('student_users')->onDelete('cascade');
             $table->timestamps();
         });
     }

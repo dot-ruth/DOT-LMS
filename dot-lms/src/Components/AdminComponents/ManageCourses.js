@@ -16,6 +16,9 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import AddCourse from './AddCourse';
 import {Visibility} from "@mui/icons-material";
 import { Link } from 'react-router-dom';
+import {FormControl,OutlinedInput} from '@mui/material'
+import {InputLabel} from '@mui/material'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const style = {
     position: 'absolute',
@@ -55,6 +58,8 @@ export default function ManageCourses() {
 
     const [course_rows,setcourse_rows] = React.useState([])
 
+    const admin_name = sessionStorage.getItem('First_Name').replaceAll('"','')
+
     let coursearray = []
 
     const [open_edit, setOpen_edit] = React.useState(false);
@@ -74,6 +79,30 @@ export default function ManageCourses() {
 
     const handleClose_add = () => setOpen_add(false);
 
+    const [open_delete, setOpen_delete] = React.useState(false);
+
+    const [delete_row,setdelete_row] = React.useState();
+  
+    const handleOpen_delete = (row) => {
+      setOpen_delete(true);
+      setdelete_row(row);
+    }
+  
+    const handleClose_delete = () => setOpen_delete(false);
+
+    const [formData,setFormData] = React.useState({
+      user_id:"",
+      password:"",
+    })
+
+    let onChangehandler = (e) => {
+      let name = e.target.name;
+      let value = e.target.value;
+      let data = {};
+      data[name] = value;
+      setFormData((prevFormData)=>({...prevFormData,[name]:value}))
+      }
+
     
 
     const getCourseData =()=>{
@@ -88,18 +117,94 @@ export default function ManageCourses() {
       }
 
       function delete_course(course_id){
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm("Are you Sure")) {
-          axios.delete("http://127.0.0.1:8000/api/Course/"+course_id)
-        .then(()=>{
-         toast.success('Course deleted Successfully',{
-           position:toast.POSITION.BOTTOM_CENTER
-         })
-         window.location.reload(true)
+        const onDeletehandler = () => {
+          axios.post("http://127.0.0.1:8000/api/Login",{
+      user_id:formData.user_id,
+      password:formData.password
         })
-        } else {
-          console.log('cancled deletion')
+        .then((response)=>{
+          if (response.status === 200) {
+            axios.delete("http://127.0.0.1:8000/api/Course/"+course_id)
+          .then(()=>{
+           toast.success('Course deleted Successfully',{
+             position:toast.POSITION.BOTTOM_CENTER
+           })
+           window.location.reload(true)
+          })
+          } else {
+            toast.error('hmmm....Failed to verify your identity ' ,{
+              position:toast.POSITION.BOTTOM_CENTER
+            }) 
+          }
+        })
+
+        
+
         }
+
+        return (
+          <PerfectScrollbar>
+          <Box
+              sx={{
+                  height:'100vh',
+                  weidth:'100vw',
+                }}>
+                
+                  <ThemeProvider theme={theme}>
+              
+              <Box 
+              sx={{
+              display:'flex', 
+              justifyContent:'center',
+              alignItems:'center',
+              }}>
+                  <Box sx={{mt:1}}>
+                  <form>
+              <div className="d-flex flex-column justify-content-center align-items-center mx-auto">
+                 <Typography sx={{m:2,fontSize:30,fontWeight:'bold'}}>Please Verify that you're {admin_name}</Typography>
+                 
+      
+                 <FormControl sx={{ m:2, width:'50ch'}} >
+      <InputLabel color="primary">User ID</InputLabel>
+          <OutlinedInput 
+          type="text" 
+          name="user_id" 
+          label='user ID'
+          color="primary" 
+          required={true}
+          variant="outlined"
+          value = {formData.user_id}
+          onChange={onChangehandler}/>
+          
+      </FormControl>
+      
+      <FormControl sx={{ m:2, width:'50ch'}} >
+      <InputLabel color="primary">Password</InputLabel>
+          <OutlinedInput 
+          type="text" 
+          name="password" 
+          label='Password'
+          color="primary" 
+          required={true}
+          variant="outlined"
+          value = {formData.password}
+           onChange={onChangehandler}/>
+          
+      </FormControl>
+      
+              <Button color="primary" variant="contained" sx={{m:1, width:'20ch'}} onClick={onDeletehandler} >Delete</Button>
+             
+              
+              </div>
+              </form>
+              </Box>
+              
+              </Box>
+              </ThemeProvider>
+              </Box>
+              </PerfectScrollbar>
+        )
+        
         
       }
 
@@ -166,7 +271,7 @@ export default function ManageCourses() {
                 <Link to='/Show_Course' state={{course_id:row.Course_ID}}>
                   <Visibility color='primary'/></Link>
                   <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                    <DeleteIcon color='primary' onClick={()=>delete_course(row.Course_ID)}/>
+                    <DeleteIcon color='primary' onClick={()=>handleOpen_delete(row.Course_ID)}/>
                     </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -178,6 +283,21 @@ export default function ManageCourses() {
         {open_edit?
         <Box sx={style}>
         < EditCourse row={edit_row} />
+      </Box>:
+      <Box></Box>
+      }
+        
+        
+      </Modal>
+
+      <Modal
+
+        open={open_delete}
+        onClose={handleClose_delete}
+      >
+        {open_delete?
+        <Box sx={style}>
+       {delete_course(delete_row)}
       </Box>:
       <Box></Box>
       }
