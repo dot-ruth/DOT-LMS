@@ -142,7 +142,7 @@ export default function TeacherClassCalander() {
                   width:'250px',
                   justifyContent:'space-between'
                   }}>
-                    <Typography >Events</Typography>
+                    <Typography sx={{ml:1}}>Events</Typography>
                 <AddCircleOutlineRoundedIcon color="WhiteTheme" onClick={()=>handleOpen_add()} />
                 <Modal
         open={open_add}

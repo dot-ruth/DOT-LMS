@@ -652,6 +652,176 @@
                 }
             }
         },
+        "/Events": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get list of Events in the DOT-LMS",
+                "description": "Returns list of Events",
+                "operationId": "9519bf96ff99c219930a3ad56ea69736",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Store new Event's data into the database",
+                "description": "Returns the entered Event's data",
+                "operationId": "178ce997a94463a6a92a004d9f39d47e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Events"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Events/{id}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a specific Event",
+                "description": "Returns the specified Event's data",
+                "operationId": "a5f50c2d7ab3ee2f27d9067c9a34de1b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "EVNT-6832"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Update existing Events",
+                "description": "Returns updated Event's data",
+                "operationId": "7bd07086408c8bcb8597a8cab7625c0a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "EVNT-6832"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Events"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Delete existing Event",
+                "description": "Deletes a record and returns no content",
+                "operationId": "ca27b0c4f61501f6c8f6094193ffd980",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6832"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/Mockexams": {
             "get": {
                 "tags": [
@@ -1609,6 +1779,42 @@
                         "description": "email address of the Admin",
                         "type": "string",
                         "example": "Johndoe@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Events": {
+                "title": "Events",
+                "properties": {
+                    "event_title": {
+                        "title": "event_title",
+                        "description": "The title of the Event",
+                        "type": "string",
+                        "example": "Assignment Deadline"
+                    },
+                    "event_start": {
+                        "title": "event_start",
+                        "description": "The starting date of the event",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "event_end": {
+                        "title": "event_end",
+                        "description": "The ending date of the event",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "teacher_id": {
+                        "title": "teacher_id",
+                        "description": "The id of the teacher that created the event",
+                        "type": "string",
+                        "example": ""
+                    },
+                    "course_id": {
+                        "title": "course_id",
+                        "description": "The id of the course the event belongs to",
+                        "type": "string",
+                        "example": ""
                     }
                 },
                 "type": "object"

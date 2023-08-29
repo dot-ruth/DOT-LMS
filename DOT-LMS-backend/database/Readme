@@ -14,9 +14,6 @@ password = new.password,
 table_name='student_users',
 column_name = 'student_id';
 
-create trigger student_update after update on student_users for each row
-update user__roles set 
-password = new.password where user_id = new.student_id;
 
 create trigger teacher_insert after insert on teacher_users for each row
 insert into user__roles set 
@@ -26,9 +23,6 @@ password = new.password,
 table_name='teacher_users',
 column_name = 'Teacher_id';
 
-create trigger teacher_update after update on teacher_users for each row
-update user__roles set 
-password = new.password where user_id = new.teacher_id;
 
 create trigger admin_insert after insert on admin_users for each row
 insert into user__roles set 
@@ -37,7 +31,3 @@ role = 'admin',
 password = new.password,
 table_name='admin_users',
 column_name = 'admin_id';
-
-create trigger admin_update after update on admin_users for each row
-update user__roles set 
-password = new.password where user_id = new.admin_id;

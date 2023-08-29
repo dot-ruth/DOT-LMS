@@ -5,6 +5,7 @@
         use App\Http\Controllers\ChapterController;
         use App\Http\Controllers\Controller;
         use App\Http\Controllers\CoursesController;
+        use App\Http\Controllers\EventsController;
         use App\Http\Controllers\GradebookController;
         use App\Http\Controllers\MessagesController;
         use App\Http\Controllers\MockExamController;
@@ -100,6 +101,8 @@
         Route::get('/Mockexams/Exam/{teacher_id}', [MockExamController::class, 'getExams']);
 
         Route::delete('/Teacher/DeleteAssignedCourse/{teacher_id}', [TeacherUserController::class, 'deleteAssignedCourses']);
+
+        Route::resource('/Events', EventsController::class);
       //  });
 
         
