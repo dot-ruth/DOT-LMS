@@ -373,9 +373,59 @@ class TeacherUserController extends Controller
             'AssignedCourses' => $course_name_array,
             'Course_Data' => $course_data_array
         ]);
+    }
 
-        // return response()->json([
-        //     'output' => $course_array
-        // ]);
+
+    /**
+     * @OA\Delete(
+     *      path="/Teacher/DeleteAssignedCourse/{teacher_id}",
+     *      tags={"Teacher"},
+     *      summary="Delete assigned courses for a teacher",
+     *      description="Returns a message that ensures the deletion of the assigned course",
+     *      @OA\Parameter(
+     *          name="teacher_id",
+     *          description="Teacher's id",
+     *          required=true,
+     * example = "TCH-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     * @OA\Parameter(
+     *         name="course_id",
+     *         in="header",
+     *         required=true,
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server Error"
+     *      )
+     * )
+     */
+    public function deleteAssignedCourses(Request $request, String $teacher_id)
+    {
+        $current_courses = DB::table('teacher_users')->where('teacher_id', $teacher_id)->value('course_id');
+        $course_array = explode(",", $current_courses);
+        $index = array_search($request->header('course_id'), $course_array);
+        unset($course_array[$index]);
+        $string_course_array = implode(",", $course_array);
+        DB::table('teacher_users')->where('teacher_id', $teacher_id)->update([
+            'course_id' => $string_course_array,
+        ]);
+        return response()->json(['message' => 'Deleted Assigned Course']);
     }
 }

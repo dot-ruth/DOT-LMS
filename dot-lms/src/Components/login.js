@@ -61,6 +61,7 @@ function Login(){
         sessionStorage.setItem("teacher_id",JSON.stringify(response.data.data[0]['teacher_id']))
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
         sessionStorage.setItem("token",JSON.stringify(response.data.token));
+        
       }else{
         console.log('excuted else for response')
       }
@@ -103,6 +104,8 @@ function Login(){
   }else{
     navigate('/')
   }
+
+  window.location.reload(true)
     })
     
   }

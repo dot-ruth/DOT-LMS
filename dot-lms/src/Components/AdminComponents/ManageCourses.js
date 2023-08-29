@@ -276,7 +276,6 @@ export default function ManageCourses() {
             </StyledTableRow>
           ))}
 <Modal
-
         open={open_edit}
         onClose={handleClose_edit}
       >
@@ -286,8 +285,6 @@ export default function ManageCourses() {
       </Box>:
       <Box></Box>
       }
-        
-        
       </Modal>
 
       <Modal

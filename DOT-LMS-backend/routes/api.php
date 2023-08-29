@@ -98,6 +98,8 @@
         Route::resource('/Mockexams', MockExamController::class);
 
         Route::get('/Mockexams/Exam/{teacher_id}', [MockExamController::class, 'getExams']);
+
+        Route::delete('/Teacher/DeleteAssignedCourse/{teacher_id}', [TeacherUserController::class, 'deleteAssignedCourses']);
       //  });
 
         
