@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('event_title');
             $table->string('event_id')->unique();
-            $table->string('event_start')->unique();
-            $table->string('event_end')->unique();
-            $table->string('teacher_id')->unique();
-            $table->string('course_id')->unique();
+            $table->string('event_start');
+            $table->string('event_end');
+            $table->string('teacher_id');
+            $table->string('course_id');
             $table->timestamps();
         });
     }

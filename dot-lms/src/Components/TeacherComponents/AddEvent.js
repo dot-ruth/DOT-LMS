@@ -15,7 +15,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function AddEvent() {
+export default function AddEvent(course_id) {
+
+  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
 
     const [formData,setFormData] = useState({
         event_start:"",
@@ -33,10 +35,12 @@ export default function AddEvent() {
         }
 
         const onAddhandler = () =>{
-            axios.post("http://127.0.0.1:8000/api/Chapter/Add_File",{
+            axios.post("http://127.0.0.1:8000/api/Events",{
                 event_start:formData.event_start,
                 event_end:formData.event_end,
                 event_title:formData.event_title,
+                teacher_id:teacher_id,
+                course_id:course_id.row
               },
               toast.info('Adding Event...',{
                 position:toast.POSITION.BOTTOM_CENTER
@@ -93,20 +97,29 @@ export default function AddEvent() {
     
 </FormControl>
 
-<FormControl sx={{ m:2}}>
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
-        <DatePicker label="Start Date" sx={{width:'50ch'}}/>
-      </DemoContainer>
-    </LocalizationProvider>
+<FormControl sx={{ m:2, width:'50ch'}}>
+<InputLabel color="primary">Event Start Date</InputLabel>
+    <OutlinedInput 
+    type="date" 
+    name="event_start" 
+    label='Event Start Date'
+    color="primary" 
+    required={true}
+    variant="outlined"
+    value = {formData.event_start}
+    onChange={onChangehandler}/>
     </FormControl>
-
-    <FormControl sx={{ m:2}}>
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
-        <DatePicker label="End Date" sx={{width:'50ch'}}/>
-      </DemoContainer>
-    </LocalizationProvider>
+    <FormControl sx={{ m:2, width:'50ch'}}>
+    <InputLabel color="primary">Event End Date</InputLabel>
+    <OutlinedInput 
+    type="date" 
+    name="event_end" 
+    label='Event End Date'
+    color="primary" 
+    required={true}
+    variant="outlined"
+    value = {formData.event_end}
+    onChange={onChangehandler}/>
     </FormControl>
 
         <Box sx={{display:'flex'}}>

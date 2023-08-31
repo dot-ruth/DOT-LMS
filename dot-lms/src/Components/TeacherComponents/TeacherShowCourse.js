@@ -16,6 +16,8 @@ import ShowChapter from '../AdminComponents/ShowChapter';
 import AddFile from '../AdminComponents/AddFile';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import TeacherSideDrawer from './TeacherSideDrawer';
+import {Button} from '@mui/material';
+import AddEvent from './AddEvent';
 
 const style = {
   position: 'absolute',
@@ -111,6 +113,7 @@ const [open_edit, setOpen_edit] = React.useState(false);
     const handleClose_add_chapter = () => setOpen_add_chapter(false);
 
   const course_id = useLocation().state.course_id
+
     const getCourseData =()=>{
         axios.get("http://127.0.0.1:8000/api/Course/" + course_id )
           .then((response)=>{
@@ -147,6 +150,13 @@ const [open_edit, setOpen_edit] = React.useState(false);
         console.log(chapterFileArray[0])
       })
       }
+
+      
+  const [open_add,setopen_add] = React.useState(false)
+
+  const handleOpen_add = () => setopen_add(true)
+
+  const handleClose_add = () => setopen_add(false)
 
   return (
     <PerfectScrollbar>
@@ -231,6 +241,22 @@ const [open_edit, setOpen_edit] = React.useState(false);
            
           ))}
           </Box>
+
+          <Box>
+            <Button  sx={{mr:2}} onClick={()=>handleOpen_add()}>Add Event related to this Course</Button>
+          </Box>
+
+          <Modal
+        open={open_add}
+        onClose={handleClose_add}
+      >
+        {open_add?
+        <Box sx={style}>
+        <AddEvent row={course_id}/>
+      </Box>:
+      <Box></Box>
+      }
+      </Modal>
 
            
 

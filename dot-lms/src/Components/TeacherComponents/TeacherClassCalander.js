@@ -8,24 +8,12 @@ import 'react-calendar/dist/Calendar.css';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import styled from 'styled-components';
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import interactionPlugin from "@fullcalendar/interaction";
 import { v4 as uuid } from "uuid";
 import moment from 'moment';
-import Modal from '@mui/material/Modal';
-import AddEvent from './AddEvent';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+
+
 
 const CalendarContainer = styled.div`
   /* ~~~ container styles ~~~ */
@@ -79,11 +67,6 @@ export default function TeacherClassCalander() {
     );
   };
 
-  const [open_add,setopen_add] = React.useState(false)
-
-  const handleOpen_add = () => setopen_add(true)
-
-  const handleClose_add = () => setopen_add(false)
   
   
 
@@ -143,18 +126,7 @@ export default function TeacherClassCalander() {
                   justifyContent:'space-between'
                   }}>
                     <Typography sx={{ml:1}}>Events</Typography>
-                <AddCircleOutlineRoundedIcon color="WhiteTheme" onClick={()=>handleOpen_add()} />
-                <Modal
-        open={open_add}
-        onClose={handleClose_add}
-      >
-        {open_add?
-        <Box sx={style}>
-        <AddEvent/>
-      </Box>:
-      <Box></Box>
-      }
-      </Modal>
+                
                 </Box>
                 <Box sx={{
                   width:'250px'}}>

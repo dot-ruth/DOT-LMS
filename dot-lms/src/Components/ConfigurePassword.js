@@ -86,6 +86,9 @@ export default function ConfigurePassword() {
       }else{
         seterrconfpwd("Entry for Password and Confirm Password does not match")
       }
+
+      window.location.reload(true)
+      
     }
 
     
