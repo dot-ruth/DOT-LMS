@@ -803,7 +803,43 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "TCH-6832"
+                        "example": "EVNT-683"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Events/Teacher/{teacher_id}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get Event based on a teacher's ID",
+                "description": "Get Event data based on a teacher's ID",
+                "operationId": "00d784e2c9a681222f7a08586f5c1586",
+                "parameters": [
+                    {
+                        "name": "teacher_id",
+                        "in": "path",
+                        "description": "Teacher's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "TCH-6823"
                     }
                 ],
                 "responses": {

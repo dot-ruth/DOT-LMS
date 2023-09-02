@@ -103,6 +103,8 @@
         Route::delete('/Teacher/DeleteAssignedCourse/{teacher_id}', [TeacherUserController::class, 'deleteAssignedCourses']);
 
         Route::resource('/Events', EventsController::class);
+
+        Route::get('/Events/Teacher/{teacher_id}', [EventsController::class, 'getByCourseIDTeacherID']);
       //  });
 
         

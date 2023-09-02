@@ -95,7 +95,6 @@ class EventsController extends Controller
     /**
      * @OA\Get(
      *      path="/Events/{id}",
-     *      
      *      tags={"Events"},
      *      summary="Get a specific Event",
      *      description="Returns the specified Event's data",
@@ -196,7 +195,7 @@ class EventsController extends Controller
      *          description="Event's id",
      *          required=true,
      *          in="path",
-     * example = "TCH-6832",
+     * example = "EVNT-683",
      *          @OA\Schema(
      *              type="string"
      *          )
@@ -229,5 +228,47 @@ class EventsController extends Controller
         } else {
             return response()->json(['Message' => 'Events does not exist']);
         }
+    }
+
+
+    /**
+     * @OA\Get(
+     *      path="/Events/Teacher/{teacher_id}",
+     *      tags={"Events"},
+     *      summary="Get Event based on a teacher's ID",
+     *      description="Get Event data based on a teacher's ID",
+     *      @OA\Parameter(
+     *          name="teacher_id",
+     *          description="Teacher's id",
+     *          required=true,
+     *          in="path",
+     *          example = "TCH-6823",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+    public function getByCourseIDTeacherID(string $teacher_id)
+    {
+        $event = Events::where('teacher_id', $teacher_id)->firstorFail();
+        return response()->json(['event' => $event]);
     }
 }
