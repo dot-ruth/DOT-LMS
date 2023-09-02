@@ -11,9 +11,7 @@ import styled from 'styled-components';
 import interactionPlugin from "@fullcalendar/interaction";
 import { v4 as uuid } from "uuid";
 import moment from 'moment';
-
-
-
+import axios from 'axios'
 
 const CalendarContainer = styled.div`
   /* ~~~ container styles ~~~ */
@@ -35,28 +33,27 @@ const CalendarContainer = styled.div`
 
 export default function TeacherClassCalander() {
 
+  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+
   const [events, setEvents] = useState([]);
   const [SelectedDate,setSelectedDate] = useState(moment())
 
-  const handleSelect = (info) => {
-    const { start, end } = info;
-    const eventNamePrompt = prompt("Enter, event name");
-    const calendarRef = React.createRef();
-    const view = calendarRef.current.getView();
-    const selectedDate = view.intervalStart;
-    setSelectedDate(selectedDate);
-    if (eventNamePrompt) {
+  const handleEvent = () => {
+    axios.get("http://127.0.0.1:8000/api/Events/Teacher/" + teacher_id )
+    .then((response)=>{
+      console.log(response.data.event.course_id) 
       setEvents([
         ...events,
         {
-          start,
-          end,
-          title: eventNamePrompt,
-          id: uuid(),
+          start:response.data.event.event_start,
+          end:response.data.event.event_end,
+          title: response.data.event.event_title,
+          id: response.data.event.event_id,
         },
       ]);
-    }
-  };
+})
+  }
+
 
   const EventItem = ({ info }) => {
     const { event } = info;
@@ -74,6 +71,12 @@ export default function TeacherClassCalander() {
     <Box>
         <ThemeProvider theme={theme}>
         <TeacherSideDrawer/> 
+        {
+            React.useEffect(()=>{
+              handleEvent()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[])
+      }
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         overflow:'hidden !important',
@@ -91,7 +94,7 @@ export default function TeacherClassCalander() {
         plugins={[ dayGridPlugin,interactionPlugin ]}
         initialView="dayGridMonth"
         events={events}
-        select={handleSelect}
+        select={handleEvent}
         headerToolbar={{
           start:'prevYear prev',
           center:'title',
