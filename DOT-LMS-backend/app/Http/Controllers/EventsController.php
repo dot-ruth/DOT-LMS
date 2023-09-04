@@ -268,7 +268,7 @@ class EventsController extends Controller
      */
     public function getByCourseIDTeacherID(string $teacher_id)
     {
-        $event = Events::where('teacher_id', $teacher_id)->firstorFail();
+        $event = Events::where('teacher_id', $teacher_id)->get();
         return response()->json(['event' => $event]);
     }
 }

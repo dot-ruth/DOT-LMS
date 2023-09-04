@@ -35,22 +35,35 @@ export default function TeacherClassCalander() {
 
   const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
 
-  const [events, setEvents] = useState([]);
-  const [SelectedDate,setSelectedDate] = useState(moment())
+  function create_event_Data(event_title,event_id,event_start,event_end) {
+    return { event_title,event_id,event_start,event_end };
+  }
+
+  const [eventData, setEventData] = useState([]);
+
+  const [events,setEvents] = useState([]);
+
+  let EventArray = []
+
+  let EventDisplayArray = []
 
   const handleEvent = () => {
     axios.get("http://127.0.0.1:8000/api/Events/Teacher/" + teacher_id )
     .then((response)=>{
-      console.log(response.data.event.course_id) 
-      setEvents([
-        ...events,
-        {
-          start:response.data.event.event_start,
-          end:response.data.event.event_end,
-          title: response.data.event.event_title,
-          id: response.data.event.event_id,
-        },
-      ]);
+      for(let i = 0 ; i<response.data.event.length;i++){
+        EventArray.push(create_event_Data(response.data.event[i].event_title,response.data.event[i].event_id,response.data.event[i].event_start,response.data.event[i].event_end));
+        
+      }
+      for(let i = 0;i<eventData.length;i++){
+        EventDisplayArray.push({
+          start:eventData[i].event_start,
+          end:eventData[i].event_end,
+          title: eventData[i].event_title,
+          id: eventData[i].event_id,
+        })
+      }
+      setEvents(EventDisplayArray)
+      setEventData(EventArray)
 })
   }
 
@@ -86,7 +99,6 @@ export default function TeacherClassCalander() {
         }}>
             <Box sx={{
               display:'flex',
-            
             }}>
               
 <CalendarContainer>
@@ -112,8 +124,8 @@ export default function TeacherClassCalander() {
                 flexDirection:'column',
                 alignItems:'center',
               }}>
-                <Typography sx={{fontSize:100,fontWeight:'bold',mb:-5,color:'white'}} >{moment(SelectedDate).format('D')}</Typography>
-                <Typography sx={{fontSize:25,fontWeight:'bold',color:'white'}} >{moment(SelectedDate).format('dddd')}</Typography>
+                <Typography sx={{fontSize:100,fontWeight:'bold',mb:-5,color:'white'}} >{moment().format('D')}</Typography>
+                <Typography sx={{fontSize:25,fontWeight:'bold',color:'white'}} >{moment().format('dddd')}</Typography>
                 <Box sx={{
                   alignSelf:'flex-start',
                   ml:1
@@ -133,10 +145,14 @@ export default function TeacherClassCalander() {
                 </Box>
                 <Box sx={{
                   width:'250px'}}>
-                    {events.map((event,index)=>(
+                    
+                    { console.log(events)}
+                    {eventData.map((event,index)=>(
+                      <Box>
                       <Box sx={{display:'flex',justifyContent:'space-between'}}>
-                  <ListItem>{event.title}</ListItem>
-                  <ListItem>{moment(event.end).format('DD/MM/YYYY')}</ListItem>
+                  <ListItem>{event.event_title}</ListItem>
+                  <ListItem>{moment(event.event_end).format('DD/MM/YYYY')}</ListItem>
+                  </Box>
                   </Box>
                     ))}
                   </Box>
