@@ -3,6 +3,7 @@
         use App\Http\Controllers\AdminUserController;
         use App\Http\Controllers\AssignmentController;
         use App\Http\Controllers\ChapterController;
+        use App\Http\Controllers\ChatController;
         use App\Http\Controllers\Controller;
         use App\Http\Controllers\CoursesController;
         use App\Http\Controllers\EventsController;
@@ -104,7 +105,11 @@
 
         Route::resource('/Events', EventsController::class);
 
+        Route::resource('/Messages', MessagesController::class);
+
         Route::get('/Events/Teacher/{teacher_id}', [EventsController::class, 'getByCourseIDTeacherID']);
+
+      //  Route::get('/Message', [ChatController::class, 'message']);
       //  });
 
         

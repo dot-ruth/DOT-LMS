@@ -858,6 +858,142 @@
                 }
             }
         },
+        "/Messages": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Get list of Messages ",
+                "description": "Returns list of Messages",
+                "operationId": "b12e9e60a773551cad4c34ce8c461fb8",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Send Message functionality",
+                "description": "Returns the status if the message is sent or not",
+                "operationId": "31df7359a00d2ba45e4ad69cf85cbf5d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/messages"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Messages/{id}": {
+            "put": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Update existing Message",
+                "description": "Returns updated Message's data",
+                "operationId": "0acf52854e268564c982ab5a09d581f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Message's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "MSG-7539"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/messages"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Delete existing Message",
+                "description": "Deletes a record and returns no content",
+                "operationId": "f46c0cd5abb62ca84c304d75acc76526",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Message's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "MSG-7539"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/Mockexams": {
             "get": {
                 "tags": [
@@ -2030,6 +2166,30 @@
                         "description": "A Brief description of the course to added",
                         "type": "string",
                         "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a varius nisl, a tempor felis. Aenean pretium convallis odio, at gravida lorem imperdiet porttitor. Pellentesque vitae eros rhoncus, euismod lectus at, bibendum urna. Integer id dolor at mi vulputate iaculis. Donec sodales nisl cursus, fermentum nibh quis, vehicula dolor. In facilisis lacus vitae imperdiet gravida. Suspendisse leo erat, rutrum vel pharetra vitae, vehicula commodo dui. Donec molestie, magna ut sodales faucibus, est turpis finibus tellus, tincidunt dapibus libero metus non orci. Sed tempor turpis dui, at vehicula tortor lacinia vel. Quisque at leo eget leo pretium semper. Suspendisse venenatis porta sapien eu finibus. Maecenas ultrices ut lacus nec feugiat. Quisque laoreet sapien ac dui faucibus, non euismod dui condimentum. Fusce ultrices leo id nibh hendrerit, non maximus justo scelerisque. Fusce semper lacus massa, quis auctor risus feugiat et. Curabitur volutpat nulla non nibh elementum, ut tempus metus imperdiet."
+                    }
+                },
+                "type": "object"
+            },
+            "messages": {
+                "title": "messages",
+                "description": "Message data",
+                "properties": {
+                    "message_content": {
+                        "title": "message_content",
+                        "description": "The Message to be sent",
+                        "type": "string"
+                    },
+                    "message_reciever_id": {
+                        "title": "message_reciever_id",
+                        "description": "The user id of the reciever of the message",
+                        "type": "string",
+                        "example": "TCH-8734"
+                    },
+                    "message_sender_id": {
+                        "title": "message_sender_id",
+                        "description": "The user id of the sender of the message",
+                        "type": "string",
+                        "example": "TCH-5432"
                     }
                 },
                 "type": "object"

@@ -50,7 +50,7 @@ export default function ConfigurePassword() {
     }
 
     
-    const onConfigurehandler = () =>{
+    const onConfigurehandler =  () =>{
         if(formData.ConfirmPassword === formData.password){
         axios.post("http://127.0.0.1:8000/api/ConfigurePassword",{
           user_id:formData.user_id,
@@ -76,10 +76,13 @@ export default function ConfigurePassword() {
       
         if(role === student){
           navigate("/Student_Dashboard")
+          window.location.reload(true)
         }else if(role === teacher){
           navigate("/Teacher_Dashboard")
+          window.location.reload(true)
         }else if(role === admin){
           navigate("/Admin_Dashboard")
+          window.location.reload(true)
         }
         })
         
@@ -87,7 +90,7 @@ export default function ConfigurePassword() {
         seterrconfpwd("Entry for Password and Confirm Password does not match")
       }
 
-      window.location.reload(true)
+      
       
     }
 
