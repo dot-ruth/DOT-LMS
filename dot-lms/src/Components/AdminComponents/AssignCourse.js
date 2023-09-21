@@ -59,8 +59,8 @@ export default function AssignCourse() {
 
     const handleClose_assign_student = () => setopen_assign_student(false)
 
-    function create_teacher_name_array(First_Name,Last_Name){
-        return {First_Name,Last_Name}
+    function create_teacher_name_array(First_Name,Last_Name,ID,Courses){
+        return {First_Name,Last_Name,ID,Courses}
     }
 
     let teachernamearray = []
@@ -69,60 +69,52 @@ export default function AssignCourse() {
 
     const [course_array,setcourse_array] = React.useState([])
 
+    let AssignedCourse = []
+
+    const [loading,setloading] = React.useState(true)
+
     function getAssignedCourses(teacher_id) {
-
-      axios.get("http://127.0.0.1:8000/api/Teacher/AssignedCourse/"+teacher_id)
-      .then((response)=>{
-        setcourse_array(response.data.AssignedCourses)
-      })
-      return course_array
-    }
-
-    const getTeacherData = () => {
-        axios.get("http://127.0.0.1:8000/api/Teacher")
+        axios.get("http://127.0.0.1:8000/api/Teacher/AssignedCourse/"+teacher_id)
         .then((response)=>{
-            for(let i = 0;i<response.data.teachers.length;i++){
-                teachernamearray.push(create_teacher_name_array(response.data.teachers[i]['first_name'],response.data.teachers[i]['last_name']))
-               getAssignedCourses(response.data.teachers[i]['teacher_id'])
-                console.log(course_array)
-            }
-            setteacher_rows(teachernamearray)
-            
+        AssignedCourse = response.data.AssignedCourses
         })
+        return AssignedCourse
+           }
 
-        
-        
+ 
+
+    const getTeacherData =async () => {
+      const teacherResponse = await axios.get("http://127.0.0.1:8000/api/Teacher")
+      for (let i=0;i<teacherResponse.data.teachers.length;i++){
+        const courseResponse = await axios.get("http://127.0.0.1:8000/api/Teacher/AssignedCourse/"+teacherResponse.data.teachers[i]['teacher_id'])
+        teachernamearray.push(create_teacher_name_array(teacherResponse.data.teachers[i]['first_name'],teacherResponse.data.teachers[i]['last_name'],teacherResponse.data.teachers[i]['teacher_id'],courseResponse))
+      }
+      setteacher_rows(teachernamearray)
+
       
-
+        // .then( (response)=>{
+        //     for(let i = 0;i<response.data.teachers.length;i++){
+        //         teachernamearray.push(create_teacher_name_array(response.data.teachers[i]['first_name'],response.data.teachers[i]['last_name'],response.data.teachers[i]['teacher_id'],getAssignedCourses(response.data.teachers[i]['teacher_id'])))
+              
+        //     }
+        //     setteacher_rows(teachernamearray)
+        // })
     }
 
-  //   React.useEffect(() => {
-  //   // Fetch the courses from the API.
-  //   fetch('/api/courses')
-  //     .then(response => response.json())
-  //     .then(courses => setCourses(courses));
-  // }, [])
-
-    
   return (
-    
-
     <Box>
+      {
+        React.useEffect(()=>{
+getTeacherData()
+  setloading(false)
+
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        },[])
+      }
             <ThemeProvider theme={theme}>
             <ToastContainer/>
-            {
-            React.useEffect(()=>{
-      getTeacherData()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[])
-      }
-      
-      {/* {
-            React.useEffect(()=>{
-      getAssignedCourses()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[])
-      } */}
+             
         <AdminSideDrawer/>
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
@@ -150,7 +142,7 @@ export default function AssignCourse() {
           display:'flex',
           flexDirection:'column',
           justifyContent:'center',
-          alignItems:'center'
+          alignItems:'center',
         }} >
 
 <AssignmentTurnedInIcon fontSize='large' style={{fontWeight:'bold',margin:5,fontSize:'70px',color:'#68cca9'}}/>
@@ -215,50 +207,80 @@ export default function AssignCourse() {
     mt:3
 }}>
         <Typography variant='h6' style={{ fontWeight:'bold'}}>Teacher Assignment List</Typography>
-      <TableContainer component={Paper} style={{
-        marginTop:'5px',
-        height:'100vh'
-        }}>
-      <Table sx={{ minWidth: 500 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell >Teacher's Name</StyledTableCell>
-            <StyledTableCell >Assigned Courses</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {teacher_rows.map((row,i) => 
-          (
-            
-            <StyledTableRow key={i}>
-              <StyledTableCell >{row.First_Name} {row.Last_Name}</StyledTableCell>
-              {course_array.map((course,index)=>(
-                <Box sx={{
-                  display:'flex',
-                  flexDirection:'column'
-                }}>
-                <StyledTableCell>{course} <DeleteIcon color='primary' sx={{marginLeft:10}}/> 
-                </StyledTableCell>
-                </Box>
-              ))}
+         
+        <TableContainer component={Paper} style={{
+          marginTop:'5px',
+          height:'100vh'
+          }}>
+        <Table sx={{ minWidth: 500 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell >Teacher's Name</StyledTableCell>
+              <StyledTableCell >Assigned Courses</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          {console.log(teacher_rows)}
+          {(loading && teacher_rows.length === 0)?
+          <TableBody>
+            <StyledTableRow>
+<StyledTableCell>Loading....</StyledTableCell>
+</StyledTableRow>
+</TableBody>
+
+          :
+          <TableBody>
+            {teacher_rows.map((row,rowIndex) => 
+            (
               
-            </StyledTableRow>
-          ))}
-{/* <Modal
-        open={open_edit}
-        onClose={handleClose_edit}
-      >
-        {open_edit?
-        <Box sx={style}>
-        < EditAssignment row={edit_row} />
-      </Box>:
-      <Box></Box>
-      } 
-      </Modal> */}
-          
-        </TableBody>
-      </Table>
-    </TableContainer>
+              <StyledTableRow key={rowIndex}>
+                <StyledTableCell >{row.First_Name} {row.Last_Name}</StyledTableCell>
+                
+                <StyledTableCell >
+              
+                {console.log(row.Courses.data.AssignedCourses)}
+
+                { 
+                (row.Courses.data.AssignedCourses.length > 0)?
+                row.Courses.data.AssignedCourses.map((course,columnIndex)=>(
+                  
+                    <Box
+                     sx={{
+                      display:'flex',
+                      flexDirection:'column'
+                    }} key={columnIndex}>
+
+<Box >
+                  {course} <DeleteIcon color='primary' sx={{marginLeft:10}}/> 
+                  </Box>
+                      
+                      
+                  </Box>
+                  
+                  )):<Box>
+                    undefined</Box>
+                }
+                
+                  </StyledTableCell>
+                
+              </StyledTableRow>
+            ))}
+  {/* <Modal
+          open={open_edit}
+          onClose={handleClose_edit}
+        >
+          {open_edit?
+          <Box sx={style}>
+          < EditAssignment row={edit_row} />
+        </Box>:
+        <Box></Box>
+        } 
+        </Modal> */}
+            
+          </TableBody>
+}
+        </Table>
+      </TableContainer> 
+      
     </Box>
         
         </Box>

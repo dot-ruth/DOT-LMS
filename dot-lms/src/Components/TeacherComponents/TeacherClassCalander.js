@@ -62,6 +62,7 @@ export default function TeacherClassCalander() {
           id: eventData[i].event_id,
         })
       }
+      console.log(EventDisplayArray)
       setEvents(EventDisplayArray)
       setEventData(EventArray)
 })
