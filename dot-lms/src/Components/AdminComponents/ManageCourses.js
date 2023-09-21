@@ -19,6 +19,9 @@ import { Link } from 'react-router-dom';
 import {FormControl,OutlinedInput} from '@mui/material'
 import {InputLabel} from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import {Menu} from '@mui/material';
+import {MenuItem} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const style = {
     position: 'absolute',
@@ -208,6 +211,15 @@ export default function ManageCourses() {
         
       }
 
+      const [anchorEl, setAnchorEl] = React.useState(null);
+  const openHamburger = Boolean(anchorEl);
+  const openMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const closeMenu = () => {
+    setAnchorEl(null);
+  };
+
     return (
         <Box>
             <ThemeProvider theme={theme}>
@@ -268,10 +280,26 @@ export default function ManageCourses() {
               <StyledTableCell >{row.Course_ID}</StyledTableCell>
               <StyledTableCell >{row.Course_Topic}</StyledTableCell>
               <StyledTableCell> 
-                <Link to='/Show_Course' state={{course_id:row.Course_ID}}>
-                  <Visibility color='primary'/></Link>
-                  <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                    <DeleteIcon color='primary' onClick={()=>handleOpen_delete(row.Course_ID)}/>
+                <MenuIcon 
+                color='primary' 
+                onClick={openMenu} 
+                aria-controls={openHamburger ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={openHamburger ? 'true' : undefined}/>
+                <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openHamburger}
+        onClose={closeMenu}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem ><Link to='/Show_Course' state={{course_id:row.Course_ID}} >
+                  <Visibility color='primary' sx={{margin:1}}/>Show Course Content</Link> </MenuItem>
+        <MenuItem> <EditIcon color='primary' onClick={()=>handleOpen_edit(row)} sx={{margin:1}}/> Edit Course Content </MenuItem>
+        <MenuItem ><DeleteIcon color='primary' onClick={()=>handleOpen_delete(row.Course_ID)} sx={{margin:1}}/>Delete Course</MenuItem>
+      </Menu>
                     </StyledTableCell>
             </StyledTableRow>
           ))}

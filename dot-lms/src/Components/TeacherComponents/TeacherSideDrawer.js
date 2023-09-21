@@ -20,7 +20,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import QuizIcon from '@mui/icons-material/Quiz';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import ForumIcon from '@mui/icons-material/Forum';
@@ -137,7 +136,7 @@ export default function TeacherSideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Mock Exams', 'Class calendar','Message','Profile'].map((text, index) => (
+          {['Dashboard', 'Class calendar','Message','Profile'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -157,10 +156,9 @@ export default function TeacherSideDrawer() {
                   { 
                  {
                     0:<Link to='/Teacher_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
-                    1:<Link to='/Teacher_Mockexam'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
-                    2:<Link to='/Teacher_classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
-                    3:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
-                    4:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
+                    1:<Link to='/Teacher_classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
+                    2:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
+                    3:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]
           }
                   

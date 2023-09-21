@@ -20,6 +20,9 @@ import AddFile from './AddFile';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {FormControl,OutlinedInput} from '@mui/material'
 import {InputLabel} from '@mui/material'
+import {Menu} from '@mui/material';
+import {MenuItem} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const style = {
   position: 'absolute',
@@ -272,6 +275,15 @@ const [open_edit, setOpen_edit] = React.useState(false);
         
       }
 
+      const [anchorEl, setAnchorEl] = React.useState(null);
+  const openHamburger = Boolean(anchorEl);
+  const openMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const closeMenu = () => {
+    setAnchorEl(null);
+  };
+
 
   return (
 
@@ -412,13 +424,30 @@ const [open_edit, setOpen_edit] = React.useState(false);
           
             ))}
             </StyledTableCell>
-            <StyledTableCell> 
-                <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
-                <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                <DeleteIcon color='primary' onClick={()=>handleOpen_delete(row.Chapter_ID)}/>
-                <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
-                
-                  </StyledTableCell>
+                  <StyledTableCell> 
+                <MenuIcon 
+                color='primary' 
+                onClick={openMenu} 
+                aria-controls={openHamburger ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={openHamburger ? 'true' : undefined}/>
+                <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openHamburger}
+        onClose={closeMenu}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={()=>handleOpen_show(row)}> <Visibility color='primary'  sx={{margin:1}}/> Show Chapter Description</MenuItem>
+        <MenuItem onClick={()=>handleOpen_edit(row)}> <EditIcon color='primary'  sx={{margin:1}}/> Edit Chapter Detail </MenuItem>
+        <MenuItem onClick={()=>handleOpen_delete(row.Chapter_ID)} > <DeleteIcon color='primary'  sx={{margin:1}}/> Delete Chapter</MenuItem>
+        <MenuItem onClick={()=>handleOpen_add_chapter(row.Chapter_ID)} ><NoteAddIcon color='primary' sx={{margin:1}}/>Add File</MenuItem>
+
+
+      </Menu>
+                    </StyledTableCell>
           </StyledTableRow>
         ))}
 <Modal

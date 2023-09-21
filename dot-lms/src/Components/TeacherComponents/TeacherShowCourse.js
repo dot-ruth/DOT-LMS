@@ -18,6 +18,11 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import TeacherSideDrawer from './TeacherSideDrawer';
 import {Button} from '@mui/material';
 import AddEvent from './AddEvent';
+import {Menu} from '@mui/material';
+import {MenuItem} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const style = {
   position: 'absolute',
@@ -157,6 +162,15 @@ const [open_edit, setOpen_edit] = React.useState(false);
   const handleOpen_add = () => setopen_add(true)
 
   const handleClose_add = () => setopen_add(false)
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openHamburger = Boolean(anchorEl);
+  const openMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const closeMenu = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <PerfectScrollbar>
@@ -304,12 +318,34 @@ const [open_edit, setOpen_edit] = React.useState(false);
           
             ))}
             </StyledTableCell>
+
             <StyledTableCell> 
-                <Visibility color='primary' onClick={()=>handleOpen_show(row)}/>
-                <EditIcon color='primary' onClick={()=>handleOpen_edit(row)}/> 
-                <NoteAddIcon color='primary' onClick={()=>handleOpen_add_chapter(row.Chapter_ID)}/>
-                
-                  </StyledTableCell>
+                <MenuIcon 
+                color='primary' 
+                onClick={openMenu} 
+                aria-controls={openHamburger ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={openHamburger ? 'true' : undefined}/>
+                <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openHamburger}
+        onClose={closeMenu}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={()=>handleOpen_show(row)}> <Visibility color='primary'  sx={{margin:1}}/> Show Chapter Description</MenuItem>
+        <MenuItem onClick={()=>handleOpen_edit(row)}> <EditIcon color='primary'  sx={{margin:1}}/> Edit Chapter Detail </MenuItem>
+        
+       <MenuItem> <Link to='/Teacher_Mockexam'  state={{course_id:row.Course_ID}} >
+                  <QuizIcon color='primary' sx={{margin:1}}/>Show Related Mock Exams</Link></MenuItem>
+        
+        <MenuItem onClick={()=>handleOpen_add_chapter(row.Chapter_ID)} ><NoteAddIcon color='primary' sx={{margin:1}}/>Add File</MenuItem>
+
+
+      </Menu>
+                    </StyledTableCell>
           </StyledTableRow>
         ))}
 <Modal
