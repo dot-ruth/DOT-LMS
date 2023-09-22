@@ -47,25 +47,21 @@ export default function TeacherClassCalander() {
 
   let EventDisplayArray = []
 
-  const handleEvent = () => {
-    axios.get("http://127.0.0.1:8000/api/Events/Teacher/" + teacher_id )
-    .then((response)=>{
-      for(let i = 0 ; i<response.data.event.length;i++){
-        EventArray.push(create_event_Data(response.data.event[i].event_title,response.data.event[i].event_id,response.data.event[i].event_start,response.data.event[i].event_end));
-        
-      }
-      for(let i = 0;i<eventData.length;i++){
-        EventDisplayArray.push({
-          start:eventData[i].event_start,
-          end:eventData[i].event_end,
-          title: eventData[i].event_title,
-          id: eventData[i].event_id,
-        })
-      }
-      console.log(EventDisplayArray)
-      setEvents(EventDisplayArray)
-      setEventData(EventArray)
-})
+  const handleEvent = async () => {
+    const eventResponse = await axios.get("http://127.0.0.1:8000/api/Events/Teacher/" + teacher_id )
+    for(let i=0;i<eventResponse.data.event.length;i++){
+      EventArray.push(create_event_Data(eventResponse.data.event[i].event_title,eventResponse.data.event[i].event_id,eventResponse.data.event[i].event_start,eventResponse.data.event[i].event_end));
+    }
+    setEventData(EventArray)
+    for(let i = 0;i<EventArray.length;i++){
+              EventDisplayArray.push({
+                start:EventArray[i].event_start,
+                end:EventArray[i].event_end,
+                title: EventArray[i].event_title,
+                id: EventArray[i].event_id,
+              })
+            }
+            return EventDisplayArray
   }
 
 
@@ -78,16 +74,16 @@ export default function TeacherClassCalander() {
     );
   };
 
-  
-  
-
   return (
     <Box>
         <ThemeProvider theme={theme}>
         <TeacherSideDrawer/> 
         {
             React.useEffect(()=>{
-              handleEvent()
+              const eventPromise = handleEvent()
+              eventPromise.then((response)=>{
+             setEvents(response)
+              })
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[])
       }
@@ -103,6 +99,7 @@ export default function TeacherClassCalander() {
             }}>
               
 <CalendarContainer>
+  {console.log(events)}
 <FullCalendar
         plugins={[ dayGridPlugin,interactionPlugin ]}
         initialView="dayGridMonth"

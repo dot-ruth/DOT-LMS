@@ -67,21 +67,7 @@ export default function AssignCourse() {
 
     const [teacher_rows,setteacher_rows] = React.useState([])
 
-    const [course_array,setcourse_array] = React.useState([])
-
-    let AssignedCourse = []
-
     const [loading,setloading] = React.useState(true)
-
-    function getAssignedCourses(teacher_id) {
-        axios.get("http://127.0.0.1:8000/api/Teacher/AssignedCourse/"+teacher_id)
-        .then((response)=>{
-        AssignedCourse = response.data.AssignedCourses
-        })
-        return AssignedCourse
-           }
-
- 
 
     const getTeacherData =async () => {
       const teacherResponse = await axios.get("http://127.0.0.1:8000/api/Teacher")
@@ -91,14 +77,6 @@ export default function AssignCourse() {
       }
       setteacher_rows(teachernamearray)
 
-      
-        // .then( (response)=>{
-        //     for(let i = 0;i<response.data.teachers.length;i++){
-        //         teachernamearray.push(create_teacher_name_array(response.data.teachers[i]['first_name'],response.data.teachers[i]['last_name'],response.data.teachers[i]['teacher_id'],getAssignedCourses(response.data.teachers[i]['teacher_id'])))
-              
-        //     }
-        //     setteacher_rows(teachernamearray)
-        // })
     }
 
   return (
