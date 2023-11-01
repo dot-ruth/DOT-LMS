@@ -12,6 +12,11 @@ class User_Role extends Authenticatable implements JWTSubject
 
     protected $fillable = ['password', 'otp'];
 
+    public function messages()
+    {
+        return $this->hasMany(messages::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -170,6 +170,7 @@ return [
         L5Swagger\L5SwaggerServiceProvider::class,
         PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
     ])->toArray(),
 
     /*

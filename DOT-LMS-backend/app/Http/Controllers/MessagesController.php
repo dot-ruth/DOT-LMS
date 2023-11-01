@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\messages;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Pusher\Pusher;
+use App\Models\messages;
+use App\Events\ChatMessage;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\User_Role;
 
 class MessagesController extends Controller
 {
@@ -33,7 +35,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        return messages::all();
+        return messages::with('user_roles')->get();
     }
 
     /**
@@ -70,21 +72,26 @@ class MessagesController extends Controller
 
     public function store(Request $request)
     {
-        $message_id = 'MSG-' . mt_rand(100, 999);
-        $message = new messages();
-        $message->message_id = $message_id;
-        $message->Message_content = $request->message_content;
-        $message->Message_reciever_id = $request->message_reciever_id;
-        $message->Message_sender_id = $request->message_sender_id;
-        $message->save();
+        // $message_id = 'MSG-' . mt_rand(100, 999);
+        // $message = new messages();
+        // $message->message_id = $message_id;
+        // $message->Message_content = $request->message_content;
+        // $message->Message_reciever_id = $request->message_reciever_id;
+        // $message->Message_sender_id = $request->message_sender_id;
+        // $message->save();
+        $user = User_Role::where('user_id', $request->id);
 
-        $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
-            'cluster' => env('PUSHER_APP_CLUSTER'),
+        $message = $user->messages()->create([
+            'message' => $request->input('message')
         ]);
 
-        $pusher->trigger('DOT-LMS', 'message-sent', [
-            'message' => $message
-        ]);
+        // send event to listeners
+        broadcast(new ChatMessage($message, $user))->toOthers();
+
+        return [
+            'message' => $message,
+            'user' => $user,
+        ];
     }
 
     /* @OA\Get(
