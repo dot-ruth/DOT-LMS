@@ -109,6 +109,8 @@
 
         Route::get('/Events/Teacher/{teacher_id}', [EventsController::class, 'getByCourseIDTeacherID']);
 
+        Route::get('/Users', [UserRoleController::class, 'AllUsers']);
+
       //  Route::get('/Message', [ChatController::class, 'message']);
       //  });
 

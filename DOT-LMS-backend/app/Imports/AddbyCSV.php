@@ -2,7 +2,11 @@
 
 namespace App\Imports;
 
+use App\Jobs\SendEmail;
+use App\Mail\DOTLMSMail;
 use App\Models\StudentUser;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\PendingDispatch;
@@ -31,6 +35,8 @@ class AddbyCSV implements ToModel
         while ($this->check_userExistsID($student_id)) {
             $student_id = 'DBUR-' . mt_rand(1000, 9999) . date('-y');
         }
+
+        dispatch(new SendEmail($student_id, $row[2], $row[0]));
 
         return new StudentUser([
             'student_id' => $student_id,

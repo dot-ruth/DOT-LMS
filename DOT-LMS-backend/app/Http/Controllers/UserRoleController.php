@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\forgotPasswordMail;
+use App\Models\StudentUser;
+use App\Models\TeacherUser;
 
 class UserRoleController extends Controller
 {
@@ -90,6 +92,43 @@ class UserRoleController extends Controller
         } else {
             return response()->json(["status" => "failed", "success" => false, "message" => "unable to login, User does not exist "]);
         }
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/Users",
+     *      tags={"User Management Endpoints"},
+     *      description="Returns all the users in the system except for admins",
+     *     
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     * )
+     */
+
+    public function AllUsers()
+    {
+        $student_array = [];
+        $teacher_array = [];
+        $student_id_array = DB::select("SELECT user_id FROM user__roles where role = 'student'");
+        $teacher_id_array = DB::select("SELECT user_id FROM user__roles where role = 'teacher'");
+        for ($i = 0; $i < sizeof($teacher_id_array); $i++) {
+            //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
+            $teacher_data = TeacherUser::where('teacher_id', $teacher_id_array[$i]->user_id)->first();
+            array_push($teacher_array, $teacher_data['first_name'] . " " . $teacher_data['last_name']);
+        }
+
+        for ($i = 0; $i < sizeof($student_id_array); $i++) {
+            //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
+            $student_data = StudentUser::where('student_id', $student_id_array[$i]->user_id)->first();
+            array_push($student_array, $student_data['first_name'] . " " . $student_data['last_name']);
+        }
+        return response()->json([
+            "teachers" => $teacher_array,
+            "students" => $student_array
+        ]);
     }
 
     /**
