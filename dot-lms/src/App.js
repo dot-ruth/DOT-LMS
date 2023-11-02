@@ -27,6 +27,7 @@ import ShowCourse from './Components/AdminComponents/ShowCourse';
 import AssignCourse from './Components/AdminComponents/AssignCourse';
 import TeacherShowCourse from './Components/TeacherComponents/TeacherShowCourse';
 import { Navigate } from 'react-router-dom';
+import TeacherGradeBook from './Components/TeacherComponents/TeacherGradeBook';
 
 function App() {
 
@@ -73,6 +74,7 @@ function App() {
         <Route path='/Show_Course'  element={<ShowCourse/>}/>
         <Route path='/Assign_Course'  element={<AssignCourse/>}/>
         <Route path='/Teacher/ShowCourse'  element={<TeacherShowCourse/>}/>
+        <Route path='Teacher_Gradebook' element={<TeacherGradeBook/>}/>
         </Routes>:
         <Routes>
       </Routes>

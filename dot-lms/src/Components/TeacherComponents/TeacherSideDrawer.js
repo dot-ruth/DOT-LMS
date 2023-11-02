@@ -23,6 +23,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import ForumIcon from '@mui/icons-material/Forum';
+import BookIcon from '@mui/icons-material/Book';
 
 const drawerWidth = 240;
 
@@ -136,7 +137,7 @@ export default function TeacherSideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Class calendar','Message','Profile'].map((text, index) => (
+          {['Dashboard', 'Class calendar','Message','Grade Book','Profile'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -158,7 +159,8 @@ export default function TeacherSideDrawer() {
                     0:<Link to='/Teacher_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
                     1:<Link to='/Teacher_classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
                     2:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
-                    3:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
+                    3:<Link to='/Teacher_Gradebook'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
+                    4:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]
           }
                   
