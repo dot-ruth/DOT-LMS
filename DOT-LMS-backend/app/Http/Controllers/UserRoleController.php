@@ -110,24 +110,22 @@ class UserRoleController extends Controller
 
     public function AllUsers()
     {
-        $student_array = [];
-        $teacher_array = [];
+        $user_array = [];
         $student_id_array = DB::select("SELECT user_id FROM user__roles where role = 'student'");
         $teacher_id_array = DB::select("SELECT user_id FROM user__roles where role = 'teacher'");
         for ($i = 0; $i < sizeof($teacher_id_array); $i++) {
             //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
             $teacher_data = TeacherUser::where('teacher_id', $teacher_id_array[$i]->user_id)->first();
-            array_push($teacher_array, $teacher_data['first_name'] . " " . $teacher_data['last_name']);
+            array_push($user_array, [$teacher_data['first_name'] . " " . $teacher_data['last_name'], $teacher_data['teacher_id']]);
         }
 
         for ($i = 0; $i < sizeof($student_id_array); $i++) {
             //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
             $student_data = StudentUser::where('student_id', $student_id_array[$i]->user_id)->first();
-            array_push($student_array, $student_data['first_name'] . " " . $student_data['last_name']);
+            array_push($user_array, [$student_data['first_name'] . " " . $student_data['last_name'], $student_data['student_id']]);
         }
         return response()->json([
-            "teachers" => $teacher_array,
-            "students" => $student_array
+            $user_array
         ]);
     }
 
