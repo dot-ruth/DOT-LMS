@@ -550,4 +550,34 @@ class StudentUserController extends Controller
             'status' => 'assigned course to all students'
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *      path="/Student/Course/{course_id}",
+     *      tags={"Student"},
+     *      summary="Get a list of students in a specified course",
+     *      @OA\Parameter(
+     *          name="course_id",
+     *          description="Course's id",
+     *          required=true,
+     * example = "CUS-6832",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *  @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     *     
+     * )
+     */
+    public function getStudentList_Course(String $course_id)
+    {
+        $student_users = StudentUser::where('course_id', 'like', '%' . $course_id . '%')->get();
+
+        return response()->json($student_users);
+    }
 }

@@ -11,7 +11,7 @@ import axios from "axios";
 
 export default function TeacherCourses(){
   const first_name = sessionStorage.getItem('First_Name').replaceAll('"','')
-  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+  const teacher_id = sessionStorage.getItem('id').replaceAll('"','')
   const [Course_Data_Array,setCourse_Data_Array]= useState([])
   let TopicArray = []
   const [topic_array,settopic_array] = useState([])

@@ -33,7 +33,7 @@ const CalendarContainer = styled.div`
 
 export default function TeacherClassCalander() {
 
-  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+  const teacher_id = sessionStorage.getItem('id').replaceAll('"','')
 
   function create_event_Data(event_title,event_id,event_start,event_end) {
     return { event_title,event_id,event_start,event_end };

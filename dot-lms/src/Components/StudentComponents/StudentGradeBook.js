@@ -2,20 +2,51 @@ import { Box,TableContainer,ThemeProvider,Table,TableHead,TableBody,TableRow,Tab
 import theme from "../theme";
 import StudentSideDrawer from "./StudentSideDrawer";
 import {Typography} from "@mui/material";
+import axios from "axios";
+import React, { useState } from "react";
 
 export default function StudentGradeBook(){
-    function createData(Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam,Total){
-        return {Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam,Total};
+  const student_id = sessionStorage.getItem('id').replaceAll('"','')
+    function createData(Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam){
+        return {Course,Attendance,Individual_Assignment,Group_Assignment,Mid_exam,Final_Exam};
     }
 
-    const rows = [
-        createData('Web Dev',5,8,8,21,43.5,85.5)
-    ]
+    const [rows,setrows] = useState([])
+
+    let grade_rows =[]
+
+
+    const getGrade = (Student_id) => {
+      axios.get("http://127.0.0.1:8000/api/Grade/"+Student_id)
+      .then((response)=>{
+         grade_rows = [
+          createData(
+            response.data.course_id,
+            response.data.attendance,
+            response.data.individual_assignment,
+            response.data.group_assignment,
+            response.data.mid_exam,
+            response.data.final_exam
+  
+            )
+      ]
+
+      setrows(grade_rows)
+        
+      })
+    }
+
 
     return (
         <Box>
             <ThemeProvider theme={theme}>
         <StudentSideDrawer/> 
+        {
+      React.useEffect(()=>{
+getGrade(student_id)
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
+}
         <Box 
         sx={{ml: `calc(${theme.spacing(7)} + 15px)`,
         display:'flex', 
@@ -41,7 +72,6 @@ export default function StudentGradeBook(){
             <TableCell align="right">Group Assignment</TableCell>
             <TableCell align="right">Mid Exam</TableCell>
             <TableCell align="right">Final Exam</TableCell>
-            <TableCell align="right">Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -55,7 +85,6 @@ export default function StudentGradeBook(){
               <TableCell align="right">{row.Group_Assignment}</TableCell>
               <TableCell align="right">{row.Mid_exam}</TableCell>
               <TableCell align="right">{row.Final_Exam}</TableCell>
-              <TableCell align="right">{row.Total}</TableCell>
               
             </TableRow>
           ))}

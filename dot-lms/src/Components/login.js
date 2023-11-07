@@ -58,8 +58,16 @@ function Login(){
         sessionStorage.setItem("First_Name",JSON.stringify(response.data.data[0]['first_name']))
         sessionStorage.setItem("Last_Name",JSON.stringify(response.data.data[0]['last_name']))
         sessionStorage.setItem("Department",JSON.stringify(response.data.data[0]['department']))
-        sessionStorage.setItem("teacher_id",JSON.stringify(response.data.data[0]['teacher_id']))
+        
         sessionStorage.setItem("role",JSON.stringify(response.data.role));
+if(response.data.role === "student"){
+  sessionStorage.setItem("id",JSON.stringify(response.data.data[0]['student_id']))
+}
+
+if(response.data.role === "teacher"){
+  sessionStorage.setItem("id",JSON.stringify(response.data.data[0]['teacher_id']))
+}
+        
         sessionStorage.setItem("token",JSON.stringify(response.data.token));
         
       }else{

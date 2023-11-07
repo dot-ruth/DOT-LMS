@@ -17,7 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function AddEvent(course_id) {
 
-  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+  const teacher_id = sessionStorage.getItem('id').replaceAll('"','')
 
     const [formData,setFormData] = useState({
         event_start:"",

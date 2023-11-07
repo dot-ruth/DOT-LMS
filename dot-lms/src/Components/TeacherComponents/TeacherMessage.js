@@ -1,8 +1,8 @@
+import React from 'react'
 import { Box,Divider,Input,ThemeProvider } from "@mui/material"
 import { useEffect, useState,useRef } from 'react';
-import theme from "./theme";
-import StudentSideDrawer from "./StudentComponents/StudentSideDrawer";
-import TeacherSideDrawer from "./TeacherComponents/TeacherSideDrawer";
+import theme from "../theme";
+import TeacherSideDrawer from './TeacherSideDrawer';
 import Talk from 'talkjs';
 import CreateIcon from '@mui/icons-material/Create';
 import { Avatar } from '@mui/material';
@@ -24,10 +24,7 @@ const style = {
   overflowY:'scroll'
 };
 
-
-export default function Message(){
-
- 
+function TeacherMessage() {
     const [UserArray,setUserArray] =useState([])
     const role = localStorage.getItem('role');
     const student = '"student"';
@@ -97,7 +94,6 @@ useEffect(() => {
     const me = new Talk.User({
       id: user_id,
       name: first_name + " " + last_name,
-      welcomeMessage:'hi',
       role: 'default',
     });
 
@@ -123,31 +119,9 @@ useEffect(() => {
       },[])
       }
 
-{/* {
-            useEffect(()=>{
-              Talk.ready.then(() => markTalkLoaded(true));
 
-              if (talkLoaded) {
-              const me = new Talk.User({
-                id: user_id,
-                name: first_name + " " + last_name,
-                welcomeMessage:'hi',
-                role: 'default',
-              });
-          
-              const session = new Talk.Session({
-                appId: 'tPgn5Ays',
-                me: me,
-              });
-
-              const inbox = session.createInbox({ });
-        inbox.mount(document.getElementById("talkjs-container"));
-            }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[])
-      } */}
             <ThemeProvider theme={theme}>
-                {role === student?<StudentSideDrawer/> :<TeacherSideDrawer/> }
+                <TeacherSideDrawer/> 
         
             <Box sx={{display:'flex',m:2}}>
 
@@ -193,4 +167,8 @@ useEffect(() => {
         
     )
 }
+
+export default TeacherMessage
+
+
 

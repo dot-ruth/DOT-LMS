@@ -85,7 +85,10 @@ class UserRoleController extends Controller
                 $column_name = str_replace('"', '', $column_name_raw);
                 $user_data = DB::select("SELECT * from $table_name where $column_name = '$request->user_id'");
                 $token = JWTAuth::fromUser($user);
-                return response()->json(["success" => true, "token" => $token, "message" => "You are Logged in", "data" => $user_data, "role" => $user->role]);
+                return response()->json([
+                    "success" => true, "token" => $token, "message" => "You are Logged in",
+                    "data" => $user_data, "role" => $user->role
+                ]);
             } else {
                 return response()->json(["status" => "failed", "success" => false, "message" => "unable to login, Incorrect password"]);
             }
@@ -116,13 +119,17 @@ class UserRoleController extends Controller
         for ($i = 0; $i < sizeof($teacher_id_array); $i++) {
             //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
             $teacher_data = TeacherUser::where('teacher_id', $teacher_id_array[$i]->user_id)->first();
-            array_push($user_array, [$teacher_data['first_name'] . " " . $teacher_data['last_name'], $teacher_data['teacher_id']]);
+            if ($teacher_data) {
+                array_push($user_array, [$teacher_data['first_name'] . " " . $teacher_data['last_name'], $teacher_data['teacher_id']]);
+            }
         }
 
         for ($i = 0; $i < sizeof($student_id_array); $i++) {
             //  $user_id = str_replace('"', '', $teacher_id_array[$i]->user_id);
             $student_data = StudentUser::where('student_id', $student_id_array[$i]->user_id)->first();
-            array_push($user_array, [$student_data['first_name'] . " " . $student_data['last_name'], $student_data['student_id']]);
+            if ($student_data) {
+                array_push($user_array, [$student_data['first_name'] . " " . $student_data['last_name'], $student_data['student_id']]);
+            }
         }
         return response()->json([
             $user_array

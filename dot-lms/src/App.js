@@ -3,8 +3,8 @@ import Login from './Components/login';
 import { Routes,Route } from 'react-router-dom';
 import {BrowserRouter} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import Message from './Components/Message';
-import Profile from './Components/Profile';
+import StudentMessage from './Components/StudentComponents/StudentMessage';
+import TeacherMessage from './Components/TeacherComponents/TeacherMessage';
 import 'react-calendar/dist/Calendar.css';
 import StudentDashboard from './Components/StudentComponents/StudentDashboard';
 import TeacherDashboard from './Components/TeacherComponents/TeacherDashboard';
@@ -26,7 +26,7 @@ import ManageCourses from './Components/AdminComponents/ManageCourses';
 import ShowCourse from './Components/AdminComponents/ShowCourse';
 import AssignCourse from './Components/AdminComponents/AssignCourse';
 import TeacherShowCourse from './Components/TeacherComponents/TeacherShowCourse';
-import { Navigate } from 'react-router-dom';
+import StudentShowCourse from './Components/StudentComponents/StudentShowCourse';
 import TeacherGradeBook from './Components/TeacherComponents/TeacherGradeBook';
 
 function App() {
@@ -64,8 +64,8 @@ function App() {
         <Route path="/Teacher_Classcalander"  element={<TeacherClassCalander/>}/>
         <Route path='/Student_Gradebook'  element={<StudentGradeBook/>}/>
         <Route path="/IDE"  element={<StudentIDE/>}/>
-        <Route path="/Message"  element={<Message/>}/>
-        <Route path="/Profile"  element={<Profile/>}/>
+        <Route path="/StudentMessage"  element={<StudentMessage/>}/>
+        <Route path="/TeacherMessage"  element={<TeacherMessage/>}/>
         <Route path="/Add Student"  element={<AddStudent/>}/>
         <Route path='/Add_Teacher'  element={<AddTeacher/>}/>
         <Route path='/Edit_teacher'  element={<EditTeacher/>}/>
@@ -74,6 +74,7 @@ function App() {
         <Route path='/Show_Course'  element={<ShowCourse/>}/>
         <Route path='/Assign_Course'  element={<AssignCourse/>}/>
         <Route path='/Teacher/ShowCourse'  element={<TeacherShowCourse/>}/>
+        <Route path='/Student/ShowCourse'  element={<StudentShowCourse/>}/>
         <Route path='Teacher_Gradebook' element={<TeacherGradeBook/>}/>
         </Routes>:
         <Routes>

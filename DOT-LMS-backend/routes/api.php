@@ -107,9 +107,17 @@
 
         Route::resource('/Messages', MessagesController::class);
 
-        Route::get('/Events/Teacher/{teacher_id}', [EventsController::class, 'getByCourseIDTeacherID']);
+        Route::get('/Events/Teacher/{teacher_id}', [EventsController::class, 'getByTeacherID']);
 
         Route::get('/Users', [UserRoleController::class, 'AllUsers']);
+
+        Route::get('/Student/Course/{course_id}', [StudentUserController::class, 'getStudentList_Course']);
+
+        Route::resource('/Grade', GradebookController::class);
+
+        Route::get('/Mockexams/Exam/Student/{course_id}', [MockExamController::class, 'getExams_byCourse']);
+
+        Route::get('/Events/Course/{course_id}', [EventsController::class, 'getByCourseID']);
 
       //  Route::get('/Message', [ChatController::class, 'message']);
       //  });

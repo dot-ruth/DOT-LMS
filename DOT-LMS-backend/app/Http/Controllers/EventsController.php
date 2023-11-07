@@ -266,9 +266,38 @@ class EventsController extends Controller
      *      )
      * )
      */
-    public function getByCourseIDTeacherID(string $teacher_id)
+    public function getByTeacherID(string $teacher_id)
     {
         $event = Events::where('teacher_id', $teacher_id)->get();
+        return response()->json(['event' => $event]);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/Events/Course/{course_id}",
+     *      tags={"Events"},
+     *      summary="Get Event based on a course's ID",
+     *      description="Get Event data based on a course's ID",
+     *      @OA\Parameter(
+     *          name="course_id",
+     *          description="Course's id",
+     *          required=true,
+     *          in="path",
+     *          example = "CUS-6823",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          
+     *       ),
+     * )
+     */
+    public function getByCourseID(string $course_id)
+    {
+        $event = Events::where('course_id', $course_id)->get();
         return response()->json(['event' => $event]);
     }
 }

@@ -20,12 +20,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import QuizIcon from '@mui/icons-material/Quiz';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BookIcon from '@mui/icons-material/Book';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import PersonIcon from '@mui/icons-material/Person';
 import ForumIcon from '@mui/icons-material/Forum';
 
 
@@ -142,7 +139,7 @@ export default function StudentSideDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Mock Exams', 'Tutorial Videos', 'Class calendar','Grade Book','Practice Here','Message','Profile'].map((text, index) => (
+          {['Dashboard', 'Class calendar','Grade Book','Practice Here','Message','Profile'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -162,13 +159,10 @@ export default function StudentSideDrawer() {
                   { 
                  {
                     0:<Link to='/Student_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
-                    1:<Link to='/Student_Mockexam'><Avatar sx={{bgcolor:'#68cca9'}} ><QuizIcon/></Avatar></Link>,
-                    2:<Link to='/TutorialVideo'><Avatar sx={{bgcolor:'#68cca9'}} ><YouTubeIcon/></Avatar></Link>,
-                    3:<Link to='/Student_Classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
-                    4:<Link to='/Student_Gradebook'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
-                    5:<Link to='/IDE'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
-                    6:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
-                    7:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
+                    1:<Link to='/Student_Classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
+                    2:<Link to='/Student_Gradebook'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
+                    3:<Link to='/IDE'><Avatar sx={{bgcolor:'#68cca9'}} ><TerminalIcon/></Avatar></Link>,
+                    4:<Link to='/StudentMessage'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
                  }[index]
           }
                   

@@ -829,7 +829,7 @@
                 ],
                 "summary": "Get Event based on a teacher's ID",
                 "description": "Get Event data based on a teacher's ID",
-                "operationId": "00d784e2c9a681222f7a08586f5c1586",
+                "operationId": "c399824cda26c4c6e12396bbf22bb65d",
                 "parameters": [
                     {
                         "name": "teacher_id",
@@ -854,6 +854,154 @@
                     },
                     "404": {
                         "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/Events/Course/{course_id}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get Event based on a course's ID",
+                "description": "Get Event data based on a course's ID",
+                "operationId": "938902390ec28c51bade931c72f1c755",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "Course's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-6823"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/Grade": {
+            "get": {
+                "tags": [
+                    "Grade"
+                ],
+                "summary": "Get list of Grades in the DOT-LMS",
+                "description": "Returns list of Grades",
+                "operationId": "575d376ca8cf55e72a8e4b394414b54d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Grade"
+                ],
+                "summary": "Store new Grade's data into the database",
+                "operationId": "93bf7e520b7784f71d9be4a3b6be5d1e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/gradebook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/Grade/{id}": {
+            "get": {
+                "tags": [
+                    "Grade"
+                ],
+                "summary": "Get a specific Grade",
+                "operationId": "62ebfc4ff17b6fd6661fe2d01c53585f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Grade's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DBUR-1255-23"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Grade"
+                ],
+                "summary": "Update existing Grade",
+                "operationId": "71bc6199c16a6d9b3c6d1166568a68e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Grade's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "GRD-765"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/gradebook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Grade"
+                ],
+                "summary": "Delete existing Grade",
+                "operationId": "d175ccc1cfb0c7d9617c01b46c5ccb49",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Grade's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "GRD-765"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
                     }
                 }
             }
@@ -1161,6 +1309,32 @@
                     },
                     "500": {
                         "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Mockexams/Exam/Student/{course_id}": {
+            "get": {
+                "tags": [
+                    "Mockexams"
+                ],
+                "summary": "Get exams that belongs to a specific course",
+                "description": "Returns the exams of a course",
+                "operationId": "afe3f5c5f0b2b7bfd80e592238a98c1f",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "Course's id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-683"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
                     }
                 }
             }
@@ -1499,6 +1673,32 @@
                     },
                     "500": {
                         "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/Student/Course/{course_id}": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get a list of students in a specified course",
+                "operationId": "7143ff293b1ff2b48dac5ac0b47902a9",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "Course's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "CUS-6832"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
                     }
                 }
             }
@@ -2180,6 +2380,55 @@
                         "description": "A Brief description of the course to added",
                         "type": "string",
                         "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a varius nisl, a tempor felis. Aenean pretium convallis odio, at gravida lorem imperdiet porttitor. Pellentesque vitae eros rhoncus, euismod lectus at, bibendum urna. Integer id dolor at mi vulputate iaculis. Donec sodales nisl cursus, fermentum nibh quis, vehicula dolor. In facilisis lacus vitae imperdiet gravida. Suspendisse leo erat, rutrum vel pharetra vitae, vehicula commodo dui. Donec molestie, magna ut sodales faucibus, est turpis finibus tellus, tincidunt dapibus libero metus non orci. Sed tempor turpis dui, at vehicula tortor lacinia vel. Quisque at leo eget leo pretium semper. Suspendisse venenatis porta sapien eu finibus. Maecenas ultrices ut lacus nec feugiat. Quisque laoreet sapien ac dui faucibus, non euismod dui condimentum. Fusce ultrices leo id nibh hendrerit, non maximus justo scelerisque. Fusce semper lacus massa, quis auctor risus feugiat et. Curabitur volutpat nulla non nibh elementum, ut tempus metus imperdiet."
+                    }
+                },
+                "type": "object"
+            },
+            "gradebook": {
+                "title": "Grade",
+                "description": "Grade data",
+                "properties": {
+                    "course_id": {
+                        "title": "course_id",
+                        "description": "The ID of the course the grade belongs to",
+                        "type": "string",
+                        "example": "CUS-4161"
+                    },
+                    "attendance": {
+                        "title": "attendance",
+                        "description": "The attendance value of a student",
+                        "type": "string",
+                        "example": "5"
+                    },
+                    "individual_assignment": {
+                        "title": "individual_assignment",
+                        "description": "individual_assignment value of the Student",
+                        "type": "string",
+                        "example": "15"
+                    },
+                    "group_assignment": {
+                        "title": "group_assignment",
+                        "description": "group_assignment value of the Student",
+                        "type": "string",
+                        "example": "15"
+                    },
+                    "mid_exam": {
+                        "title": "mid_exam",
+                        "description": " mid_exam value of the Student",
+                        "type": "string",
+                        "example": "15"
+                    },
+                    "final_exam": {
+                        "title": "final_exam",
+                        "description": " final_exam value of a student",
+                        "type": "string",
+                        "example": "50"
+                    },
+                    "student_id": {
+                        "title": "student_id",
+                        "description": " the ID of the student the grade belongs to",
+                        "type": "string",
+                        "example": "DBUR-4825-23"
                     }
                 },
                 "type": "object"

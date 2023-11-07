@@ -14,7 +14,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 
 export default function AddExam() {
 
-    const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+    const teacher_id = sessionStorage.getItem('id').replaceAll('"','')
 
     const [formData,setFormData] = useState({
         exam_title:"",

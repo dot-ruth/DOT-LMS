@@ -295,4 +295,35 @@ class MockExamController extends Controller
             'Exam' => $exams,
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *      path="/Mockexams/Exam/Student/{course_id}",
+     *      tags={"Mockexams"},
+     *      summary="Get exams that belongs to a specific course",
+     *      description="Returns the exams of a course",
+     *      @OA\Parameter(
+     *          name="course_id",
+     *          description="Course's id",
+     * example = "CUS-683",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          
+     *       ),
+     * )
+     */
+    public function getExams_byCourse(String $course_id)
+    {
+        $exams = MockExam::where('course_id', $course_id)->get();
+
+        return response()->json([
+            'Exam' => $exams,
+        ]);
+    }
 }

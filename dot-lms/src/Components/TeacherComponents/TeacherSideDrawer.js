@@ -158,9 +158,8 @@ export default function TeacherSideDrawer() {
                  {
                     0:<Link to='/Teacher_Dashboard'><Avatar sx={{bgcolor:'#68cca9'}} ><HomeIcon/></Avatar></Link>,
                     1:<Link to='/Teacher_classcalander'><Avatar sx={{bgcolor:'#68cca9'}} ><CalendarMonthIcon/></Avatar></Link>,
-                    2:<Link to='/Message'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
+                    2:<Link to='/TeacherMessage'><Avatar sx={{bgcolor:'#68cca9'}} ><ForumIcon/></Avatar></Link>,
                     3:<Link to='/Teacher_Gradebook'><Avatar sx={{bgcolor:'#68cca9'}} ><BookIcon/></Avatar></Link>,
-                    4:<Link to='/Profile'><Avatar sx={{bgcolor:'#68cca9'}} ><PersonIcon/></Avatar></Link>
                  }[index]
           }
                   

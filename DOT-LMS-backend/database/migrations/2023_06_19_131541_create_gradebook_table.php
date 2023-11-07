@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gradebook', function (Blueprint $table) {
+        Schema::create('gradebooks', function (Blueprint $table) {
             $table->id();
             $table->string('grade_id')->unique();
             $table->string('course_id');
@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('group_assignment');
             $table->string('mid_exam');
             $table->string('final_exam');
-            $table->string('total_value');
-            $table->string('student_id');
+            $table->string('student_id')->unique();
             $table->timestamps();
         });
     }

@@ -32,7 +32,7 @@ const style = {
 
 export default function TeacherMockExam(){
 
-  const teacher_id = sessionStorage.getItem('teacher_id').replaceAll('"','')
+  const teacher_id = sessionStorage.getItem('id').replaceAll('"','')
   const [Exam_Data_Array,setExam_Data_Array]= useState([])
   let TopicArray = []
   const [topic_array,settopic_array] = useState([])
